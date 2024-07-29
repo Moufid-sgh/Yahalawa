@@ -22,19 +22,19 @@ const page = () => {
   const [tittreRecette, setTittreRecette] = useState()
   const [text, setText] = useState()
 
-  const [enAvant ,setEnAvant] = useState(false)
-  const [notes ,setNotes] = useState(false)
-  const [date ,setDate] = useState('')
-  const [heure ,setHeure] = useState([])
+  const [enAvant, setEnAvant] = useState(false)
+  const [notes, setNotes] = useState(false)
+  const [date, setDate] = useState('')
+  const [heure, setHeure] = useState([])
   const hours = hour()
-  const [status ,setStatus] = useState([])
+  const [status, setStatus] = useState([])
   const notesRef = useRef()
 
   useEffect(() => {
-    if(!date){
+    if (!date) {
       setHeure([])
     }
-  },[date])
+  }, [date])
 
   const [difficulte, setDifficulte] = useState([])
   const [tempCuisson, setTempCuisson] = useState()
@@ -133,7 +133,7 @@ const page = () => {
   return (
     <main className={`${navExpanded ? 'ml-56' : 'ml-12 md:ml-20'} mt-6 transition-all duration-500`}>
 
-<h1 className="text-2xl font-semibold tracking-wide">Ajouter une recette</h1>
+      <h1 className="text-2xl font-semibold tracking-wide">Ajouter une recette</h1>
 
       <form className="bg-white rounded-md p-4 lg:w-[75%] space-y-6 mt-4">
 
