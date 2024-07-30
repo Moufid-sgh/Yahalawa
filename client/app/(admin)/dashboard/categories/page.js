@@ -1,5 +1,6 @@
 'use client'
 
+import Link from "next/link"
 import useStore from "@/app/store"
 import SearchBar from "../_components/SearchBar"
 import Actions from "../../dashboard/_components/Actions"
@@ -8,7 +9,7 @@ import Pagination from "../_components/Pagination"
 import EntriesNumber from "../_components/EntriesNumber"
 import ScrollToTop from "../_components/ScrollToTop"
 
-const page = () => {
+const Page = () => {
 
   const navExpanded = useStore((state) => state.navExpanded)
 
@@ -38,7 +39,7 @@ const page = () => {
 
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-semibold tracking-wide">Catégories</h1>
-        <button className="btn-style bg-green text-white border border-green hover:text-green hover:bg-white">&#10009; Ajouter une catégorie</button>
+        <Link href='/dashboard/nouvelle_categorie' className="green-btn">&#10009; Ajouter une catégorie</Link>
       </div>
 
       <div className="bg-white rounded-md">
@@ -103,4 +104,4 @@ const page = () => {
   )
 }
 
-export default page 
+export default Page 

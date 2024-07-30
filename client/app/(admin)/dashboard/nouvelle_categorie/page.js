@@ -4,11 +4,10 @@ import { useState, useRef } from 'react'
 import InputField from '../_components/inputs/InputField'
 import InputSelect from '../_components/inputs/InputSelect'
 import SwitchBtn from '../_components/SwitchBtn'
-import { BrouillonData } from '../_components/Data'
 import UploadFile from '../_components/UploadFile'
 
 
-const page = () => {
+const Page = () => {
 
     const [titre, setTitre] = useState('')
     const [description, setDescription] = useState('')
@@ -41,7 +40,9 @@ const page = () => {
                 <InputSelect
                     value={status}
                     setValue={setStatus}
-                    options={BrouillonData}
+                    options={[ { value: 'Publiée', label: 'Publiée' },
+                               { value: 'Non Publiée', label: 'Non Publiée' }
+                            ]}
                     onChange={(status) => setStatus(status)}
                     placeholder="Status"
                 />
@@ -51,7 +52,9 @@ const page = () => {
                     <UploadFile type="image" accept="image/jpeg, image/png, image.webp" />
                 </section>
 
-                <p className="font-semibold mt-5">Référencement Google :</p>
+
+                <section className='pt-5'>
+                <p className="font-semibold">Référencement Google :</p>
 
                 <div className="flex flex-col">
                     <InputField type="text" setValue={setTitreReferencement} ref={titreReferencementRef} placeholder="Titre" />
@@ -64,6 +67,7 @@ const page = () => {
                         ref={textReferencementRef}>
                     </textarea>
                 </div>
+                </section>
 
                 <div className="w-full mt-4 text-center">
                     <button className="green-btn">Sauvgarder</button>
@@ -74,4 +78,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page

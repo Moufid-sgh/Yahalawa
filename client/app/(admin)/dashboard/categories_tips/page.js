@@ -8,7 +8,7 @@ import Pagination from "../_components/Pagination"
 import EntriesNumber from "../_components/EntriesNumber"
 import ScrollToTop from "../_components/ScrollToTop"
 
-const page = () => {
+const Page = () => {
 
   const navExpanded = useStore((state) => state.navExpanded)
 
@@ -38,7 +38,7 @@ const page = () => {
 
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-semibold tracking-wide">Catégories Tips</h1>
-        <button className="btn-style bg-green text-white border border-green hover:text-green hover:bg-white">&#10009; Ajouter une catégorie</button>
+        <button className="green-btn">&#10009; Ajouter une catégorie</button>
       </div>
 
       <div className="bg-white rounded-md">
@@ -101,4 +101,4 @@ const page = () => {
   )
 }
 
-export default page 
+export default Page 

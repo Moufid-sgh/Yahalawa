@@ -14,7 +14,7 @@ import ScrollToTop from "../_components/ScrollToTop"
 import { DatePicker } from "./_components/DatePicker"
 
 
-const page = () => {
+const Page = () => {
 
   const navExpanded = useStore((state) => state.navExpanded)
 
@@ -379,4 +379,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

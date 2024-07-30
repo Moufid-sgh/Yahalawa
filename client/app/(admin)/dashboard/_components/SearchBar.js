@@ -6,7 +6,7 @@ const SearchBar = () => {
         <input
           type="text"
           placeholder="Search..."
-          className="w-72 md:w-80 rounded-md border-2 border-gray py-2 px-4 outline-none focus:border-2 focus:border-blue"
+          className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 my-3 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
         />
     </>
   )

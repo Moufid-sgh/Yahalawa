@@ -6,7 +6,7 @@ import user from "@/public/dashboard/userBlack.svg"
 import recette from "@/public/dashboard/knife-black.svg"
 import paper from "@/public/dashboard/paper.svg"
 
-const page = () => {
+const Page = () => {
 
   const navExpanded = useStore((state) => state.navExpanded)
 
@@ -49,4 +49,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

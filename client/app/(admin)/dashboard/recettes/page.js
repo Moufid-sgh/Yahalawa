@@ -3,14 +3,13 @@
 import useStore from "@/app/store"
 import SearchBar from "../_components/SearchBar"
 import Actions from "./_components/Actions"
-import { useState, Suspense } from "react"
+import { useState } from "react"
 import Pagination from "../_components/Pagination"
-import Loading from "./loading"
 import EntriesNumber from "../_components/EntriesNumber"
 import ScrollToTop from "../_components/ScrollToTop"
 import Link from "next/link"
 
-const page = () => {
+const Page = () => {
 
   const navExpanded = useStore((state) => state.navExpanded)
 
@@ -40,7 +39,7 @@ const page = () => {
 
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-semibold tracking-wide">Recettes</h1>
-        <Link href='/dashboard/nouvelle_recette' className="green-btn my-3">&#10009; Ajouter une recette</Link>
+        <Link href='/dashboard/nouvelle_recette' className="green-btn">&#10009; Ajouter une recette</Link>
       </div>
 
       <div className="bg-white rounded-md">
@@ -80,7 +79,6 @@ const page = () => {
             {
               [...Array(55).keys()].slice(startIndex, startIndex + itemsPerPage).map((el, i) => {
                 return (
-                  <Suspense fallback={<Loading />}>
                     <tbody key={i} className="bg-white text-sm divide-y divide-gray text-darkgray">
                       <tr>
                         <td className="px-4 py-2 whitespace-nowrap">{startIndex + i + 1}</td>
@@ -102,7 +100,6 @@ const page = () => {
                         </td>
                       </tr>
                     </tbody>
-                  </Suspense>
                 )
               })
             }
@@ -127,4 +124,4 @@ const page = () => {
   )
 }
 
-export default page 
+export default Page 
