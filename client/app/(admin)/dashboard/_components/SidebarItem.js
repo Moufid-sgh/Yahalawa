@@ -39,6 +39,14 @@ import webite from '@/public/dashboard/website.svg'
                     title: 'Ustensiles',
                     href: '/dashboard/ustensiles'
                 },
+                {
+                    title: 'Origine',
+                    href: '/dashboard/origine'
+                },
+                {
+                    title: 'Tags',
+                    href: '/dashboard/tag'
+                },
             ],
         },
         {
