@@ -12,7 +12,6 @@ import {
 import dynamic from 'next/dynamic'
 const Select = dynamic(() => import("react-select"), { ssr: false })
 import { useState } from "react"
-import InputSelect from "../../_components/inputs/InputSelect"
 import { addTag } from "@/app/actions/tag-action"
 
 
