@@ -1,18 +1,20 @@
 'use client'
 
+import { deleteTag } from "@/app/actions/tag-action"
 import {
     Dialog,
     DialogContent,
+    DialogDescription,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
 
 import { useFormStatus } from "react-dom"
-import { deleteUnit } from "@/app/actions/unit-action"
 
 
-const DeleteUnit = ({ el }) => {
+
+const DeleteTag = ({ el }) => {
 
     const { pending } = useFormStatus()
 
@@ -26,16 +28,14 @@ const DeleteUnit = ({ el }) => {
 
             <DialogContent className="flex flex-col items-center">
                 <DialogHeader>
-                    <DialogTitle className="text-xl text-center">Supprimer unité</DialogTitle>
-
+                    <DialogTitle className="text-xl text-center">Supprimer tag</DialogTitle>
                     <DialogDescription>
                     <p className="mt-4">Cette action entraînera la suppression de <span className="font-bold">"{el.title}".</span></p>
                     </DialogDescription>
                 </DialogHeader>
 
-
                 <DialogTrigger asChild>
-                <form action={deleteUnit.bind(null, el.id)}>
+                <form action={deleteTag.bind(null, el.id)}>
                     <button className="red-btn text-sm" type="submit" disabled={pending} >
                         {pending
                             ?
@@ -56,7 +56,7 @@ const DeleteUnit = ({ el }) => {
     )
 }
 
-export default DeleteUnit
+export default DeleteTag
 
 
 

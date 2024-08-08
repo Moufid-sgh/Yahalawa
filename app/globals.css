@@ -92,5 +92,29 @@ body,
   color: #FE2C54;
 }
 
+.green-badge {
+  background-color: #13ce66; 
+  padding: 4px 12px;
+  border-radius: 10px;
+}
+
+.gray-badge {
+  background-color: #cccccc; 
+  padding: 4px 12px;
+  border-radius: 10px;
+}
+
+.yellow-badge {
+  background-color: #ffc82c; 
+  padding: 4px 12px;
+  border-radius: 10px;
+}
+
+.red-badge {
+  background-color: #FE2C54; 
+  padding: 4px 12px;
+  border-radius: 10px;
+}
+
 
 }

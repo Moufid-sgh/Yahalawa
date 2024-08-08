@@ -1,8 +1,8 @@
-import { GetUnit } from "./_components/GetUnit"
+import { GetTags } from "./_components/GetTags"
 import SearchBar from "../_components/SearchBar"
-import NewUnit from "./_components/NewUnit"
+import NewTag from "./_components/NewTag"
 
-const UnitsPage = async ({ searchParams }) => {
+const TagsPage = async ({ searchParams }) => {
 
   const query = searchParams?.query || ''
 
@@ -11,19 +11,19 @@ const UnitsPage = async ({ searchParams }) => {
   return (
     <main className='ml-12 mt-8'>
 
-      <h1 className="text-2xl font-semibold tracking-wide mb-4">Unités</h1>
+      <h1 className="text-2xl font-semibold tracking-wide mb-4">Tags</h1>
 
       <div className="bg-white rounded-md mb-2">
         <div className="md:flex items-center justify-between px-2 py-1.5">
           <SearchBar />
-          <NewUnit />
+          <NewTag />
         </div>
       </div>
 
-      <GetUnit page={page}  query={query} />
+      <GetTags page={page} query={query} />
     </main>
   )
 }
 
-export default UnitsPage;
+export default TagsPage
 

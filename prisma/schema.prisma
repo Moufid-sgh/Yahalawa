@@ -89,9 +89,9 @@ model Ustensiles {
 }
 
 model Tags {
-  id     Int     @id @default(autoincrement())
+  id     Int    @id @default(autoincrement())
   title  String
-  Status Boolean
+  status String
 }
 
 model Origine {

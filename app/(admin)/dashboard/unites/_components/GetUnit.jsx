@@ -3,9 +3,11 @@ import EditUnit from "./EditUnit"
 import DeleteUnit from "./DeleteUnit"
 import PaginationControls from "../../_components/PaginationControls"
 
-export const GetUnit = async ({ query, page, pageSize }) => {
+export const GetUnit = async ({ query, page }) => {
 
-  const whereClause = query
+  const pageSize = 20 
+
+  const whereUnit = query
     ? {
         title: {
           contains: query,
@@ -14,14 +16,14 @@ export const GetUnit = async ({ query, page, pageSize }) => {
       }
     : {};
 
-  const totalUnits = await prisma.unit.count({
-    where: whereClause,
+  const totalItems = await prisma.unit.count({
+    where: whereUnit,
   });
 
-  const totalPages = Math.ceil(totalUnits / pageSize);
+  const totalPages = Math.ceil(totalItems / pageSize);
 
   const units = await prisma.unit.findMany({
-    where: whereClause,
+    where: whereUnit,
     skip: (page - 1) * pageSize,
     take: pageSize,
   });

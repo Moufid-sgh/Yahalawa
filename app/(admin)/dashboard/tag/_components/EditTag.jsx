@@ -10,32 +10,63 @@ import {
 } from "@/components/ui/dialog"
 
 import { useFormStatus } from "react-dom"
-import { addUnit } from "@/app/actions/unit-action"
+import { useState } from "react"
+import dynamic from 'next/dynamic'
+import { editTag } from "@/app/actions/tag-action"
+const Select = dynamic(() => import("react-select"), { ssr: false })
 
 
-const NewUnit = () => {
+const EditTag = ({ el }) => {
 
     const { pending } = useFormStatus()
+
+    const [selectedOption, setSelectedOption] = useState(null);
+
+    const handleChange = (option) => {
+        setSelectedOption(option);
+    };
 
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <button variant="outline" className="green-btn">&#10010; Ajouter une unité</button>
+                <button className='border-2 rounded-md p-1.5 hover:border-blue duration-300'>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24"><path fill="black" d="m14.06 9l.94.94L5.92 19H5v-.92zm3.6-6c-.25 0-.51.1-.7.29l-1.83 1.83l3.75 3.75l1.83-1.83c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29m-3.6 3.19L3 17.25V21h3.75L17.81 9.94z" /></svg>
+                </button>
             </DialogTrigger>
-            <DialogContent className="flex flex-col items-center">
 
+            <DialogContent className="flex flex-col items-center">
                 <DialogHeader>
-                    <DialogTitle className="text-xl">Nouvelle unité</DialogTitle>
+                    <DialogTitle className="text-xl">Editer tag</DialogTitle>
                     <DialogDescription>
                     </DialogDescription>
                 </DialogHeader>
 
-                <form action={addUnit} className="grid gap-4 py-4">
+                <form action={editTag} className="grid gap-4 py-4">
                     <input
+                        type="text"
+                        defaultValue={el.title}
                         placeholder="Nom de l'unité"
                         name="title"
                         className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 my-3 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
                     />
+
+                    <Select
+                        options={[{ value: 'Active', label: 'Active' },
+                        { value: 'Inactive', label: 'Inactive' }
+                        ]}
+                        onChange={handleChange}
+                        value={selectedOption}
+                        name="status"
+                        placeholder={<div className="text-[#9CA3BC]">Statut</div>}
+                        className="w-72 md:w-96 my-3"
+                        classNamePrefix="my-react-select"
+                        isClearable={true}
+                        components={{
+                            IndicatorSeparator: () => null
+                        }}
+                    />
+                    <input type="hidden" name="id" value={el.id} />
+
                     <div className="flex justify-center">
                         <DialogTrigger asChild>
                             <button className="green-btn text-sm" type="submit" disabled={pending} >
@@ -52,13 +83,13 @@ const NewUnit = () => {
                         </DialogTrigger>
                     </div>
                 </form>
-
             </DialogContent>
+
         </Dialog>
     )
 }
 
-export default NewUnit
+export default EditTag
 
 
 
