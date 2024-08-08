@@ -1,0 +1,103 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Recipes {
+  id                  Int     @id @default(autoincrement())
+  title               String
+  text                String  @db.Text
+  idI                 String? @db.Text
+  Author              String
+  Note                String?
+  Type                String
+  Status              Boolean
+  is_paying           Boolean
+  highlighted         Boolean
+  ing_title           String?
+  difficulty          String
+  category            String
+  preparation_time    Int
+  cooking_time        Int
+  cooking_temperature Int
+  nbr_serves          Int
+  video_link          String
+  img_link            String
+  likes               Int
+  meta_keywords       String  @db.Text
+  meta_desc           String  @db.Text
+
+  ingredients   IngredientsRecipe[]
+  relatedRecipe RelatedRecipe[]
+  instructions  Instructions[]
+  origine       Origine?
+
+  publish_date DateTime @default(now())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model IngredientsRecipe {
+  id         Int      @id @default(autoincrement())
+  quantity   Int
+  ingredient String
+  unit       String
+  Recipes    Recipes? @relation(fields: [recipesId], references: [id])
+  recipesId  Int?
+}
+
+model RelatedRecipe {
+  id        Int      @id @default(autoincrement())
+  link      String
+  Recipes   Recipes? @relation(fields: [recipesId], references: [id])
+  recipesId Int?
+}
+
+model Instructions {
+  id          Int      @id @default(autoincrement())
+  title       String
+  instruction String   @db.Text
+  Recipes     Recipes? @relation(fields: [recipesId], references: [id])
+  recipesId   Int?
+}
+
+model Ingredients {
+  id    Int    @id @default(autoincrement())
+  title String
+  type  String
+}
+
+model Category {
+  id          Int     @id @default(autoincrement())
+  title       String
+  status      String
+  highlighted Boolean
+}
+
+model Unit {
+  id    Int    @id @default(autoincrement())
+  title String
+}
+
+model Ustensiles {
+  id    Int    @id @default(autoincrement())
+  title String
+}
+
+model Tags {
+  id     Int     @id @default(autoincrement())
+  title  String
+  Status Boolean
+}
+
+model Origine {
+  id        Int     @id @default(autoincrement())
+  title     String
+  img       String
+  recipes   Recipes @relation(fields: [recipesId], references: [id])
+  recipesId Int     @unique
+}

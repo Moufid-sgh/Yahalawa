@@ -2,7 +2,7 @@
 
 import useStore from "@/app/store"
 import SearchBar from "../_components/SearchBar"
-import Actions from "../_components/Actions"
+import Actions from "../_components/BtnActions"
 import { useState, useRef } from "react"
 import ScrollToTop from "../_components/ScrollToTop"
 import NouveauOri from "./_components/NouveauOri"

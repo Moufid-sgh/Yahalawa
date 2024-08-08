@@ -77,4 +77,20 @@ body,
   background-color: #ffffff;
   color: #13ce66;
 }
+
+.red-btn {
+  background-color: #FE2C54; 
+  border: 1px solid #FE2C54; 
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: #ffffff; 
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.red-btn:hover {
+  background-color: #ffffff;
+  color: #FE2C54;
+}
+
+
 }

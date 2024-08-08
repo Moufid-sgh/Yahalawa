@@ -35,12 +35,16 @@ const handleGoToTop = () => {
 
 return (
     <>
-       {showBtn &&  <button
+       {
+       showBtn ?  <button
             onClick={handleGoToTop}
-            className="mr-4 font-semibold text-sm hover:text-blue duration-300"
+            className="mr-4 w-[25%] text-end font-semibold text-sm hover:text-blue duration-300"
         >
             Scroll to <span className="text-lg"> &#8593;</span>
-        </button>}
+        </button>
+        :
+        <div className="w-[25%]"></div>
+        }
     </>
 )
 }

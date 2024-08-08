@@ -4,7 +4,6 @@ import dynamic from 'next/dynamic'
 const Select = dynamic(() => import("react-select"), { ssr: false })
 
 
-
 const EntriesNumber = ({ setEntriesValue, entriesValue, entriesOptions }) => {
 
 

@@ -3,7 +3,7 @@
 import Link from "next/link"
 import useStore from "@/app/store"
 import SearchBar from "../_components/SearchBar"
-import Actions from "../_components/Actions"
+import Actions from "../_components/BtnActions"
 import { useState, useRef } from "react"
 import Pagination from "../_components/Pagination"
 import EntriesNumber from "../_components/EntriesNumber"
