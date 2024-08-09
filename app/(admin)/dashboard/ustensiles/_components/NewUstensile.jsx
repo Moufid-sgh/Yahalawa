@@ -7,18 +7,34 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
+    DialogFooter
 } from "@/components/ui/dialog"
 
 import { useFormStatus } from "react-dom"
 import { addUstensile } from "@/app/actions/ustensile-action"
+import { useState } from "react"
 
 
 const NewUstensile = () => {
 
     const { pending } = useFormStatus()
 
+    const [open, setOpen] = useState(false)
+    const [error, setError] = useState('')
+
+    const handleAction = async (formData) => {
+        const result = await addUstensile(formData)
+
+        if(result?.error){
+            setError(result.error)
+        }
+        else {
+            setOpen(false)
+        }
+    }
+
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <button variant="outline" className="green-btn">&#10010; Ajouter un ustensile</button>
             </DialogTrigger>
@@ -30,14 +46,14 @@ const NewUstensile = () => {
                     </DialogDescription>
                 </DialogHeader>
 
-                <form action={addUstensile} className="grid gap-4 py-4">
+                <form action={handleAction} className="grid gap-4 py-4">
                     <input
                         placeholder="Nom de l'unité"
                         name="title"
                         className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 my-3 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
                     />
-                    <div className="flex justify-center">
-                        <DialogTrigger asChild>
+                    <div className="flex flex-col items-center justify-center">
+                        <DialogFooter>
                             <button className="green-btn text-sm" type="submit" disabled={pending} >
                                 {pending
                                     ?
@@ -49,7 +65,9 @@ const NewUstensile = () => {
                                     'Sauvgarder'
                                 }
                             </button>
-                        </DialogTrigger>
+                        </DialogFooter>
+
+                        {error && <p className="text-sm text-red mt-2">{error}</p>}
                     </div>
                 </form>
 

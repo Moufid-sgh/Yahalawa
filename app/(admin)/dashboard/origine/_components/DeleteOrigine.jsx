@@ -10,12 +10,13 @@ import {
 } from "@/components/ui/dialog"
 
 import { useFormStatus } from "react-dom"
-import { deleteUnit } from "@/app/actions/unit-action"
+import { deleteOrigine } from "@/app/actions/origine-action"
 
 
-const DeleteUnit = ({ el }) => {
+const DeleteOrigine = ({ el }) => {
 
     const { pending } = useFormStatus()
+
 
     return (
         <Dialog>
@@ -27,16 +28,14 @@ const DeleteUnit = ({ el }) => {
 
             <DialogContent className="flex flex-col items-center">
                 <DialogHeader>
-                    <DialogTitle className="text-xl text-center">Supprimer unité</DialogTitle>
-
+                    <DialogTitle className="text-xl text-center">Supprimer origine</DialogTitle>
                     <DialogDescription>
                     <p className="mt-4">Cette action entraînera la suppression de <span className="font-bold">"{el.title}".</span></p>
                     </DialogDescription>
                 </DialogHeader>
 
-
                 <DialogTrigger asChild>
-                <form action={deleteUnit.bind(null, el.id)}>
+                <form action={deleteOrigine.bind(null, el.id)}>
                     <button className="red-btn text-sm" type="submit" disabled={pending} >
                         {pending
                             ?
@@ -57,7 +56,7 @@ const DeleteUnit = ({ el }) => {
     )
 }
 
-export default DeleteUnit
+export default DeleteOrigine
 
 
 

@@ -7,29 +7,44 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
+    DialogFooter
 } from "@/components/ui/dialog"
 
 import dynamic from 'next/dynamic'
 const Select = dynamic(() => import("react-select"), { ssr: false })
 import { useState } from "react"
-import { addTag } from "@/app/actions/tag-action"
 import { addIngredient } from "@/app/actions/ingredient-action"
-
+import { useFormStatus } from "react-dom"
 
 
 
 const NewIngredient = () => {
 
+    const { pending } = useFormStatus()
 
     const [selectedOption, setSelectedOption] = useState(null);
 
     const handleChange = (option) => {
-        setSelectedOption(option);
+        setSelectedOption(option)
     };
+
+    const [open, setOpen] = useState(false)
+    const [error, setError] = useState('')
+
+    const handleAction = async (formData) => {
+        const result = await addIngredient(formData)
+
+        if (result?.error) {
+            setError(result.error)
+        }
+        else {
+            setOpen(false)
+        }
+    }
 
 
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <button variant="outline" className="green-btn">&#10010; Ajouter un ingredient</button>
             </DialogTrigger>
@@ -41,7 +56,7 @@ const NewIngredient = () => {
                     </DialogDescription>
                 </DialogHeader>
 
-                <form action={addIngredient} className="flex flex-col space-y-3 w-fit">
+                <form action={handleAction} className="flex flex-col space-y-3 w-fit">
                     <input
                         placeholder="Nom du tag"
                         name="title"
@@ -50,8 +65,8 @@ const NewIngredient = () => {
 
                     <Select
                         options={[{ value: 'Unité', label: 'Unité' },
-                            { value: 'Pièce', label: 'Pièce' }
-                            ]}
+                        { value: 'Pièce', label: 'Pièce' }
+                        ]}
                         onChange={handleChange}
                         value={selectedOption}
                         name="type"
@@ -64,11 +79,22 @@ const NewIngredient = () => {
                         }}
                     />
 
+                    <div className="flex flex-col items-center justify-center">
+                        <DialogFooter>
+                            <button className="green-btn text-sm" type="submit" disabled={pending} >
+                                {pending
+                                    ?
+                                    <div className="flex items-center space-x-1">
+                                        <svg className="animate-spin" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24"><g fill="white"><path fill-rule="evenodd" d="M12 19a7 7 0 1 0 0-14a7 7 0 0 0 0 14m0 3c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12s4.477 10 10 10" clip-rule="evenodd" opacity="0.2" /><path d="M2 12C2 6.477 6.477 2 12 2v3a7 7 0 0 0-7 7z" /></g></svg>
+                                        <span>Sauvgarder</span>
+                                    </div>
+                                    :
+                                    'Sauvgarder'
+                                }
+                            </button>
+                        </DialogFooter>
 
-                    <div className="flex justify-center mt-6">
-                        <DialogTrigger asChild>
-                        <button className="green-btn text-sm" type="submit">Sauvgarder</button>
-                        </DialogTrigger>
+                        {error && <p className="text-sm text-red mt-2">{error}</p>}
                     </div>
                 </form>
 

@@ -10,50 +10,59 @@ import {
     DialogFooter
 } from "@/components/ui/dialog"
 
-import { useFormStatus } from "react-dom"
-import { addUnit } from "@/app/actions/unit-action"
+
+import UploadFile from "../../_components/UploadFile"
 import { useState } from "react"
+import { useFormStatus } from "react-dom"
+import { addOrigine } from "@/app/actions/origine-action"
 
 
-const NewUnit = () => {
+
+const NewOrigine = () => {
 
     const { pending } = useFormStatus()
+
 
     const [open, setOpen] = useState(false)
     const [error, setError] = useState('')
 
     const handleAction = async (formData) => {
-        const result = await addUnit(formData)
+        const result = await addOrigine(formData)
 
         if(result?.error){
             setError(result.error)
         }
         else {
-            setOpen(false);
+            setOpen(false)
         }
-    }
+    };
+
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <button variant="outline" className="green-btn">&#10010; Ajouter une unité</button>
+                <button variant="outline" className="green-btn">&#10010; Ajouter une origine</button>
             </DialogTrigger>
             <DialogContent className="flex flex-col items-center">
 
                 <DialogHeader>
-                    <DialogTitle className="text-xl">Nouvelle unité</DialogTitle>
+                    <DialogTitle className="text-xl">Nouvelle origine</DialogTitle>
                     <DialogDescription>
                     </DialogDescription>
                 </DialogHeader>
 
-                <form action={handleAction} className="grid gap-4 py-4">
+                <form action={handleAction} className="flex flex-col items-center w-fit">
+
                     <input
-                        placeholder="Nom de l'unité"
+                        placeholder="Nom"
                         name="title"
-                        className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 my-3 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
+                        className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 my-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
                     />
 
-                    <div className="flex flex-col items-center justify-center">
+                    <UploadFile type="image" name="media" accept="image/jpeg, image/png, image.webp" />
+
+
+                    <div className="flex flex-col items-center justify-center mt-8">
                         <DialogFooter>
                             <button className="green-btn text-sm" type="submit" disabled={pending} >
                                 {pending
@@ -77,7 +86,7 @@ const NewUnit = () => {
     )
 }
 
-export default NewUnit
+export default NewOrigine
 
 
 

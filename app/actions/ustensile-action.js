@@ -9,6 +9,10 @@ export async function addUstensile(formData) {
 
     const title = formData.get('title')
 
+    if(title === "") {
+        return { error: "Veuillez remplir tous les champs requis." }
+    }
+
     try {
         await prisma.ustensiles.create({
             data: { title }
@@ -25,6 +29,10 @@ export async function editUstensile(formData) {
 
     const title = formData.get('title')
     const id = Number(formData.get('id'))
+
+    if(title === "") {
+        return { error: "Veuillez remplir tous les champs requis." }
+    }
 
     try {
       await prisma.ustensiles.update({

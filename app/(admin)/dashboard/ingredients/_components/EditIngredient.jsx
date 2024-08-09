@@ -7,6 +7,7 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
+    DialogFooter
 } from "@/components/ui/dialog"
 
 import { useFormStatus } from "react-dom"
@@ -26,8 +27,23 @@ const EditIngredient = ({ el }) => {
         setSelectedOption(option);
     };
 
+
+    const [open, setOpen] = useState(false)
+    const [error, setError] = useState('')
+
+    const handleAction = async (formData) => {
+        const result = await editIngredient(formData)
+
+        if (result?.error) {
+            setError(result.error)
+        }
+        else {
+            setOpen(false);
+        }
+    };
+
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <button className='border-2 rounded-md p-1.5 hover:border-blue duration-300'>
                     <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24"><path fill="black" d="m14.06 9l.94.94L5.92 19H5v-.92zm3.6-6c-.25 0-.51.1-.7.29l-1.83 1.83l3.75 3.75l1.83-1.83c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29m-3.6 3.19L3 17.25V21h3.75L17.81 9.94z" /></svg>
@@ -41,7 +57,7 @@ const EditIngredient = ({ el }) => {
                     </DialogDescription>
                 </DialogHeader>
 
-                <form action={editIngredient} className="grid gap-4 py-4">
+                <form action={handleAction} className="grid gap-4 py-4">
                     <input
                         type="text"
                         defaultValue={el.title}
@@ -67,8 +83,8 @@ const EditIngredient = ({ el }) => {
                     />
                     <input type="hidden" name="id" value={el.id} />
 
-                    <div className="flex justify-center">
-                        <DialogTrigger asChild>
+                    <div className="flex flex-col items-center justify-center">
+                        <DialogFooter>
                             <button className="green-btn text-sm" type="submit" disabled={pending} >
                                 {pending
                                     ?
@@ -80,7 +96,8 @@ const EditIngredient = ({ el }) => {
                                     'Sauvgarder'
                                 }
                             </button>
-                        </DialogTrigger>
+                        </DialogFooter>
+                        {error && <p className="text-sm text-red mt-2">{error}</p>}
                     </div>
                 </form>
             </DialogContent>
