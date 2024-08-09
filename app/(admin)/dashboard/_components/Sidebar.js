@@ -1,11 +1,10 @@
 'use client'
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import SidebarItem from "../_components/SidebarItem"
-import useStore from "@/app/store"
 import logo from "@/public/logo.svg"
 import chevronLeft from "@/public/chevron/chevron-left.svg"
 import chevronRight from "@/public/chevron/chevron-right.svg"
@@ -18,8 +17,8 @@ const Sidebar = () => {
 
   const pathname = usePathname()
 
-  const setNavExpanded = useStore((state) => state.setNavExpanded)
-  const navExpanded = useStore((state) => state.navExpanded)
+
+  const [navExpanded, setNavExpanded] = useState(false)
   const [sideExpanded, setsideExpanded] = useState({})
 
 
@@ -37,9 +36,23 @@ const Sidebar = () => {
     }
   },[navExpanded])
 
+  //handle expand
+  const sidebarRef = useRef()
+  useEffect(() => {
+    function handler(e) {
+      if(!sidebarRef.current.contains(e.target)) {
+        setNavExpanded(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+
+  },[])
+
 
   return (
-    <aside className={`h-screen w-fit fixed top-0 left-0 transition-all duration-500 z-50 ${!navExpanded ? 'w-[55px]' : 'w-[215px]'}`}>
+    <aside ref={sidebarRef} className={`h-screen w-fit fixed top-0 left-0 transition-width duration-500 z-50 ${!navExpanded ? 'w-[3.3rem]' : 'w-[14rem]'}`}>
       <nav className="h-full flex flex-col bg-darkblue">
 
         <div className="flex justify-between items-center p-4 h-16">
