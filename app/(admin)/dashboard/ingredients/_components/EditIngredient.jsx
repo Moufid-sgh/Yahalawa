@@ -72,6 +72,7 @@ const EditIngredient = ({ el }) => {
                         ]}
                         onChange={handleChange}
                         value={selectedOption}
+                        defaultInputValue={el.type}
                         name="type"
                         placeholder={<div className="text-[#9CA3BC]">Type</div>}
                         className="w-72 md:w-96 my-3"

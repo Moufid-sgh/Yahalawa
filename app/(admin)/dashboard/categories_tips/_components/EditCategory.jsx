@@ -13,11 +13,11 @@ import {
 import { useFormStatus } from "react-dom"
 import { useState } from "react"
 import dynamic from 'next/dynamic'
-import { editTag } from "@/app/actions/tag-action"
+import { editCategoryTips } from "@/app/actions/categoryTips-action"
 const Select = dynamic(() => import("react-select"), { ssr: false })
 
 
-const EditTag = ({ el }) => {
+const EditCategory = ({ el }) => {
 
     const { pending } = useFormStatus()
 
@@ -27,20 +27,20 @@ const EditTag = ({ el }) => {
         setSelectedOption(option);
     };
 
+
     const [open, setOpen] = useState(false)
     const [error, setError] = useState('')
 
     const handleAction = async (formData) => {
-        const result = await editTag(formData)
+        const result = await editCategoryTips(formData)
 
-        if(result?.error){
+        if (result?.error) {
             setError(result.error)
         }
         else {
             setOpen(false);
         }
     };
-
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
@@ -52,7 +52,7 @@ const EditTag = ({ el }) => {
 
             <DialogContent className="flex flex-col items-center">
                 <DialogHeader>
-                    <DialogTitle className="text-xl">Editer tag</DialogTitle>
+                    <DialogTitle className="text-xl">Editer catégorie</DialogTitle>
                     <DialogDescription>
                     </DialogDescription>
                 </DialogHeader>
@@ -73,9 +73,8 @@ const EditTag = ({ el }) => {
                         onChange={handleChange}
                         value={selectedOption}
                         defaultInputValue={el.status}
-                        
                         name="status"
-                        placeholder={<div className="text-[#9CA3BC]">Statut</div>}
+                        placeholder={<div className="text-[#9CA3BC]">Status</div>}
                         className="w-72 md:w-96 my-3"
                         classNamePrefix="my-react-select"
                         isClearable={true}
@@ -108,7 +107,7 @@ const EditTag = ({ el }) => {
     )
 }
 
-export default EditTag
+export default EditCategory
 
 
 

@@ -10,72 +10,67 @@ import {
     DialogFooter
 } from "@/components/ui/dialog"
 
-import { useFormStatus } from "react-dom"
-import { useState } from "react"
 import dynamic from 'next/dynamic'
-import { editTag } from "@/app/actions/tag-action"
 const Select = dynamic(() => import("react-select"), { ssr: false })
+import { useState } from "react"
+import { useFormStatus } from "react-dom"
+import { addCategoryTips } from "@/app/actions/categoryTips-action"
 
 
-const EditTag = ({ el }) => {
+
+const NewCategory = () => {
 
     const { pending } = useFormStatus()
 
     const [selectedOption, setSelectedOption] = useState(null);
 
     const handleChange = (option) => {
-        setSelectedOption(option);
+        setSelectedOption(option)
     };
 
     const [open, setOpen] = useState(false)
     const [error, setError] = useState('')
 
     const handleAction = async (formData) => {
-        const result = await editTag(formData)
+        const result = await addCategoryTips(formData)
 
-        if(result?.error){
+        if (result?.error) {
             setError(result.error)
         }
         else {
-            setOpen(false);
+            setOpen(false)
         }
-    };
+    }
 
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <button className='border-2 rounded-md p-1.5 hover:border-blue duration-300'>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24"><path fill="black" d="m14.06 9l.94.94L5.92 19H5v-.92zm3.6-6c-.25 0-.51.1-.7.29l-1.83 1.83l3.75 3.75l1.83-1.83c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29m-3.6 3.19L3 17.25V21h3.75L17.81 9.94z" /></svg>
-                </button>
+                <button variant="outline" className="green-btn">&#10010; Ajouter une catégorie</button>
             </DialogTrigger>
-
             <DialogContent className="flex flex-col items-center">
+
                 <DialogHeader>
-                    <DialogTitle className="text-xl">Editer tag</DialogTitle>
+                    <DialogTitle className="text-xl">Nouveau ingredient</DialogTitle>
                     <DialogDescription>
                     </DialogDescription>
                 </DialogHeader>
 
-                <form action={handleAction} className="grid gap-4 py-4">
+                <form action={handleAction} className="flex flex-col space-y-3 w-fit">
                     <input
-                        type="text"
-                        defaultValue={el.title}
-                        placeholder="Nom de l'unité"
+                        placeholder="Nom"
                         name="title"
                         className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 my-3 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
                     />
 
                     <Select
-                        options={[{ value: 'Active', label: 'Active' },
+                       options={[{ value: 'Active', label: 'Active' },
                         { value: 'Inactive', label: 'Inactive' }
                         ]}
                         onChange={handleChange}
                         value={selectedOption}
-                        defaultInputValue={el.status}
-                        
                         name="status"
-                        placeholder={<div className="text-[#9CA3BC]">Statut</div>}
+                        placeholder={<div className="text-[#9CA3BC]">Status</div>}
                         className="w-72 md:w-96 my-3"
                         classNamePrefix="my-react-select"
                         isClearable={true}
@@ -83,7 +78,6 @@ const EditTag = ({ el }) => {
                             IndicatorSeparator: () => null
                         }}
                     />
-                    <input type="hidden" name="id" value={el.id} />
 
                     <div className="flex flex-col items-center justify-center">
                         <DialogFooter>
@@ -99,16 +93,17 @@ const EditTag = ({ el }) => {
                                 }
                             </button>
                         </DialogFooter>
+
                         {error && <p className="text-sm text-red mt-2">{error}</p>}
                     </div>
                 </form>
-            </DialogContent>
 
+            </DialogContent>
         </Dialog>
     )
 }
 
-export default EditTag
+export default NewCategory
 
 
 

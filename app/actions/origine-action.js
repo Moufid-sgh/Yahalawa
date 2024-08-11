@@ -10,7 +10,6 @@ export async function addOrigine(formData) {
 
     const title = formData.get('title')
     const img = formData.get('media')
-    console.log(img)
 
     if(title === "" ||  typeof img.name === '') {
         return { error: "Veuillez remplir tous les champs requis." }
@@ -20,12 +19,13 @@ export async function addOrigine(formData) {
     const buffer = Buffer.from(bytes)
 
     const name = `${Date.now()}-${img.name}`
-    const path = join('./public', 'flag', name)
-    await writeFile(path, buffer)
+    const path = join('flag', name);
+    const fullPath = join('./public', path);
+    await writeFile(fullPath, buffer)
 
     try {
             await prisma.origine.create({
-                data: { title, img: path }
+                data: { title, img: `/${path}`?.replace(/\\/g, '/') }
             })
             revalidatePath('/dashboard/origine')
 

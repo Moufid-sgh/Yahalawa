@@ -59,7 +59,7 @@ const NewOrigine = () => {
                         className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 my-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
                     />
 
-                    <UploadFile type="image" name="media" accept="image/jpeg, image/png, image.webp" />
+                    <UploadFile type="image" name="media" accept="image/jpeg, image/png, image/webp" />
 
 
                     <div className="flex flex-col items-center justify-center mt-8">

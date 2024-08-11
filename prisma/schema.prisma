@@ -34,7 +34,7 @@ model Recipes {
   ingredients   IngredientsRecipe[]
   relatedRecipe RelatedRecipe[]
   instructions  Instructions[]
-  origine       Origine?
+  origine       OrigineRecipe[]
 
   publish_date DateTime @default(now())
   createdAt    DateTime @default(now())
@@ -53,6 +53,14 @@ model IngredientsRecipe {
 model RelatedRecipe {
   id        Int      @id @default(autoincrement())
   link      String
+  Recipes   Recipes? @relation(fields: [recipesId], references: [id])
+  recipesId Int?
+}
+
+model OrigineRecipe {
+  id        Int      @id @default(autoincrement())
+  title     String
+  img       String
   Recipes   Recipes? @relation(fields: [recipesId], references: [id])
   recipesId Int?
 }
@@ -95,9 +103,37 @@ model Tags {
 }
 
 model Origine {
-  id        Int     @id @default(autoincrement())
-  title     String
-  img       String
-  recipes   Recipes @relation(fields: [recipesId], references: [id])
-  recipesId Int     @unique
+  id    Int    @id @default(autoincrement())
+  title String
+  img   String
+}
+
+model Tips {
+  id                     Int      @id @default(autoincrement())
+  title                  String
+  seoTitle               String
+  description            String   @db.Text
+  seoDescription         String   @db.Text
+  category               String
+  slug                   String
+  author                 String
+  img                    String
+  featured               String
+  status                 String
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+  is_paying              Boolean
+  likes                  Int
+  note                   String
+  scheduled_publish_date DateTime
+  id_intern              String
+  video_link             String
+  thumbnailName          String
+  video_nature           Int
+}
+
+model CategoryTips {
+  id     Int    @id @default(autoincrement())
+  title  String
+  status String
 }

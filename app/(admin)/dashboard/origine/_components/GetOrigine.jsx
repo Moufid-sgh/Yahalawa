@@ -1,4 +1,5 @@
 import prisma from "@/lib/db"
+import Image from "next/image";
 import PaginationControls from "../../_components/PaginationControls"
 import DeleteOrigine from "./DeleteOrigine";
 
@@ -28,6 +29,8 @@ export const GetOrigine = async ({ query, page }) => {
     take: pageSize,
   });
 
+
+
   return (
     <div className="overflow-x-auto">
      <table className="min-w-full divide-y divide-gray bg-white">
@@ -48,7 +51,7 @@ export const GetOrigine = async ({ query, page }) => {
                                     <td className="px-4 py-2 whitespace-nowrap">{el.id}</td>
                                     <td className="px-4 py-2">{el.title}</td>
                                     <td className="px-4 py-2">
-                                      <Image src={el.img} alt='flag' width='150' height="50" />
+                                      <Image src={el.img} alt='flag' width='80' height="15" />
                                     </td>
                                     <td className="px-4 py-2 w-40 flex items-center space-x-3">
                                         <DeleteOrigine el={el} />
