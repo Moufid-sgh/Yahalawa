@@ -3,7 +3,11 @@ import flag from '@/public/dashboard/flag.svg'
 import recipes from '@/public/dashboard/knife-fork.svg'
 import user from '@/public/dashboard/user.svg'
 import premium from '@/public/dashboard/premium.svg'
+import menu from '@/public/dashboard/menu.svg'
 import webite from '@/public/dashboard/website.svg'
+import parametres from '@/public/dashboard/parametres.svg'
+import pages from '@/public/dashboard/pages.svg'
+
 
     const SidebarItem = [
         {
@@ -83,9 +87,33 @@ import webite from '@/public/dashboard/website.svg'
         ],
     },
     {
+        title: 'Menu',
+        icon: menu,
+        subtitle: [
+            {
+                title: 'Recettes',
+                href: '/dashboard/menu_recettes'
+            },
+            {
+                title: 'Tips',
+                href: '/dashboard/menu_tips'
+            },
+        ],
+    },
+    {
+        title: 'Pages',
+        icon: pages,
+        href: '/dashboard/pages',
+    },
+    {
         title: 'Website',
         icon: webite,
         href: '/dashboard/premiumTT',
+    },
+    {
+        title: 'Parametres',
+        icon: parametres,
+        href: '/dashboard/parametres',
     },
 ]
 

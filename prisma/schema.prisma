@@ -80,10 +80,12 @@ model Ingredients {
 }
 
 model Category {
-  id          Int     @id @default(autoincrement())
-  title       String
-  status      String
-  highlighted Boolean
+  id             Int     @id @default(autoincrement())
+  title          String
+  seoTitle       String?
+  description    String? @db.Text
+  seoDescription String? @db.Text
+  status         String
 }
 
 model Unit {
