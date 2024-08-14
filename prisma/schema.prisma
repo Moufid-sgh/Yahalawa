@@ -111,27 +111,27 @@ model Origine {
 }
 
 model Tips {
-  id                     Int      @id @default(autoincrement())
+  id                     Int       @id @default(autoincrement())
   title                  String
-  seoTitle               String
-  description            String   @db.Text
-  seoDescription         String   @db.Text
+  seoTitle               String?
+  description            String?
+  seoDescription         String?
   category               String
-  slug                   String
-  author                 String
-  img                    String
-  featured               String
-  status                 String
-  createdAt              DateTime @default(now())
-  updatedAt              DateTime @updatedAt
+  slug                   String?
+  author                 Int?
+  img                    String?
+  featured               Boolean?
+  status                 Int
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime? @updatedAt
   is_paying              Boolean
   likes                  Int
-  note                   String
-  scheduled_publish_date DateTime
-  id_intern              String
-  video_link             String
-  thumbnailName          String
-  video_nature           Int
+  note                   String?
+  scheduled_publish_date DateTime?
+  id_intern              Int
+  video_link             String?
+  thumbnailName          String?
+  video_nature           Int?
 }
 
 model CategoryTips {
