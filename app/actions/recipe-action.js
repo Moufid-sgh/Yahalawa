@@ -9,7 +9,7 @@ import { tipsData } from "../tables/tips"
 
 
 //add
-export async function addTips(formData) {
+export async function addRecipe(formData) {
 
     const IdI = formData.get('IdI')
     const title = formData.get('title')
@@ -63,7 +63,7 @@ export async function addTips(formData) {
         }
 
         // send data
-        await prisma.tips.create({
+        await prisma.recipes.create({
             data: { 
                 // id: 3,
                 id_intern: IdI, 
@@ -100,7 +100,7 @@ console.log('success')
 
 
 //edit
-export async function editTips(formData) {
+export async function editRecipe(formData) {
 
     const IdI = formData.get('IdI')
     const title = formData.get('title')
@@ -117,7 +117,7 @@ export async function editTips(formData) {
     // }
 
     try {
-        await prisma.tips.update({
+        await prisma.recipes.update({
             where: { id },
             data: { 
                 id_intern: IdI,
@@ -146,11 +146,11 @@ export async function editTips(formData) {
 
 
 //delete tips
-export async function deleteTips(id) {
+export async function deleteRecipe(id) {
 
     try {
-        await prisma.tips.delete({ where: { id } })
-        revalidatePath('/dashboard/gestion_tips')
+        await prisma.recipes.delete({ where: { id } })
+        revalidatePath('/dashboard/recettes')
 
     } catch (error) {
         console.log(error)

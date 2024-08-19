@@ -1,12 +1,13 @@
 import prisma from "@/lib/db"
 import PaginationControls from "../../_components/PaginationControls"
-import DeleteTag from "./DeleteTips"
-import EditTag from "./EditTips"
 import Image from "next/image"
+import DeleteTips from "./DeleteTips"
+import EditTips from "./EditTips"
 
 export const GetTips = async ({ query, page }) => {
 
   const pageSize = 20
+
 
   const whereTips = query
     ? {
@@ -18,9 +19,25 @@ export const GetTips = async ({ query, page }) => {
           },
         },
         {
-          category: {
+          is_paying: {
             contains: query,
             mode: 'insensitive',
+          },
+        },
+        {
+          status: {
+            contains: query,
+            mode: 'insensitive',
+          },
+        },
+        {
+          category: {
+            some: {
+              title: {  
+                contains: query,
+                mode: 'insensitive',
+              },
+            },
           },
         },
       ]
@@ -38,7 +55,19 @@ export const GetTips = async ({ query, page }) => {
     where: whereTips,
     skip: (page - 1) * pageSize,
     take: pageSize,
+    include: {
+      category: true, 
+    },
   });
+
+
+  //get category for update
+  const getCategory = async () => {
+    return await prisma.categoryTips.findMany()
+}
+
+const categoryList = await getCategory()
+
 
 
   //Date format
@@ -54,7 +83,6 @@ export const GetTips = async ({ query, page }) => {
   };
 
 
-
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full divide-y divide-gray bg-white">
@@ -65,12 +93,12 @@ export const GetTips = async ({ query, page }) => {
             <th className="px-4 py-2 text-left">Titre</th>
             <th className="px-4 py-2 text-left">Catégorie</th>
             <th className="px-4 py-2 text-left">Auteur</th>
+            <th className="px-4 py-2 text-left">Statut</th>
             <th className="px-4 py-2 text-left">Ajoutée le</th>
             <th className="px-4 py-2 text-left">MAJ</th>
             <th className="px-4 py-2 text-left">Note</th>
             <th className="px-4 py-2 text-left">IDI</th>
             <th className="px-4 py-2 text-left">Type</th>
-            <th className="px-4 py-2 text-left">Status</th>
             <th className="px-4 py-2 text-left">Actions</th>
           </tr>
         </thead>
@@ -84,39 +112,48 @@ export const GetTips = async ({ query, page }) => {
                   <td className="px-3 py-2 text-left">
                     {el.img
                       ?
-                      <Image src={el.img} alt="img" width='80' height='80' />
+                      <Image src={`${el.img}`} alt="img" width='80' height='80' />
                       :
-                      <span>&#10008;</span>
+                      <span>&#128683;</span>
                     }
-                </td>
-                <td className="px-4 py-2 text-left">{el.title}</td>
-                <td className="px-4 py-2 text-left">{el.category}</td>
-                <td className="px-4 py-2 text-left">{el.author}</td>
-                <td className="px-4 py-2 text-left">{formatDate(el.createdAt)}</td>
-                <td className="px-4 py-2 text-left">{formatDate(el.updatedAt)}</td>
-                <td className="px-4 py-2 text-left">{el.note}</td>
-                <td className="px-4 py-2 text-left">{el.id_intern}</td>
-                <td className="px-4 py-2 text-left">{el.is_paying}</td>
-                <td className="px-4 py-2 text-left">{el.status}</td>
-                <td className="px-4 py-2 w-40 flex items-center space-x-3">
-                  <EditTag el={el} />
-                  <DeleteTag el={el} />
-                </td>
-              </tr>
+                  </td>
+                  <td className="px-4 py-2 text-left">{el.title}</td>
+                  <td className="px-4 py-2 text-left">
+                    {el.category.map((el) => { return <p key={el.id}>{el.title}</p>})}
+                  </td>
+                  <td className="px-4 py-2 text-left">{el.author}</td>
+                  <td className="px-4 py-2 text-left whitespace-nowrap">
+                    {el.status === 'publiée' && <span className='border-2 border-green p-1 rounded-md'>{el.status}</span>}
+                    {el.status === 'non publiée' && <span className='border-2 border-red p-1 rounded-md'>{el.status}</span>}
+                    {el.status === 'brouillon' && <span className='border-2 border-gray p-1 rounded-md'>{el.status}</span>}
+                  </td>
+                  <td className="px-4 py-2 text-left">{formatDate(el.createdAt)}</td>
+                  <td className="px-4 py-2 text-left">{el.updatedAt && formatDate(el.updatedAt)}</td>
+                  <td className="px-4 py-2 text-left">{el.note && el.note}</td>
+                  <td className="px-4 py-2 text-left">{el.id_intern}</td>
+                  <td className="px-2 py-2 text-left whitespace-nowrap">
+                    {el.is_paying === 'Free' && <span className='green-badge'>{el.is_paying}</span>}
+                    {el.is_paying === 'T-Telecom' && <span className='bleu-badge text-white'>{el.is_paying}</span>}
+                  </td>
+                  <td className="px-4 py-2 w-32 text-left space-x-3">
+                    <EditTips el={el} categoryList={categoryList}  />
+                    <DeleteTips el={el} />
+                  </td>
+                </tr>
               </tbody>
-      )
+            )
           })
         }
 
-    </table>
+      </table>
 
       {
-    (Array.isArray(tips) && tips.length === 0) && (
-      <p className="bg-white text-sm italic p-4">Aucun résultat trouvé...</p>
-    )
-  }
+        (Array.isArray(tips) && tips.length === 0) && (
+          <p className="bg-white text-sm italic p-4">Aucun résultat trouvé...</p>
+        )
+      }
 
-  <PaginationControls currentPage={page} totalPages={totalPages} />
+      <PaginationControls currentPage={page} totalPages={totalPages} />
     </div >
   )
 }

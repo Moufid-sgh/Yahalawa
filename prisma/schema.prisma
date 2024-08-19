@@ -111,31 +111,78 @@ model Origine {
 }
 
 model Tips {
-  id                     Int       @id @default(autoincrement())
+  id                     Int                    @id @default(autoincrement())
   title                  String
   seoTitle               String?
   description            String?
   seoDescription         String?
-  category               String
+  category               CategoryTipsSelected[]
   slug                   String?
-  author                 Int?
+  author                 String?
   img                    String?
   featured               Boolean?
-  status                 Int
-  createdAt              DateTime  @default(now())
-  updatedAt              DateTime? @updatedAt
-  is_paying              Boolean
-  likes                  Int
+  status                 String
+  createdAt              DateTime               @default(now())
+  updatedAt              DateTime?              @updatedAt
+  is_paying              String
+  likes                  Int?
   note                   String?
   scheduled_publish_date DateTime?
-  id_intern              Int
+  id_intern              String
   video_link             String?
   thumbnailName          String?
   video_nature           Int?
+}
+
+model CategoryTipsSelected {
+  id     Int    @id @default(autoincrement())
+  title  String
+  Tips   Tips?  @relation(fields: [tipsId], references: [id])
+  tipsId Int?
 }
 
 model CategoryTips {
   id     Int    @id @default(autoincrement())
   title  String
   status String
+}
+
+//Menu part----------------------------------------------------------------------------//
+model MenuSucrerie {
+  id       Int               @id @default(autoincrement())
+  title    String
+  subtitle SubMenuSucrerie[]
+}
+
+model SubMenuSucrerie {
+  id             Int           @id @default(autoincrement())
+  title          String
+  MenuSucrerie   MenuSucrerie? @relation(fields: [menuSucrerieId], references: [id])
+  menuSucrerieId Int?
+}
+
+model MenuCuisine {
+  id       Int              @id @default(autoincrement())
+  title    String
+  subtitle SubMenuCuisine[]
+}
+
+model SubMenuCuisine {
+  id            Int          @id @default(autoincrement())
+  title         String
+  MenuCuisine   MenuCuisine? @relation(fields: [menuCuisineId], references: [id])
+  menuCuisineId Int?
+}
+
+model MenuConseil {
+  id       Int              @id @default(autoincrement())
+  title    String
+  subtitle SubMenuConseil[]
+}
+
+model SubMenuConseil {
+  id            Int          @id @default(autoincrement())
+  title         String
+  MenuConseil   MenuConseil? @relation(fields: [menuConseilId], references: [id])
+  menuConseilId Int?
 }

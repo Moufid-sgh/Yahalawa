@@ -26,7 +26,7 @@ const Page = () => {
   ]
 
   return (
-    <section className={`${navExpanded ? 'ml-56' : 'ml-16'} transition-all duration-500`}>
+    <section className='flex items-center justify-center h-screen'>
 
       <div className="flex items-center space-x-8">
       {cards.map((el, i) => {

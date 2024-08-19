@@ -108,7 +108,7 @@ import pages from '@/public/dashboard/pages.svg'
     {
         title: 'Website',
         icon: webite,
-        href: '/dashboard/premiumTT',
+        href: '/',
     },
     {
         title: 'Parametres',
