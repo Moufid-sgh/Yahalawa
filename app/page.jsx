@@ -7,15 +7,18 @@ export default function Home() {
 
 
   return (
-    <main className="flex min-h-screen flex-col items-center px-24 py-8">
+    <main className="flex min-h-screen flex-col items-center px-32 py-8">
       
-      <header>
+      
+      <header className="w-full">
         <Navbar />
         <SearchBarHome />
       </header>
 
-      <div>
-        <p className="bg-darkblue w-48 h-0.5"></p>
+      <div className="flex items-center w-full mt-16">
+        <p className="bg-darkblue w-full h-[1px]"></p>
+        <h1 className="text-blueTitle text-3xl mx-24 whitespace-nowrap	">جديدنا اليوم</h1>
+        <p className="bg-darkblue w-full h-[1px]"></p>
       </div>
 
     </main>

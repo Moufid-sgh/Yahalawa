@@ -13,7 +13,7 @@ export default function Home() {
 
 
     const tags = [
-      { title:  'نصائح طبخ' },
+      { title: 'نصائح طبخ' },
       { title: 'نصائح حلويات' },
       { title: 'نصائح حفظ' },
       { title: 'نصائح غذائية' },
@@ -60,25 +60,27 @@ export default function Home() {
 
 
 
-      // const result = await prisma.subMenuConseil.createMany({ data : tags })
+    // const result = await prisma.subMenuConseil.createMany({ data : tags })
 
-      // const result = await prisma.tips.deleteMany({})
+    // const result = await prisma.tips.deleteMany({})
 
-      console.log(`Inserted ${result.count} tips`);
-    } catch (error) {
-      console.log(error)
-    }
+
+
+    console.log(`Inserted ${result.count} tips`);
+  } catch (error) {
+    console.log(error)
   }
+}
 
 
 
 
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      HOME
-      <Button addUnit={addUnit} className='border p-2' />
-    </main>
-  );
+return (
+  <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    HOME
+    <Button addUnit={addUnit} className='border p-2' />
+  </main>
+);
 }
 
 

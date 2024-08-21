@@ -89,16 +89,7 @@ import pages from '@/public/dashboard/pages.svg'
     {
         title: 'Menu',
         icon: menu,
-        subtitle: [
-            {
-                title: 'Recettes',
-                href: '/dashboard/menu_recettes'
-            },
-            {
-                title: 'Tips',
-                href: '/dashboard/menu_tips'
-            },
-        ],
+        href: '/dashboard/gestion_menu'
     },
     {
         title: 'Pages',

@@ -8,41 +8,26 @@ import DropDown from "./DropDown"
 import prisma from "@/lib/db"
 
 
-const getMenuSucrerie = async () => {
-        return await prisma.menuSucrerie.findMany({
-            include: {
-                subtitle: true
-            }
-        })
-};
+const getMenu = async () => {
+    return await prisma.editableMenu.findMany({
+      include: {
+        subtitle: true
+      },
+      orderBy: {
+        id: 'desc', 
+      }
+    })
+  };
 
-
-const getMenuCuisine = async () => {
-        return await prisma.menuCuisine.findMany({
-            include: {
-                subtitle: true
-            }
-        })
-};
-
-const getMenuConseil = async () => {
-        return await prisma.menuConseil.findMany({
-            include: {
-                subtitle: true
-            }
-        })
-};
 
 
 const Navbar = async () => {
 
-    const menuSucrerie =  await getMenuSucrerie();
-    const menuCuisine =  await getMenuCuisine();
-    const menuConseil =  await getMenuConseil();
+    const menu =  await getMenu();
 
 
     return (
-        <nav className="flex items-center space-x-12">
+        <nav className="flex items-center justify-between">
 
             <Image
                 src={logo}
@@ -50,10 +35,10 @@ const Navbar = async () => {
                 alt="logo"
             />
 
-            <ul className="flex items-center space-x-10 text-lg text-darkblue">
-                <DropDown items={menuConseil} />
-                <DropDown items={menuCuisine} />
-                <DropDown items={menuSucrerie} />
+            <ul className="flex items-center justify-between text-lg w-[75%] text-darkblue">
+                {menu.map((el) => {
+                    return <DropDown key={el.id} items={el} />
+                })}
             <li>
                     <Link href="" className="flex items-center">
                         <span>وصفاتي</span>

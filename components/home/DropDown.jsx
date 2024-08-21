@@ -11,9 +11,8 @@ import Image from "next/image"
 
 const DropDown = ({items}) => {
 
+    const { title, subtitle } = items;
     
-    const title = items.map(el =>el.title)
-    const subtitle = items.flatMap(menu => menu.subtitle)
 
     return (
         <DropdownMenu dir="rtl">

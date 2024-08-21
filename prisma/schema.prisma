@@ -10,7 +10,8 @@ datasource db {
 model Recipes {
   id                  Int     @id @default(autoincrement())
   title               String
-  text                String  @db.Text
+  alias               String
+  description         String  @db.Text
   idI                 String? @db.Text
   Author              String
   Note                String?
@@ -20,7 +21,6 @@ model Recipes {
   highlighted         Boolean
   ing_title           String?
   difficulty          String
-  category            String
   preparation_time    Int
   cooking_time        Int
   cooking_temperature Int
@@ -31,6 +31,7 @@ model Recipes {
   meta_keywords       String  @db.Text
   meta_desc           String  @db.Text
 
+  category      categoryRecipesSelected[]
   ingredients   IngredientsRecipe[]
   relatedRecipe RelatedRecipe[]
   instructions  Instructions[]
@@ -39,6 +40,13 @@ model Recipes {
   publish_date DateTime @default(now())
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+}
+
+model categoryRecipesSelected {
+  id        Int      @id @default(autoincrement())
+  title     String
+  Recipes   Recipes? @relation(fields: [recipesId], references: [id])
+  recipesId Int?
 }
 
 model IngredientsRecipe {
@@ -148,41 +156,16 @@ model CategoryTips {
 }
 
 //Menu part----------------------------------------------------------------------------//
-model MenuSucrerie {
+model editableMenu {
   id       Int               @id @default(autoincrement())
   title    String
-  subtitle SubMenuSucrerie[]
+  subtitle SubEditableMenu[]
 }
 
-model SubMenuSucrerie {
+model SubEditableMenu {
   id             Int           @id @default(autoincrement())
   title          String
-  MenuSucrerie   MenuSucrerie? @relation(fields: [menuSucrerieId], references: [id])
-  menuSucrerieId Int?
-}
-
-model MenuCuisine {
-  id       Int              @id @default(autoincrement())
-  title    String
-  subtitle SubMenuCuisine[]
-}
-
-model SubMenuCuisine {
-  id            Int          @id @default(autoincrement())
-  title         String
-  MenuCuisine   MenuCuisine? @relation(fields: [menuCuisineId], references: [id])
-  menuCuisineId Int?
-}
-
-model MenuConseil {
-  id       Int              @id @default(autoincrement())
-  title    String
-  subtitle SubMenuConseil[]
-}
-
-model SubMenuConseil {
-  id            Int          @id @default(autoincrement())
-  title         String
-  MenuConseil   MenuConseil? @relation(fields: [menuConseilId], references: [id])
-  menuConseilId Int?
+  order          Int
+  editableMenu   editableMenu? @relation(fields: [editableMenuId], references: [id])
+  editableMenuId Int?
 }
