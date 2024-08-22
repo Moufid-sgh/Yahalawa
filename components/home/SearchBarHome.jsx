@@ -11,7 +11,7 @@ const SearchBarHome = () => {
         //   defaultValue={searchParams.get('query')?.toString()}
         />
 
-<svg xmlns="http://www.w3.org/2000/svg" className="absolute top-5 right-2" width="1.3em" height="1.3em" viewBox="0 0 24 24"><path fill="none" stroke="#183153" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m17 17l4 4M3 11a8 8 0 1 0 16 0a8 8 0 0 0-16 0"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" className="absolute top-5 right-2" width="1.3em" height="1.3em" viewBox="0 0 24 24"><path fill="none" stroke="#183153" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="m17 17l4 4M3 11a8 8 0 1 0 16 0a8 8 0 0 0-16 0"/></svg>
     </div>
   )
 }

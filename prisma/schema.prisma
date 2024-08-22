@@ -8,59 +8,70 @@ datasource db {
 }
 
 model Recipes {
-  id                  Int     @id @default(autoincrement())
+  id                  Int     @id
   title               String
-  alias               String
-  description         String  @db.Text
-  idI                 String? @db.Text
-  Author              String
-  Note                String?
-  Type                String
-  Status              Boolean
-  is_paying           Boolean
-  highlighted         Boolean
-  ing_title           String?
+  alias               String?
+  description         String? @db.Text
   difficulty          String
+  nbr_serves          Int
   preparation_time    Int
   cooking_time        Int
+  total_time          Int
   cooking_temperature Int
-  nbr_serves          Int
-  video_link          String
-  img_link            String
-  likes               Int
-  meta_keywords       String  @db.Text
-  meta_desc           String  @db.Text
+  video_link          String? @db.Text
+  status              String
+  rank                Int?
+  seoDescription      String? @db.Text
+  seoTitle            String? @db.Text
+  id_intern           String? @db.Text
+  author              String?
+  note                String?
+  is_paying           String
+  videoPath           String?
+  imgPath             String?
+  likes               Int?
 
-  category      categoryRecipesSelected[]
+  category      CategoryRecipesSelected[]
   ingredients   IngredientsRecipe[]
   relatedRecipe RelatedRecipe[]
-  instructions  Instructions[]
+  steps         RecipeSteps[]
   origine       OrigineRecipe[]
 
-  publish_date DateTime @default(now())
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  scheduled_publish_date DateTime
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
 }
 
-model categoryRecipesSelected {
+model CategoryRecipesSelected {
   id        Int      @id @default(autoincrement())
-  title     String
+  title     String?
   Recipes   Recipes? @relation(fields: [recipesId], references: [id])
   recipesId Int?
 }
 
+model RecipeSteps {
+  id          Int      @id @default(autoincrement())
+  title       String?
+  description String?  @db.Text
+  step        Int?
+  is_default  String?
+  Recipes     Recipes? @relation(fields: [recipesId], references: [id])
+  recipesId   Int?
+}
+
 model IngredientsRecipe {
   id         Int      @id @default(autoincrement())
-  quantity   Int
-  ingredient String
-  unit       String
+  ingredient String?
+  unite      String?
+  qte_cup    Int?
+  qte_gramme Int?
   Recipes    Recipes? @relation(fields: [recipesId], references: [id])
   recipesId  Int?
 }
 
 model RelatedRecipe {
   id        Int      @id @default(autoincrement())
-  link      String
+  link      String?
   Recipes   Recipes? @relation(fields: [recipesId], references: [id])
   recipesId Int?
 }
@@ -71,14 +82,6 @@ model OrigineRecipe {
   img       String
   Recipes   Recipes? @relation(fields: [recipesId], references: [id])
   recipesId Int?
-}
-
-model Instructions {
-  id          Int      @id @default(autoincrement())
-  title       String
-  instruction String   @db.Text
-  Recipes     Recipes? @relation(fields: [recipesId], references: [id])
-  recipesId   Int?
 }
 
 model Ingredients {

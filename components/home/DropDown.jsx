@@ -18,7 +18,7 @@ const DropDown = ({items}) => {
         <DropdownMenu dir="rtl">
             <DropdownMenuTrigger className="outline-none flex items-end">
                 <p>{title}</p>
-                <svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" viewBox="0 0 24 24"><path fill="none" stroke="#183153" stroke-linecap="round" stroke-linejoin="round" d="m7 10l5 5l5-5"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" viewBox="0 0 24 24"><path fill="none" stroke="#183153" strokeLinecap="round" strokeLinejoin="round" d="m7 10l5 5l5-5"/></svg>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="p-4">
                 {

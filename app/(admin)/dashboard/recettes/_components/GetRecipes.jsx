@@ -1,6 +1,7 @@
 import prisma from "@/lib/db"
 import PaginationControls from "../../_components/PaginationControls"
 import Image from "next/image"
+import DeleteRecipes from "./DeleteRecipes"
 
 
 export const GetRecipes = async ({ query, page }) => {
@@ -44,13 +45,13 @@ export const GetRecipes = async ({ query, page }) => {
         : {};
 
 
-    const totalItems = await prisma.tips.count({
+    const totalItems = await prisma.recipes.count({
         where: whereTips,
     });
 
     const totalPages = Math.ceil(totalItems / pageSize);
 
-    const tips = await prisma.tips.findMany({
+    const recipes = await prisma.recipes.findMany({
         where: whereTips,
         skip: (page - 1) * pageSize,
         take: pageSize,
@@ -58,14 +59,6 @@ export const GetRecipes = async ({ query, page }) => {
             category: true,
         },
     });
-
-
-    //get category for update
-    const getCategory = async () => {
-        return await prisma.categoryTips.findMany()
-    }
-
-    const categoryList = await getCategory()
 
 
 
@@ -104,7 +97,7 @@ export const GetRecipes = async ({ query, page }) => {
                 </thead>
 
                 {
-                    Array.isArray(tips) && tips.map((el) => {
+                    Array.isArray(recipes) && recipes.map((el) => {
                         return (
                             <tbody key={el.id} className="bg-white text-sm divide-y divide-gray text-darkgray">
                                 <tr>
@@ -117,20 +110,25 @@ export const GetRecipes = async ({ query, page }) => {
                                             <span>&#128683;</span>
                                         }
                                     </td>
-                                    <th className="px-4 py-2 text-left">Titre</th>
-                                    <th className="px-4 py-2 text-left">Catégorie</th>
-                                    <th className="px-4 py-2 text-left">Difficulté</th>
+                                    <th className="px-4 py-2 text-left">{el.title}</th>
+                                    <td className="px-4 py-2 text-left">
+                                        {el.category && el.category.map((el) => { return <p key={el.id}>{el.title}</p> })}
+                                    </td>
+                                    <th className="px-4 py-2 text-left">{el.difficulty}</th>
                                     <th className="px-4 py-2 text-left">Auteur</th>
-                                    <th className="px-4 py-2 text-left">Ajoutée le</th>
-                                    <th className="px-4 py-2 text-left">MAJ</th>
-                                    <th className="px-4 py-2 text-left">Note</th>
-                                    <th className="px-4 py-2 text-left">IDI</th>
+                                    <td className="px-4 py-2 text-left">{formatDate(el.createdAt)}</td>
+                                    <td className="px-4 py-2 text-left">{el.updatedAt && formatDate(el.updatedAt)}</td>
+                                    <th className="px-4 py-2 text-left">{el.note}</th>
+                                    <th className="px-4 py-2 text-left">{el.id_intern}</th>
                                     <td className="px-2 py-2 text-left whitespace-nowrap">
                                         {el.is_paying === 'Free' && <span className='green-badge'>{el.is_paying}</span>}
                                         {el.is_paying === 'T-Telecom' && <span className='bleu-badge text-white'>{el.is_paying}</span>}
                                     </td>
-                                    <th className="px-4 py-2 text-left">Status</th>
-                                    <th className="px-4 py-2 text-left">Actions</th>
+                                    <th className="px-4 py-2 text-left">{el.status}</th>
+                                    <td className="px-4 py-2 w-32 text-left space-x-3">
+                                        {/* <EditRecipes el={el} categoryList={categoryList} /> */}
+                                        <DeleteRecipes el={el} />
+                                    </td>
                                 </tr>
                             </tbody>
                         )
@@ -140,7 +138,7 @@ export const GetRecipes = async ({ query, page }) => {
             </table>
 
             {
-                (Array.isArray(tips) && tips.length === 0) && (
+                (Array.isArray(recipes) && recipes.length === 0) && (
                     <p className="bg-white text-sm italic p-4">Aucun résultat trouvé...</p>
                 )
             }

@@ -1,9 +1,13 @@
 
-
 import Button from "@/components/Button";
 import prisma from "@/lib/db";
 import { tipsData } from "../tables/tips";
 import { categoryTips } from "../tables/category_tips";
+
+import { recipes } from "../tables/recipes";
+import { categoryRecipesSelected } from "../tables/recipe_category";
+import { recipeIngredient } from "../tables/recipe_ingredient";
+import { steps } from "../tables/recipe_steps";
 
 export default function Home() {
 
@@ -60,10 +64,9 @@ export default function Home() {
 
 
 
-    // const result = await prisma.subMenuConseil.createMany({ data : tags })
+    const result = await prisma.recipeSteps.createMany({ data : steps })
 
-    // const result = await prisma.tips.deleteMany({})
-
+    // const result = await prisma.recipeSteps.deleteMany({})
 
 
     console.log(`Inserted ${result.count} tips`);
