@@ -45,8 +45,3 @@ export const unitéData = [
     { value: 'مغرفة كبيرة', label: 'مغرفة كبيرة' }
 ]
 
-export const ingredientData = [
-    { value: 'سهل', label: 'سهل' },
-    { value: 'متوسط', label: 'متوسط' },
-    { value: 'صعب', label: 'صعب' }
-]

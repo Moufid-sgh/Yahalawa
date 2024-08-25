@@ -8,7 +8,7 @@ datasource db {
 }
 
 model Recipes {
-  id                  Int     @id
+  id                  Int     @id @default(autoincrement())
   title               String
   alias               String?
   description         String? @db.Text
@@ -30,16 +30,21 @@ model Recipes {
   videoPath           String?
   imgPath             String?
   likes               Int?
+  glucides            Int?
+  proteines           Int?
+  graisses            Int?
+  kcal                Int?
 
   category      CategoryRecipesSelected[]
   ingredients   IngredientsRecipe[]
   relatedRecipe RelatedRecipe[]
   steps         RecipeSteps[]
   origine       OrigineRecipe[]
+  tags          TagsRecipe[]
 
-  scheduled_publish_date DateTime
-  createdAt              DateTime @default(now())
-  updatedAt              DateTime @updatedAt
+  scheduled_publish_date DateTime?
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
 }
 
 model CategoryRecipesSelected {
@@ -61,6 +66,7 @@ model RecipeSteps {
 
 model IngredientsRecipe {
   id         Int      @id @default(autoincrement())
+  title      String?
   ingredient String?
   unite      String?
   qte_cup    Int?
@@ -71,7 +77,15 @@ model IngredientsRecipe {
 
 model RelatedRecipe {
   id        Int      @id @default(autoincrement())
+  name      String?
   link      String?
+  Recipes   Recipes? @relation(fields: [recipesId], references: [id])
+  recipesId Int?
+}
+
+model TagsRecipe {
+  id        Int      @id @default(autoincrement())
+  title     String
   Recipes   Recipes? @relation(fields: [recipesId], references: [id])
   recipesId Int?
 }

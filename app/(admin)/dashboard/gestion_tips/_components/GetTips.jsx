@@ -33,7 +33,7 @@ export const GetTips = async ({ query, page }) => {
         {
           category: {
             some: {
-              title: {  
+              title: {
                 contains: query,
                 mode: 'insensitive',
               },
@@ -56,7 +56,7 @@ export const GetTips = async ({ query, page }) => {
     skip: (page - 1) * pageSize,
     take: pageSize,
     include: {
-      category: true, 
+      category: true,
     },
   });
 
@@ -64,9 +64,9 @@ export const GetTips = async ({ query, page }) => {
   //get category for update
   const getCategory = async () => {
     return await prisma.categoryTips.findMany()
-}
+  }
 
-const categoryList = await getCategory()
+  const categoryList = await getCategory()
 
 
 
@@ -117,9 +117,9 @@ const categoryList = await getCategory()
                       <span>&#128683;</span>
                     }
                   </td>
-                  <td className="px-4 py-2 text-left">{el.title}</td>
+                  <td className="px-4 py-2 text-left font-semibold">{el.title}</td>
                   <td className="px-4 py-2 text-left">
-                    {el.category.map((el) => { return <p key={el.id}>{el.title}</p>})}
+                    {el.category.map((el) => { return <p key={el.id}>{el.title}</p> })}
                   </td>
                   <td className="px-4 py-2 text-left">{el.author}</td>
                   <td className="px-4 py-2 text-left whitespace-nowrap">
@@ -129,14 +129,14 @@ const categoryList = await getCategory()
                   </td>
                   <td className="px-4 py-2 text-left">{formatDate(el.createdAt)}</td>
                   <td className="px-4 py-2 text-left">{el.updatedAt && formatDate(el.updatedAt)}</td>
-                  <td className="px-4 py-2 text-left">{el.note && el.note}</td>
+                  <td className="px-4 py-2 text-left font-semibold">{el.note && el.note}</td>
                   <td className="px-4 py-2 text-left">{el.id_intern}</td>
                   <td className="px-2 py-2 text-left whitespace-nowrap">
                     {el.is_paying === 'Free' && <span className='green-badge'>{el.is_paying}</span>}
                     {el.is_paying === 'T-Telecom' && <span className='bleu-badge text-white'>{el.is_paying}</span>}
                   </td>
                   <td className="px-4 py-2 w-32 text-left space-x-3">
-                    <EditTips el={el} categoryList={categoryList}  />
+                    <EditTips el={el} categoryList={categoryList} />
                     <DeleteTips el={el} />
                   </td>
                 </tr>

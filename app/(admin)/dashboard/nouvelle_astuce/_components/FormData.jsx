@@ -5,9 +5,9 @@ const Select = dynamic(() => import("react-select"), { ssr: false })
 import { useRef, useState } from "react"
 import { useFormStatus } from "react-dom"
 import { addTips } from "@/app/actions/tips-action"
-import { DatePicker } from '../../nouvelle_recette/_components/DatePicker'
 import { hour } from '../../_components/Data'
 import UploadFile from '../../_components/UploadFile'
+import DatePicker from './DatePicker'
 
 const FormData = ({categoryList}) => {
 

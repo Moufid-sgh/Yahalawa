@@ -28,7 +28,7 @@ export const GetOrigine = async ({ query, page }) => {
     skip: (page - 1) * pageSize,
     take: pageSize,
   });
-
+console.log(origines)
 
 
   return (
@@ -46,12 +46,12 @@ export const GetOrigine = async ({ query, page }) => {
                  {
                     Array.isArray(origines) && origines.map((el) => {
                         return (
-                            <tbody key={el.id} className="bg-white text-sm divide-y divide-gray text-darkgray">
+                            <tbody key={el.id} className="bg-white divide-y divide-gray text-darkgray">
                                 <tr>
                                     <td className="px-4 py-2 whitespace-nowrap">{el.id}</td>
-                                    <td className="px-4 py-2">{el.title}</td>
+                                    <td className="px-4 py-2 text-base">{el.title}</td>
                                     <td className="px-4 py-2">
-                                      <Image src={el.img} alt='flag' width='80' height="15" />
+                                      <Image src={`/flag/${el.img}`} alt='flag' width='80' height="15" />
                                     </td>
                                     <td className="px-4 py-2 w-40 flex items-center space-x-3">
                                         <DeleteOrigine el={el} />

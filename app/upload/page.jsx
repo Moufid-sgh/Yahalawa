@@ -9,6 +9,14 @@ import { categoryRecipesSelected } from "../tables/recipe_category";
 import { recipeIngredient } from "../tables/recipe_ingredient";
 import { steps } from "../tables/recipe_steps";
 
+import { unit } from "../tables/unite";
+import { ustensiles } from "../tables/ustensiles";
+import { ingrdient } from "../tables/ingredients";
+import { category } from "../tables/category";
+import { tagsList } from "../tables/tags";
+import { recipe_tags } from "../tables/recipe_tags";
+import { origine } from "../tables/origine";
+
 export default function Home() {
 
 
@@ -64,7 +72,7 @@ export default function Home() {
 
 
 
-    const result = await prisma.recipeSteps.createMany({ data : steps })
+    const result = await prisma.origine.createMany({ data : origine })
 
     // const result = await prisma.recipeSteps.deleteMany({})
 

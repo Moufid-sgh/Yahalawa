@@ -78,6 +78,20 @@ body,
   color: #13ce66;
 }
 
+.blue-btn {
+  background-color: #007AFF; 
+  border: 1px solid #007AFF; 
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: #ffffff; 
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.blue-btn:hover {
+  background-color: #ffffff;
+  color: #007AFF;
+}
+
 .red-btn {
   background-color: #FE2C54; 
   border: 1px solid #FE2C54; 

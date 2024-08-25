@@ -15,7 +15,7 @@ const NewTips = async () => {
     return (
         <main className='ml-12 mt-8'>
 
-            <h1 className="text-2xl font-semibold tracking-wide mb-4">Ajouter une recette</h1>
+            <h1 className="text-2xl font-semibold tracking-wide mb-4">Ajouter une astuce</h1>
             <FormData categoryList={categoryList} />
 
         </main>

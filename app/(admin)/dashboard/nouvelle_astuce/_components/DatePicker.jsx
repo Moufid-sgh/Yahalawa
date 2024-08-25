@@ -1,16 +1,9 @@
-"use client"
+'use client'
 
-import * as React from "react"
-
-import { cn } from "@/lib/utils"
 import { Calendar } from "@/components/ui/calendar"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
+import { Popover, PopoverContent,PopoverTrigger } from "@/components/ui/popover"
 
-export function DatePicker({ date, setDate, name }) {
+const DatePicker = ({ date, setDate, name }) => {
 
 
 
@@ -51,3 +44,5 @@ export function DatePicker({ date, setDate, name }) {
     </div>
   )
 }
+
+export default DatePicker

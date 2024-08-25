@@ -16,7 +16,7 @@ const RecettePage = async ({ searchParams }) => {
       <div className="bg-white rounded-md mb-2">
         <div className="md:flex items-center justify-between px-2 py-1.5">
           <SearchBar />
-          <Link href="/dashboard/nouvelle_astuce" className="green-btn">&#10010; Ajouter une recette</Link>
+          <Link href="/dashboard/nouvelle_recette" className="green-btn">&#10010; Ajouter une recette</Link>
         </div>
       </div>
 

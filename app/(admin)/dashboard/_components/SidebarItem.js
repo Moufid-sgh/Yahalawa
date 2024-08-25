@@ -68,9 +68,9 @@ import pages from '@/public/dashboard/pages.svg'
             ],
         },
         {
-            title: 'Premium TT',
+            title: 'T-Telecom',
             icon: premium,
-            href: '/dashboard/premiumTT',
+            href: '/dashboard/t-Telecom',
         },
     {
         title: 'Utilisateurs',

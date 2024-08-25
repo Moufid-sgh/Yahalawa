@@ -101,7 +101,7 @@ export const GetRecipes = async ({ query, page }) => {
                         return (
                             <tbody key={el.id} className="bg-white text-sm divide-y divide-gray text-darkgray">
                                 <tr>
-                                    <th className="px-4 py-2 text-left">Id</th>
+                                    <td className="px-4 py-2 text-left">Id</td>
                                     <td className="px-3 py-2 text-left">
                                         {el.img
                                             ?
@@ -110,21 +110,21 @@ export const GetRecipes = async ({ query, page }) => {
                                             <span>&#128683;</span>
                                         }
                                     </td>
-                                    <th className="px-4 py-2 text-left">{el.title}</th>
+                                    <td className="px-4 py-2 text-left font-semibold">{el.title}</td>
                                     <td className="px-4 py-2 text-left">
                                         {el.category && el.category.map((el) => { return <p key={el.id}>{el.title}</p> })}
                                     </td>
-                                    <th className="px-4 py-2 text-left">{el.difficulty}</th>
-                                    <th className="px-4 py-2 text-left">Auteur</th>
+                                    <td className="px-4 py-2 text-left font-semibold">{el.difficulty}</td>
+                                    <td className="px-4 py-2 text-left">Auteur</td>
                                     <td className="px-4 py-2 text-left">{formatDate(el.createdAt)}</td>
                                     <td className="px-4 py-2 text-left">{el.updatedAt && formatDate(el.updatedAt)}</td>
-                                    <th className="px-4 py-2 text-left">{el.note}</th>
-                                    <th className="px-4 py-2 text-left">{el.id_intern}</th>
+                                    <td className="px-4 py-2 text-left font-semibold">{el.note && el.note}</td>
+                                    <td className="px-4 py-2 text-left">{el.id_intern}</td>
                                     <td className="px-2 py-2 text-left whitespace-nowrap">
                                         {el.is_paying === 'Free' && <span className='green-badge'>{el.is_paying}</span>}
                                         {el.is_paying === 'T-Telecom' && <span className='bleu-badge text-white'>{el.is_paying}</span>}
                                     </td>
-                                    <th className="px-4 py-2 text-left">{el.status}</th>
+                                    <td className="px-4 py-2 text-left">{el.status}</td>
                                     <td className="px-4 py-2 w-32 text-left space-x-3">
                                         {/* <EditRecipes el={el} categoryList={categoryList} /> */}
                                         <DeleteRecipes el={el} />

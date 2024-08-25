@@ -6,6 +6,8 @@ import { writeFile } from 'fs/promises'
 import { join } from "path"
 import ffmpeg from 'fluent-ffmpeg'
 import { tipsData } from "../tables/tips"
+import { create } from "domain"
+import { steps } from "../tables/recipe_steps"
 
 
 //add
@@ -16,17 +18,28 @@ export async function addRecipe(formData) {
     const description = formData.get('description')
     const type = formData.get('type')
     const status = formData.get('status')
+    const difficulty = formData.get('difficulty')
     const category = formData.getAll('category')
+    const nbr_serves = formData.get('nbr_serves')
+    const preparation_time = formData.get('preparation_time')
+    const cooking_time = formData.get('cooking_time')
+    const cooking_temperature = formData.get('cooking_temperature')
     const note = formData.get('note')
     const likes = formData.get('likes')
+    const video_link = formData.get('video_link')
     const seoTitle = formData.get('seoTitle')
     const seoDescription = formData.get('seoDescription')
     const hour = formData.get('hour')
     const date = formData.get('date')
     const img = formData.get('img')
     const video = formData.get('video')
+    const ingredientList = JSON.parse(formData.getAll('ingredientList'))
+    const lienRecetteList = JSON.parse(formData.getAll('lienRecetteList'))
+    const instructionList = JSON.parse(formData.getAll('instructionList'))
 
-    if(IdI === "" || title === "" || description === "" || type === "" || status === "" || category === "") {
+    console.log(ingredientList)
+
+    if (IdI === "" || title === "" || description === "" || type === "" || status === "" || category === "" || difficulty === "" || nbr_serves === "" || preparation_time === "" || cooking_time === "" || cooking_temperature === "") {
         return { error: "Veuillez remplir tous les champs requis." }
     }
 
@@ -62,40 +75,72 @@ export async function addRecipe(formData) {
             await writeFile(videoFullPath, VideoBuffer)
         }
 
-        // send data
+        //send data
         await prisma.recipes.create({
-            data: { 
-                // id: 3,
-                id_intern: IdI, 
-                title, 
+            data: {
+                id: 1145,
+                id_intern: IdI,
+                title,
                 description,
-                is_paying: type, 
+                is_paying: type,
                 status,
-                note, 
+                difficulty,
+                note,
                 likes: Number(likes),
                 seoTitle,
                 seoDescription,
+                nbr_serves: Number(nbr_serves),
+                preparation_time: Number(preparation_time),
+                cooking_time: Number(cooking_time),
+                cooking_temperature: Number(cooking_temperature),
+                total_time: Number(preparation_time) + Number(cooking_time),
+                author: "admin",
+                video_link,
+                rank: 2,
+                scheduled_publish_date : "2022-02-02T13:51:00.000Z",
                 category: {
                     create: category.map((el) => ({
-                      title: el,
+                        title: el,
                     })),
-                  },
-                img: `/${path}`?.replace(/\\/g, '/') 
-                // video_link: `/${path}`?.replace(/\\/g, '/')
+                },
+                ingredients: {
+                    create: ingredientList.map((el) => ({
+                        title : el.titre,
+                        ingredient: el.name,
+                        unite: el.unite,
+                        qte_gramme: Number(el.quantite),
+                    })),
+                },
+                steps: {
+                    create: instructionList.map((el) => ({
+                        title: el.titre,
+                        description: el.instruction,
+                        // step
+                    }))
+                },
+                relatedRecipe: {
+                    create: lienRecetteList.map((el) => ({
+                        name: el.name ,
+                        link: el.link
+                    }))
+                }
+                // imgPath: `/${path}`?.replace(/\\/g, '/') 
+                // videoPath: `/${path}`?.replace(/\\/g, '/')
             },
             include: {
-                category: true
+                category: true,
+                ingredients: true,
+                steps: true,
+                relatedRecipe: true
             }
         })
 
-
-
-revalidatePath('/dashboard/nouvelle_astuce')
-console.log('success')
+        revalidatePath('/dashboard/nouvelle_astuce')
+        console.log('success')
 
     } catch (error) {
-    console.log(error)
-}
+        console.log(error)
+    }
 }
 
 
@@ -119,23 +164,23 @@ export async function editRecipe(formData) {
     try {
         await prisma.recipes.update({
             where: { id },
-            data: { 
+            data: {
                 id_intern: IdI,
                 title,
                 description,
                 is_paying: type,
-                status,  
-                note, 
+                status,
+                note,
                 likes: Number(likes),
                 category: {
                     create: category.map((el) => ({
-                      title: el,
+                        title: el,
                     })),
-                  }  
-                },
-                include: {
-                    category: true
                 }
+            },
+            include: {
+                category: true
+            }
         })
         revalidatePath('/dashboard/gestion_tips')
 
@@ -145,7 +190,7 @@ export async function editRecipe(formData) {
 }
 
 
-//delete tips
+//delete recipe
 export async function deleteRecipe(id) {
 
     try {
@@ -155,17 +200,22 @@ export async function deleteRecipe(id) {
     } catch (error) {
         console.log(error)
     }
-}
+};
 
 
-//delete category tips
-export async function deleteCategorySelected(id) {
+//delete category recipe
+// export async function deleteCategorySelected(id) {
 
-    try {
-        await prisma.categoryTipsSelected.delete({ where: { id } })
-        revalidatePath('/dashboard/gestion_tips')
-  
-      } catch (error) {
-          console.log(error)
-      }
-}
+//     try {
+//         await prisma.categoryTipsSelected.delete({ where: { id } })
+//         revalidatePath('/dashboard/gestion_tips')
+
+//     } catch (error) {
+//         console.log(error)
+//     }
+// }
+
+
+
+
+
