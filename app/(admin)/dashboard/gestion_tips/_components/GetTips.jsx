@@ -112,7 +112,7 @@ export const GetTips = async ({ query, page }) => {
                   <td className="px-3 py-2 text-left">
                     {el.img
                       ?
-                      <Image src={`${el.img}`} alt="img" width='80' height='80' />
+                      <Image src={`/tips_img/${el.img}`} alt="img" width='80' height='80' />
                       :
                       <span>&#128683;</span>
                     }
@@ -126,6 +126,7 @@ export const GetTips = async ({ query, page }) => {
                     {el.status === 'publiée' && <span className='border-2 border-green p-1 rounded-md'>{el.status}</span>}
                     {el.status === 'non publiée' && <span className='border-2 border-red p-1 rounded-md'>{el.status}</span>}
                     {el.status === 'brouillon' && <span className='border-2 border-gray p-1 rounded-md'>{el.status}</span>}
+                    {el.status === 'programmée' && <span className='border-2 border-blue p-1 rounded-md'>{el.status}</span>}
                   </td>
                   <td className="px-4 py-2 text-left">{formatDate(el.createdAt)}</td>
                   <td className="px-4 py-2 text-left">{el.updatedAt && formatDate(el.updatedAt)}</td>

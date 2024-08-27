@@ -41,7 +41,7 @@ export const GetUnit = async ({ query, page }) => {
 
         {
           Array.isArray(units) && units.map((el) => (
-            <tbody key={el.id} className="bg-white text-sm divide-y divide-gray text-darkgray">
+            <tbody key={el.id} className="bg-white text-base divide-y divide-gray text-darkgray">
               <tr>
                 <td className="px-4 py-2 whitespace-nowrap">{el.id}</td>
                 <td className="px-4 py-2">{el.title}</td>

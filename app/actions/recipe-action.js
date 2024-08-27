@@ -37,7 +37,6 @@ export async function addRecipe(formData) {
     const lienRecetteList = JSON.parse(formData.getAll('lienRecetteList'))
     const instructionList = JSON.parse(formData.getAll('instructionList'))
 
-    console.log(ingredientList)
 
     if (IdI === "" || title === "" || description === "" || type === "" || status === "" || category === "" || difficulty === "" || nbr_serves === "" || preparation_time === "" || cooking_time === "" || cooking_temperature === "") {
         return { error: "Veuillez remplir tous les champs requis." }
@@ -55,7 +54,7 @@ export async function addRecipe(formData) {
     const bytes = await img.arrayBuffer()
     const buffer = Buffer.from(bytes)
     const name = `${Date.now()}-${img.name}`
-    const path = join('tips_img', name)
+    const path = join('recipe_img', name)
     const fullPath = join('./public', path)
 
 
@@ -63,7 +62,7 @@ export async function addRecipe(formData) {
     const videobBytes = await video.arrayBuffer()
     const VideoBuffer = Buffer.from(videobBytes)
     const videoname = `${Date.now()}-${video.name}`;
-    const videopath = join('tips_video', videoname);
+    const videopath = join('recipe_video', videoname);
     const videoFullPath = join('./public', videopath);
 
 
@@ -75,12 +74,13 @@ export async function addRecipe(formData) {
             await writeFile(videoFullPath, VideoBuffer)
         }
 
+
         //send data
-        await prisma.recipes.create({
+        const test = await prisma.recipes.create({
             data: {
-                id: 1145,
                 id_intern: IdI,
                 title,
+                slug: title.split(' ').join('-'),
                 description,
                 is_paying: type,
                 status,
@@ -112,10 +112,10 @@ export async function addRecipe(formData) {
                     })),
                 },
                 steps: {
-                    create: instructionList.map((el) => ({
+                    create: instructionList.map((el, index) => ({
                         title: el.titre,
                         description: el.instruction,
-                        // step
+                        step: index + 1
                     }))
                 },
                 relatedRecipe: {
@@ -123,8 +123,8 @@ export async function addRecipe(formData) {
                         name: el.name ,
                         link: el.link
                     }))
-                }
-                // imgPath: `/${path}`?.replace(/\\/g, '/') 
+                },
+                imgPath: `/${path}`?.replace(/\\/g, '/'),
                 // videoPath: `/${path}`?.replace(/\\/g, '/')
             },
             include: {
@@ -204,16 +204,29 @@ export async function deleteRecipe(id) {
 
 
 //delete category recipe
-// export async function deleteCategorySelected(id) {
+export async function deleteCategorySelected(id) {
 
-//     try {
-//         await prisma.categoryTipsSelected.delete({ where: { id } })
-//         revalidatePath('/dashboard/gestion_tips')
+    try {
+        await prisma.categoryRecipesSelected.delete({ where: { id } })
+        revalidatePath('/dashboard/update_recette')
 
-//     } catch (error) {
-//         console.log(error)
-//     }
-// }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+//delete origine recipe
+export async function deleteOrigineSelected(id) {
+
+    try {
+        await prisma.origineRecipe.delete({ where: { id } })
+        revalidatePath('/dashboard/update_recette')
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 
 
 

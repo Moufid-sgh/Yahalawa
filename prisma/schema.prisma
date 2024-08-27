@@ -10,7 +10,7 @@ datasource db {
 model Recipes {
   id                  Int     @id @default(autoincrement())
   title               String
-  alias               String?
+  slug                String?
   description         String? @db.Text
   difficulty          String
   nbr_serves          Int
@@ -44,7 +44,7 @@ model Recipes {
 
   scheduled_publish_date DateTime?
   createdAt              DateTime  @default(now())
-  updatedAt              DateTime  @updatedAt
+  updatedAt              DateTime? @updatedAt
 }
 
 model CategoryRecipesSelected {

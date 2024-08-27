@@ -8,7 +8,7 @@ import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSo
 
 const InstructionForm = ({ instructionList, setInstructionList }) => {
 
-
+console.log(instructionList)
     const [titre, setTitre] = useState('')
     const titreRef = useRef()
     const [instruction, setInstruction] = useState('')
@@ -91,6 +91,7 @@ const InstructionForm = ({ instructionList, setInstructionList }) => {
                     ref={instructionRef}>
                 </textarea>
 
+
             </div>
 
             <button onClick={handleInstructions} className="blue-btn text-sm my-3">
@@ -110,8 +111,8 @@ const InstructionForm = ({ instructionList, setInstructionList }) => {
                 >
 
                     {instructionList.length > 0 &&
-                       instructionList.map(({ id, titre, instruction }) => (
-                        <InstructionList key={id} id={id} titre={titre} instruction={instruction} deleteInstruction={deleteInstruction} />
+                       instructionList.map(({ id, title, description }) => (
+                        <InstructionList key={id} id={id} titre={title} instruction={description} deleteInstruction={deleteInstruction} />
                     ))}
 
                 </SortableContext>

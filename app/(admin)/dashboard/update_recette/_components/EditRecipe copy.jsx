@@ -4,17 +4,17 @@ import dynamic from 'next/dynamic'
 const Select = dynamic(() => import("react-select"), { ssr: false })
 import { useRef, useState } from "react"
 import { useFormStatus } from "react-dom"
-import  DatePicker  from './DatePicker'
-import { difficulté, hour } from '../../_components/Data'
+import { difficulté } from '../../_components/Data'
 import UploadFile from '../../_components/UploadFile'
 import Ingredientform from './Ingredientform'
 import RecetteLieeForm from './RecetteLieeForm'
 import InstructionForm from './InstructionForm'
 import FaitNutri from './FaitNutri'
-import { addRecipe } from '@/app/actions/recipe-action'
+import { addRecipe, deleteCategorySelected, deleteOrigineSelected } from '@/app/actions/recipe-action'
 
 
-const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList, ingredientsList }) => {
+const EditRecipe = ({ recette, origineList, categoryList, ustensileList, unitList, ingredientsList, tagsList }) => {
+
 
     const { pending } = useFormStatus()
 
@@ -87,14 +87,8 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
         }
     };
 
-    //planning post
-    const [date, setDate] = useState('')
-    const [heure, setHeure] = useState([])
-    const hours = hour()
 
-    const handleHour = (option) => {
-        setHeure(option);
-    };
+
 
 
     return (
@@ -110,7 +104,8 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
                             placeholder="IdI"
                             name="IdI"
                             className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
-                        />
+                        defaultValue={recette.id_intern}
+                       />
                     </div>
 
                     <div className='relative'>
@@ -120,6 +115,7 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
                             placeholder="Titre"
                             name="title"
                             className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
+                            defaultValue={recette.title}
                         />
                     </div>
 
@@ -129,7 +125,9 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
                             rows="4"
                             className="p-2.5 w-72 md:w-96 resize-none rounded-md border border-gray outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
                             placeholder="Description"
-                            name='description'>
+                            name='description'
+                            defaultValue={recette.description}
+                            >
                         </textarea>
                     </div>
 
@@ -141,6 +139,7 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
                             ]}
                             onChange={handleType}
                             value={type}
+                            defaultInputValue={recette.is_paying}
                             name="type"
                             placeholder={<div className="text-[#9CA3BC]">Type</div>}
                             className="w-72 md:w-96"
@@ -162,6 +161,7 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
                             ]}
                             onChange={handlestatus}
                             value={status}
+                            defaultInputValue={is_paying.status}
                             name="status"
                             placeholder={<div className="text-[#9CA3BC]">Statut</div>}
                             className="w-72 md:w-96"
@@ -195,12 +195,25 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
                         />
                     </div>
 
+                     {/* categpry list************************/}
+                     <div className="flex items-center flex-wrap">
+                        {recette.category.map((cat => {
+                            return (
+                                <div  key={cat.id} className="m-1.5 p-1 bg-gray flex items-center bg-gray rounded-md">
+                                    <p>{cat.title}</p>
+                                    <p onClick={()=>deleteCategorySelected(cat.id)} className='ml-2 cursor-pointer text-red hover:font-bold duration-300'>&#10005;</p>
+                                </div>
+                            )
+                        }))}
+                    </div>
+
                     <div className='relative'>
                         <p className='text-red absolute bottom-8 left-1'>*</p>
                         <Select
                             options={difficulté}
                             onChange={handleDifficulty}
                             value={difficulty}
+                            defaultInputValue={recette.difficulty}
                             name="difficulty"
                             placeholder={<div className="text-[#9CA3BC]">Difficulté</div>}
                             className="w-72 md:w-96"
@@ -220,6 +233,7 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
                                 placeholder="Temps de cuisson"
                                 name="cooking_time"
                                 className="w-[180px] rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
+                                defaultValue={recette.cooking_time}
                             />
                         </div>
 
@@ -230,6 +244,7 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
                                 placeholder="Nombre de personnes"
                                 name="nbr_serves"
                                 className="w-[180px] rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
+                                defaultValue={recette.nbr_serves}
                             />
                         </div>
                     </div>
@@ -242,6 +257,7 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
                                 placeholder="Temperature"
                                 name="cooking_temperature"
                                 className="w-[180px] rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
+                                defaultValue={recette.cooking_temperature}
                             />
                         </div>
 
@@ -252,7 +268,8 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
                                 placeholder="Temps de preparation"
                                 name="preparation_time"
                                 className="w-[180px] rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
-                            />
+                                defaultValue={recette.preparation_time}
+                           />
                         </div>
                     </div>
 
@@ -273,6 +290,18 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
                         components={{ IndicatorSeparator: () => null }}
                     />
 
+                    {/* origine list************************/}
+                    <div className="flex items-center flex-wrap">
+                        {recette.origine.map((el => {
+                            return (
+                                <div  key={el.id} className="m-1.5 p-1 bg-gray flex items-center bg-gray rounded-md">
+                                    <p>{el.title}</p>
+                                    <p onClick={()=>deleteOrigineSelected(el.id)} className='ml-2 cursor-pointer text-red hover:font-bold duration-300'>&#10005;</p>
+                                </div>
+                            )
+                        }))}
+                    </div>
+
                     <Select
                         options={tagsList.map((el, i) => ({
                             value: el.title,
@@ -290,7 +319,19 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
                         components={{ IndicatorSeparator: () => null }}
                     />
 
-                    <Select
+                     {/* tags list************************/}
+                     <div className="flex items-center flex-wrap">
+                        {recette.tags.map((el => {
+                            return (
+                                <div  key={el.id} className="m-1.5 p-1 bg-gray flex items-center bg-gray rounded-md">
+                                    <p>{el.title}</p>
+                                    <p onClick={()=>deleteOrigineSelected(el.id)} className='ml-2 cursor-pointer text-red hover:font-bold duration-300'>&#10005;</p>
+                                </div>
+                            )
+                        }))}
+                    </div>
+
+                    {/* <Select
                         options={ustensileList.map((el, i) => ({
                             value: el.title,
                             label: el.title,
@@ -305,9 +346,9 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
                         isClearable={true}
                         isMulti
                         components={{ IndicatorSeparator: () => null }}
-                    />
+                    /> */}
 
-                    <Ingredientform unitList={unitList} ingredientsList={ingredientsList} ingredientList={ingredientList} setIngredient={setIngredient} />
+                    <Ingredientform unitList={unitList} ingredientsList={recette.ingredients} ingredientList={ingredientList} setIngredient={setIngredient} />
 
                     <RecetteLieeForm ustensileList={ustensileList} lienRecetteList={lienRecetteList} setLienRecetteList={setLienRecetteList} />
 
@@ -346,24 +387,6 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
                         <UploadFile type="video" name="video" accept="video/mp4, video/webm, video/ogg, video/avi, video/mpeg" />
                     </div>
 
-                    {/* handle Date------------------------------------------------------------- */}
-                    <p className="font-semibold mb-2">Date de publication prévue:</p>
-                    <DatePicker date={date} setDate={setDate} name="date" />
-
-                    <Select
-                        options={hours}
-                        onChange={handleHour}
-                        value={heure}
-                        name="hour"
-                        placeholder={<div className="text-[#9CA3BC]">Heure</div>}
-                        className="w-72 md:w-96 mb-6"
-                        classNamePrefix="my-react-select"
-                        isClearable={true}
-                        isDisabled={date ? false : true}
-                        components={{
-                            IndicatorSeparator: () => null
-                        }}
-                    />
 
                     <FaitNutri />
 
@@ -404,7 +427,7 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
     )
 }
 
-export default FormData
+export default EditRecipe
 
 
 

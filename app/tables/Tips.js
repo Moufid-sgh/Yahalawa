@@ -13812,7 +13812,7 @@ export const tipsData = [
     author: "Super_admin",
     img: "tip_1720444999.webp",
     featured: false,
-    status: "Programmée",
+    status: "programmée",
     createdAt: "2024-05-31T06:57:18.000Z",
     updatedAt: "2024-07-08T12:29:16.000Z",
     is_paying: "T-Telecom",

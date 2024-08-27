@@ -5,6 +5,7 @@ import { CSS } from '@dnd-kit/utilities';
 
 
 const InstructionList = ({ id, titre, instruction, deleteInstruction }) => {
+  console.log(instruction)
 
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
 

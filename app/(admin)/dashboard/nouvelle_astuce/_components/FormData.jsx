@@ -119,7 +119,8 @@ const FormData = ({categoryList}) => {
                                 options={[
                                 { value: 'publiée', label: 'publiée' },
                                 { value: 'non publiée', label: 'non publiée' },
-                                { value: 'brouillon', label: 'brouillon' }
+                                { value: 'brouillon', label: 'brouillon' },
+                                { value: 'programmée', label: 'programmée' },
                                 ]}
                                 onChange={handlestatus}
                                 value={status}

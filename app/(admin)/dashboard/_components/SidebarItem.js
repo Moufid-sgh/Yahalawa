@@ -24,12 +24,12 @@ import pages from '@/public/dashboard/pages.svg'
                     href: '/dashboard/recettes'
                 },
                 {
-                    title: 'Catégories',
-                    href: '/dashboard/categories'
+                    title: 'Nouvelle recette',
+                    href: '/dashboard/nouvelle_recette'
                 },
                 {
-                    title: 'Difficultés',
-                    href: '/dashboard/difficultes'
+                    title: 'Catégories',
+                    href: '/dashboard/categories'
                 },
                 {
                     title: 'Ingrédients',
