@@ -26,17 +26,10 @@ export async function addTips(formData) {
     const img = formData.get('img')
     const video = formData.get('video')
 
-    if(IdI === "" || title === "" || description === "" || type === "" || status === "" || category === "") {
+    if(!IdI || !title || !description || !type || !status || category.length === 0) {
         return { error: "Veuillez remplir tous les champs requis." }
     }
 
-    // if (!img.type.startsWith('image/')) {
-    //     return { error: 'Veuillez télécharger un fichier image valide.' };
-    //   }
-
-    // if (!video.type.startsWith('video/')) {
-    //     return { error: 'Veuillez télécharger un fichier vidéo valide.' };
-    //   }
 
     //handle image
     const bytes = await img.arrayBuffer()
@@ -65,7 +58,6 @@ export async function addTips(formData) {
         // send data
         await prisma.tips.create({
             data: { 
-                // id: 3,
                 id_intern: IdI, 
                 title, 
                 description,

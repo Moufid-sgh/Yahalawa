@@ -8,7 +8,6 @@ import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSo
 
 const InstructionForm = ({ instructionList, setInstructionList }) => {
 
-console.log(instructionList)
     const [titre, setTitre] = useState('')
     const titreRef = useRef()
     const [instruction, setInstruction] = useState('')
@@ -71,25 +70,29 @@ console.log(instructionList)
 
     return (
         <section>
-            <p className="font-semibold mb-3">Instructions : <span className='text-red'>*</span></p>
+            <p className="font-semibold mb-3">Instructions : <span className='text-red text-lg'>*</span></p>
             <div className="flex flex-col justify-between ">
 
+            <div>
+            <p className="text-sm mb-1 text-[#94a3b8]">Titre :</p>
                 <input
                     type="text"
-                    placeholder="Titre"
                     name="titre"
                     className="w-[180px] rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
                     onChange={(e) => setTitre(e.target.value)}
                     ref={titreRef}
                 />
+                </div>
 
+                <div className="mt-6">
+                <p className="text-sm mb-1 text-[#94a3b8]">Instruction :</p>
                 <textarea
                     rows="4"
-                    className="p-2.5 my-3 w-full md:w-[30rem] resize-none rounded-md border border-gray outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
-                    placeholder="Instruction"
+                    className="p-2.5 mt-3 w-full md:w-[30rem] resize-none rounded-md border border-gray outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
                     onChange={(e) => setInstruction(e.target.value)}
                     ref={instructionRef}>
                 </textarea>
+                </div>
 
 
             </div>

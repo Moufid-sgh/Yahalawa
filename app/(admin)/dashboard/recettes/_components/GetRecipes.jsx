@@ -76,6 +76,7 @@ export const GetRecipes = async ({ query, page }) => {
     };
 
 
+
     return (
         <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray bg-white">
@@ -106,7 +107,7 @@ export const GetRecipes = async ({ query, page }) => {
                                     <td className="px-3 py-2 text-left">
                                         {el.imgPath
                                             ?
-                                            <Image src={`${el.imgPath}`} alt="img" width='80' height='80' />
+                                            <Image src={`${el.imgPath}`} alt="img" width='70' height='70' />
                                             :
                                             <span>&#128683;</span>
                                         }
@@ -126,8 +127,8 @@ export const GetRecipes = async ({ query, page }) => {
                                         {el.is_paying === 'T-Telecom' && <span className='bleu-badge text-white'>{el.is_paying}</span>}
                                     </td>
                                     <td className="px-4 py-2 text-left">{el.status}</td>
-                                    <td className="px-4 py-2 w-32 text-left space-x-3 flex items-center">
-                                        <Link href={`/dashboard/update_recette/${el.id}`} className='border-2 rounded-md p-1.5 hover:border-blue duration-300'>
+                                    <td className="px-4 py-2 w-32 text-left space-x-3 flex">
+                                        <Link href={`/dashboard/update_recette/${el.id}`} className='block w-[36px] border-2 rounded-md p-1.5 hover:border-blue duration-300'>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24"><path fill="black" d="m14.06 9l.94.94L5.92 19H5v-.92zm3.6-6c-.25 0-.51.1-.7.29l-1.83 1.83l3.75 3.75l1.83-1.83c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29m-3.6 3.19L3 17.25V21h3.75L17.81 9.94z" /></svg>
                                         </Link>
                                         <DeleteRecipes el={el} />

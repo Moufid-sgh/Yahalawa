@@ -3,10 +3,10 @@
 import { useRef, useState } from "react"
 import dynamic from 'next/dynamic'
 const Select = dynamic(() => import("react-select"), { ssr: false })
-const IngredientList  = dynamic(()=> import("./IngredientList"), {ssr: false})
+const IngredientList = dynamic(() => import("./IngredientList"), { ssr: false })
 
 
-const Ingredientform = ({unitList ,ingredientsList, ingredientList, setIngredient }) => {
+const Ingredientform = ({ unitList, ingredientsList, ingredientList, setIngredient }) => {
 
 
     const [ingredientTitle, setIngredientTitle] = useState()
@@ -49,20 +49,20 @@ const Ingredientform = ({unitList ,ingredientsList, ingredientList, setIngredien
         setUnite('')
     };
 
-        //delete ingredient--------------------------------------//
-        const deleteIngredient = (id) => {
-            const newList = ingredientList.filter(el =>el.id !== id)
-            setIngredient(newList)
-        }
+    //delete ingredient--------------------------------------//
+    const deleteIngredient = (id) => {
+        const newList = ingredientList.filter(el => el.id !== id)
+        setIngredient(newList)
+    }
 
 
     return (
         <section className="w-72 md:w-96">
-            <p className="font-semibold mb-3">Ingrédients : <span className='text-red'>*</span></p>
+            <p className="font-semibold mb-3">Ingrédients : <span className='text-red text-lg'>*</span></p>
+
+            <p className="text-sm mb-1 text-[#94a3b8]">Titre :</p>
             <input
                 type="text"
-                placeholder="Titre"
-                name="ingredientTitle"
                 className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
                 onChange={(e) => setIngredientTitle(e.target.value)}
                 ref={ingredientTitleRef}
@@ -70,54 +70,60 @@ const Ingredientform = ({unitList ,ingredientsList, ingredientList, setIngredien
 
             <div className="md:flex items-center justify-between flex-wrap">
 
-                <input
-                    type="number"
-                    placeholder="Quantité"
-                    name="quantite"
-                    className="w-[180px] rounded-md border border-gray py-2 px-4 my-8 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
-                    onChange={(e) => setQte(e.target.value)}
-                    ref={qteRef}
-                />
+                <div className="my-6">
+                    <p className="text-sm mb-1 text-[#94a3b8]">Quantité :</p>
+                    <input
+                        type="number"
+                        placeholder=""
+                        className="w-[180px] rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
+                        onChange={(e) => setQte(e.target.value)}
+                        ref={qteRef}
+                    />
+                </div>
 
-                <Select
-                    options={unitList.map((el, i) => ({
-                        value: el.title,
-                        label: el.title,
-                        id: i
-                    }))}
-                    onChange={handleUnite}
-                    value={unite}
-                    name="unite"
-                    placeholder={<div className="text-[#9CA3BC]">Unité</div>}
-                    className="w-[180px] my-8"
-                    classNamePrefix="my-react-select"
-                    isClearable={true}
-                    components={{ IndicatorSeparator: () => null }}
-                />
+                <div className="my-6">
+                    <p className="text-sm mb-1 text-[#94a3b8]">Unité :</p>
+                    <Select
+                        options={unitList.map((el, i) => ({
+                            value: el.title,
+                            label: el.title,
+                            id: i
+                        }))}
+                        onChange={handleUnite}
+                        value={unite}
+                        placeholder=""
+                        className="w-[180px]"
+                        classNamePrefix="my-react-select"
+                        isClearable={true}
+                        components={{ IndicatorSeparator: () => null }}
+                    />
+                </div>
 
-                <Select
-                    options={ingredientsList.map((el, i) => ({
-                        value: el.title,
-                        label: el.title,
-                        id: i
-                    }))}
-                    onChange={handleIngredientName}
-                    value={ingredientName}
-                    name="ingredient"
-                    placeholder={<div className="text-[#9CA3BC]">Ingredient</div>}
-                    className="w-72 md:w-96 mb-3"
-                    classNamePrefix="my-react-select"
-                    isClearable={true}
-                    components={{ IndicatorSeparator: () => null }}
-                />
+                <div>
+                    <p className="text-sm mb-1 text-[#94a3b8]">Ingredient :</p>
+                    <Select
+                        options={ingredientsList.map((el, i) => ({
+                            value: el.title,
+                            label: el.title,
+                            id: i
+                        }))}
+                        onChange={handleIngredientName}
+                        value={ingredientName}
+                        placeholder=""
+                        className="w-72 md:w-96"
+                        classNamePrefix="my-react-select"
+                        isClearable={true}
+                        components={{ IndicatorSeparator: () => null }}
+                    />
+                </div>
 
             </div>
 
-            <button onClick={handleIngredient} className="blue-btn text-sm my-3">
+            <button onClick={handleIngredient} className="blue-btn text-sm mt-4">
                 Créer ingrédient
             </button>
 
-            {ingredientList.length > 0 && <IngredientList ingredient={ingredientList} deleteIngredient={deleteIngredient}/>}
+            {ingredientList.length > 0 && <IngredientList ingredient={ingredientList} deleteIngredient={deleteIngredient} />}
         </section>
     )
 }

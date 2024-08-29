@@ -41,6 +41,7 @@ model Recipes {
   steps         RecipeSteps[]
   origine       OrigineRecipe[]
   tags          TagsRecipe[]
+  ustensiles    UstensilesRecipe[]
 
   scheduled_publish_date DateTime?
   createdAt              DateTime  @default(now())
@@ -59,7 +60,6 @@ model RecipeSteps {
   title       String?
   description String?  @db.Text
   step        Int?
-  is_default  String?
   Recipes     Recipes? @relation(fields: [recipesId], references: [id])
   recipesId   Int?
 }
@@ -94,6 +94,13 @@ model OrigineRecipe {
   id        Int      @id @default(autoincrement())
   title     String
   img       String
+  Recipes   Recipes? @relation(fields: [recipesId], references: [id])
+  recipesId Int?
+}
+
+model UstensilesRecipe {
+  id        Int      @id @default(autoincrement())
+  title     String?
   Recipes   Recipes? @relation(fields: [recipesId], references: [id])
   recipesId Int?
 }

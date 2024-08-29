@@ -12,7 +12,6 @@ const Page = async () => {
   const totalTips = await prisma.tips.count();
   const totalRecipes = await prisma.recipes.count();
   const totalIngredients = await prisma.ingredients.count();
-  console.log(recette)
 
   const cards = [
     {title: 'Recettes', number: totalRecipes, icon: recette},

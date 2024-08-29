@@ -112,7 +112,7 @@ export const GetTips = async ({ query, page }) => {
                   <td className="px-3 py-2 text-left">
                     {el.img
                       ?
-                      <Image src={`/tips_img/${el.img}`} alt="img" width='80' height='80' />
+                      <Image src={`${el.img}`} alt="img" width='100' height='100' />
                       :
                       <span>&#128683;</span>
                     }

@@ -75,7 +75,7 @@ const EditRecipe = ({ recette, origineList, categoryList, ustensileList, unitLis
         formData.append('ingredientList', JSON.stringify(ingredientList));
         formData.append('lienRecetteList', JSON.stringify(lienRecetteList));
         formData.append('instructionList', JSON.stringify(instructionList));
-    
+
         const result = await addRecipe(formData);
 
         if (formRef.current) {
@@ -90,49 +90,45 @@ const EditRecipe = ({ recette, origineList, categoryList, ustensileList, unitLis
 
 
 
-
     return (
 
         <form action={handleAction} ref={formRef} className="flex flex-col w-full bg-white rounded-md p-8">
 
             <section className="flex items-start space-x-40">
-                <div className="flex flex-col space-y-8 w-72 md:w-96">
+                <div className="flex flex-col space-y-6 w-72 md:w-96">
                     <div className='relative'>
-                        <p className='text-red absolute bottom-9 left-1'>*</p>
+                        <p className="text-sm mb-1 text-[#94a3b8]">IdI : <span className='text-red text-lg'>*</span></p>
                         <input
                             type="text"
-                            placeholder="IdI"
                             name="IdI"
                             className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
-                        defaultValue={recette.id_intern}
-                       />
+                            defaultValue={recette.id_intern}
+                        />
                     </div>
 
                     <div className='relative'>
-                        <p className='text-red absolute bottom-9 left-1'>*</p>
+                        <p className="text-sm mb-1 text-[#94a3b8]">Titre : <span className='text-red text-lg'>*</span></p>
                         <input
                             type="text"
-                            placeholder="Titre"
                             name="title"
                             className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
                             defaultValue={recette.title}
                         />
                     </div>
 
-                    <div className='relative'>
-                        <p className='text-red absolute bottom-[117px] left-1'>*</p>
+                    <div>
+                        <p className="text-sm mb-1 text-[#94a3b8]">Description : <span className='text-red text-lg'>*</span></p>
                         <textarea
                             rows="4"
                             className="p-2.5 w-72 md:w-96 resize-none rounded-md border border-gray outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
-                            placeholder="Description"
                             name='description'
                             defaultValue={recette.description}
-                            >
+                        >
                         </textarea>
                     </div>
 
-                    <div className='relative'>
-                        <p className='text-red absolute bottom-8 left-1'>*</p>
+                    <div>
+                        <p className="text-sm mb-1 text-[#94a3b8]">Type : <span className='text-red text-lg'>*</span></p>
                         <Select
                             options={[{ value: 'Free', label: 'Free' },
                             { value: 'T-Telecom', label: 'T-Telecom' }
@@ -141,18 +137,16 @@ const EditRecipe = ({ recette, origineList, categoryList, ustensileList, unitLis
                             value={type}
                             defaultInputValue={recette.is_paying}
                             name="type"
-                            placeholder={<div className="text-[#9CA3BC]">Type</div>}
+                            placeholder=""
                             className="w-72 md:w-96"
                             classNamePrefix="my-react-select"
                             isClearable={true}
-                            components={{
-                                IndicatorSeparator: () => null
-                            }}
+                            components={{ IndicatorSeparator: () => null }}
                         />
                     </div>
 
-                    <div className='relative'>
-                        <p className='text-red absolute bottom-8 left-1'>*</p>
+                    <div>
+                        <p className="text-sm mb-1 text-[#94a3b8]">Statut : <span className='text-red text-lg'>*</span></p>
                         <Select
                             options={[
                                 { value: 'publiée', label: 'publiée' },
@@ -163,18 +157,16 @@ const EditRecipe = ({ recette, origineList, categoryList, ustensileList, unitLis
                             value={status}
                             defaultInputValue={recette.status}
                             name="status"
-                            placeholder={<div className="text-[#9CA3BC]">Statut</div>}
+                            placeholder=""
                             className="w-72 md:w-96"
                             classNamePrefix="my-react-select"
                             isClearable={true}
-                            components={{
-                                IndicatorSeparator: () => null
-                            }}
+                            components={{ IndicatorSeparator: () => null }}
                         />
                     </div>
 
-                    <div className='relative'>
-                        <p className='text-red absolute bottom-8 left-1'>*</p>
+                    <div>
+                        <p className="text-sm mb-1 text-[#94a3b8]">Categorie : <span className='text-red text-lg'>*</span></p>
                         <Select
                             options={categoryList.map((el, i) => ({
                                 value: el.title,
@@ -184,64 +176,58 @@ const EditRecipe = ({ recette, origineList, categoryList, ustensileList, unitLis
                             onChange={handleCategorie}
                             value={categorie}
                             name="category"
-                            placeholder={<div className="text-[#9CA3BC]">Categorie</div>}
+                            placeholder=""
                             className="w-72 md:w-96"
                             classNamePrefix="my-react-select"
                             isClearable={true}
                             isMulti
-                            components={{
-                                IndicatorSeparator: () => null
-                            }}
+                            components={{ IndicatorSeparator: () => null }}
                         />
                     </div>
 
-                     {/* categpry list************************/}
-                     <div className="flex items-center flex-wrap">
+                    {/* categpry list************************/}
+                    <div className="flex items-center flex-wrap">
                         {recette.category.map((cat => {
                             return (
-                                <div  key={cat.id} className="m-1.5 p-1 bg-gray flex items-center bg-gray rounded-md">
+                                <div key={cat.id} className="m-1.5 p-1 bg-gray flex items-center bg-gray rounded-md">
                                     <p>{cat.title}</p>
-                                    <p onClick={()=>deleteCategorySelected(cat.id)} className='ml-2 cursor-pointer text-red hover:font-bold duration-300'>&#10005;</p>
+                                    <p onClick={() => deleteCategorySelected(cat.id)} className='ml-2 cursor-pointer text-red hover:font-bold duration-300'>&#10005;</p>
                                 </div>
                             )
                         }))}
                     </div>
 
-                    <div className='relative'>
-                        <p className='text-red absolute bottom-8 left-1'>*</p>
+                    <div>
+                        <p className="text-sm mb-1 text-[#94a3b8]">Difficulté : <span className='text-red text-lg'>*</span></p>
                         <Select
                             options={difficulté}
                             onChange={handleDifficulty}
                             value={difficulty}
                             defaultInputValue={recette.difficulty}
                             name="difficulty"
-                            placeholder={<div className="text-[#9CA3BC]">Difficulté</div>}
+                            placeholder=""
                             className="w-72 md:w-96"
                             classNamePrefix="my-react-select"
                             isClearable={true}
-                            components={{
-                                IndicatorSeparator: () => null
-                            }}
+                            components={{ IndicatorSeparator: () => null }}
                         />
                     </div>
 
                     <div className='flex items-center justify-between'>
-                        <div className='relative'>
-                            <p className='text-red absolute bottom-8 left-1'>*</p>
+                        <div>
+                            <p className="text-sm mb-1 text-[#94a3b8]">Temps de cuisson : <span className='text-red text-lg'>*</span></p>
                             <input
                                 type="number"
-                                placeholder="Temps de cuisson"
                                 name="cooking_time"
                                 className="w-[180px] rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
                                 defaultValue={recette.cooking_time}
                             />
                         </div>
 
-                        <div className='relative'>
-                            <p className='text-red absolute bottom-8 left-1'>*</p>
+                        <div>
+                            <p className="text-sm mb-1 text-[#94a3b8]">Portion <span className='text-red text-lg'>*</span></p>
                             <input
                                 type="number"
-                                placeholder="Nombre de personnes"
                                 name="nbr_serves"
                                 className="w-[180px] rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
                                 defaultValue={recette.nbr_serves}
@@ -251,77 +237,113 @@ const EditRecipe = ({ recette, origineList, categoryList, ustensileList, unitLis
 
                     <div className='flex items-center justify-between'>
                         <div className='relative'>
-                            <p className='text-red absolute bottom-8 left-1'>*</p>
+                            <p className="text-sm mb-1 text-[#94a3b8]">Temperature :</p>
                             <input
                                 type="number"
-                                placeholder="Temperature"
                                 name="cooking_temperature"
                                 className="w-[180px] rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
                                 defaultValue={recette.cooking_temperature}
                             />
                         </div>
 
-                        <div className='relative'>
-                            <p className='text-red absolute bottom-8 left-1'>*</p>
+                        <div>
+                            <p className="text-sm mb-1 text-[#94a3b8]">Temps de preparation :</p>
                             <input
                                 type="number"
-                                placeholder="Temps de preparation"
                                 name="preparation_time"
                                 className="w-[180px] rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
                                 defaultValue={recette.preparation_time}
-                           />
+                            />
                         </div>
                     </div>
 
-                    <Select
-                        options={origineList.map((el, i) => ({
-                            value: el.title,
-                            label: el.title,
-                            id: i
-                        }))}
-                        onChange={handleOrigine}
-                        value={origine}
-                        name="origine"
-                        placeholder={<div className="text-[#9CA3BC]">Origine</div>}
-                        className="w-72 md:w-96"
-                        classNamePrefix="my-react-select"
-                        isClearable={true}
-                        isMulti
-                        components={{ IndicatorSeparator: () => null }}
-                    />
+                    <div>
+                        <p className="text-sm mb-1 text-[#94a3b8]">Origine :</p>
+                        <Select
+                            options={origineList.map((el, i) => ({
+                                value: el.title,
+                                label: el.title,
+                                id: i
+                            }))}
+                            onChange={handleOrigine}
+                            value={origine}
+                            name="origine"
+                            placeholder=""
+                            className="w-72 md:w-96"
+                            classNamePrefix="my-react-select"
+                            isClearable={true}
+                            isMulti
+                            components={{ IndicatorSeparator: () => null }}
+                        />
+                    </div>
 
                     {/* origine list************************/}
                     {recette.origine.length > 0 && <div className="flex items-center flex-wrap">
                         {recette.origine.map((el => {
                             return (
-                                <div  key={el.id} className="m-1.5 p-1 bg-gray flex items-center bg-gray rounded-md">
+                                <div key={el.id} className="m-1.5 p-1 bg-gray flex items-center bg-gray rounded-md">
                                     <p>{el.title}</p>
-                                    <p onClick={()=>deleteOrigineSelected(el.id)} className='ml-2 cursor-pointer text-red hover:font-bold duration-300'>&#10005;</p>
+                                    <p onClick={() => deleteOrigineSelected(el.id)} className='ml-2 cursor-pointer text-red hover:font-bold duration-300'>&#10005;</p>
                                 </div>
                             )
                         }))}
                     </div>}
 
-                    <Select
-                        options={tagsList.map((el, i) => ({
-                            value: el.title,
-                            label: el.title,
-                            id: i
-                        }))}
-                        onChange={handleTags}
-                        value={tag}
-                        name="tags"
-                        placeholder={<div className="text-[#9CA3BC]">Tags</div>}
-                        className="w-72 md:w-96"
-                        classNamePrefix="my-react-select"
-                        isClearable={true}
-                        isMulti
-                        components={{ IndicatorSeparator: () => null }}
-                    />
+                    <div>
+                        <p className="text-sm mb-1 text-[#94a3b8]">Tags :</p>
+                        <Select
+                            options={tagsList.map((el, i) => ({
+                                value: el.title,
+                                label: el.title,
+                                id: i
+                            }))}
+                            onChange={handleTags}
+                            value={tag}
+                            name="tags"
+                            placeholder=""
+                            className="w-72 md:w-96"
+                            classNamePrefix="my-react-select"
+                            isClearable={true}
+                            isMulti
+                            components={{ IndicatorSeparator: () => null }}
+                        />
+                    </div>
 
-                     {/* tags list************************/}
-                     {recette.tags.length > 0 && <div className="flex items-center flex-wrap">
+                    {/* tags list************************/}
+                    {recette.tags.length > 0 && <div className="flex items-center flex-wrap">
                         {recette.tags.map((el => {
+                            return (
+                                <div key={el.id} className="m-1.5 p-1 bg-gray flex items-center bg-gray rounded-md">
+                                    <p>{el.title}</p>
+                                    <p onClick={() => deleteOrigineSelected(el.id)} className='ml-2 cursor-pointer text-red hover:font-bold duration-300'>&#10005;</p>
+                                </div>
+                            )
+                        }))}
+                    </div>}
+
+                    <div>
+                        <p className="text-sm mb-1 text-[#94a3b8]">Ustensile :</p>
+                        <Select
+                            options={ustensileList.map((el, i) => ({
+                                value: el.title,
+                                label: el.title,
+                                id: i
+                            }))}
+                            onChange={handleUstensile}
+                            value={ustensile}
+                            name="tags"
+                            placeholder=""
+                            className="w-72 md:w-96"
+                            classNamePrefix="my-react-select"
+                            isClearable={true}
+                            isMulti
+                            components={{ IndicatorSeparator: () => null }}
+                        />
+                    </div>
+
+                    {/* ustensile list************************/}
+                    {/* {recette.ustensiles.length > 0 && <div className="flex items-center flex-wrap">
+                        {recette.ustensiles.map((el => {
                             return (
                                 <div  key={el.id} className="m-1.5 p-1 bg-gray flex items-center bg-gray rounded-md">
                                     <p>{el.title}</p>
@@ -329,24 +351,7 @@ const EditRecipe = ({ recette, origineList, categoryList, ustensileList, unitLis
                                 </div>
                             )
                         }))}
-                    </div>}
-
-                    <Select
-                        options={ustensileList.map((el, i) => ({
-                            value: el.title,
-                            label: el.title,
-                            id: i
-                        }))}
-                        onChange={handleUstensile}
-                        value={ustensile}
-                        name="tags"
-                        placeholder={<div className="text-[#9CA3BC]">Ustensile</div>}
-                        className="w-72 md:w-96"
-                        classNamePrefix="my-react-select"
-                        isClearable={true}
-                        isMulti
-                        components={{ IndicatorSeparator: () => null }}
-                    />
+                    </div>} */}
 
                     <Ingredientform unitList={unitList} allIngredients={allIngredients} ingredientList={recette.ingredients} setIngredient={setIngredient} />
 
@@ -358,55 +363,68 @@ const EditRecipe = ({ recette, origineList, categoryList, ustensileList, unitLis
                 {/* second part---------------------------------------------------------------------------- */}
                 <div className="flex flex-col space-y-8 w-72 md:w-96">
 
-                    <InstructionForm instructionList={recette.steps} setInstructionList={setInstructionList} />
-
-                    <textarea
-                        rows="4"
-                        className="p-2.5 w-72 md:w-96 resize-none rounded-md border border-gray outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
-                        placeholder="Note"
-                        name='note'
-                        defaultValue={recette.note}
-                        >
-                    </textarea>
-
-                    <input
-                        type="number"
-                        placeholder="Likes"
-                        name="likes"
-                        className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
-                    />
-
-                    <input
-                        type="text"
-                        placeholder="Link youytube"
-                        name="video_link"
-                        className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
-                    />
-
-                    <p className="font-semibold">Upload media:</p>
-                    <div className="md:flex items-center justify-between flex-wrap mb-6 mt-2">
-                        <UploadFile type="image" name="img" accept="image/jpeg, image/png, image/webp" />
-                        <UploadFile type="video" name="video" accept="video/mp4, video/webm, video/ogg, video/avi, video/mpeg" />
+                    <div>
+                        <p className="font-semibold">Upload media:</p>
+                        <div className="md:flex items-center justify-between flex-wrap mb-6 mt-2">
+                            <UploadFile type="image" name="img" accept="image/jpeg, image/png, image/webp" />
+                            <UploadFile type="video" name="video" accept="video/mp4, video/webm, video/ogg, video/avi, video/mpeg" />
+                        </div>
                     </div>
 
+                    <InstructionForm instructionList={recette.steps} setInstructionList={setInstructionList} />
+
+                    <div className='fixed right-6 shadow-lg rounded-md p-2'>
+                        <textarea
+                            rows="4"
+                            className="p-2.5 w-40 h-48 resize-none rounded-md border border-gray outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
+                            placeholder="Note"
+                            name='note'
+                            defaultValue={recette.note}
+                        >
+                        </textarea>
+                    </div>
+
+                    <div>
+                        <p className="text-sm mb-1 text-[#94a3b8]">Likes :</p>
+                        <input
+                            type="number"
+                            name="likes"
+                            className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
+                        />
+                    </div>
+
+                    <div>
+                        <p className="text-sm mb-1 text-[#94a3b8]">Link youytube :</p>
+                        <input
+                            type="text"
+                            name="video_link"
+                            className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
+                        />
+                    </div>
 
                     <FaitNutri />
 
                     {/*Référencement Google----------------------------------------------------------- */}
-                    <p className="font-semibold mb-2">Référencement Google :</p>
+                    <div>
+                        <p className="font-semibold mb-2 mt-6">Référencement Google :</p>
 
-                    <input
-                        placeholder="Titre"
-                        name="seoTitle"
-                        className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 mb-6 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
-                    />
+                        <div>
+                            <p className="text-sm mb-1 text-[#94a3b8]">Titre :</p>
+                            <input
+                                name="seoTitle"
+                                className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
+                            />
+                        </div>
 
-                    <textarea
-                        rows="4"
-                        className="p-2.5 w-72 md:w-96 resize-none rounded-md border border-gray outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
-                        placeholder="Description"
-                        name='seoDescription'>
-                    </textarea>
+                        <div className='mt-6'>
+                            <p className="text-sm mb-1 text-[#94a3b8]">Description :</p>
+                            <textarea
+                                rows="4"
+                                className="p-2.5 w-72 md:w-96 resize-none rounded-md border border-gray outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
+                                name='seoDescription'>
+                            </textarea>
+                        </div>
+                    </div>
                 </div>
             </section>
 

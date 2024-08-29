@@ -25,9 +25,9 @@ export default function Home() {
 
     try {
 
-    const result = await prisma.recipes.createMany({ data : recipes})
+    // const result = await prisma.tips.createMany({ data : categoryRecipesSelected})
 
-    // const result = await prisma.recipes.deleteMany({})
+    // const result = await prisma.tips.deleteMany({})
 
 
 

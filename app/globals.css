@@ -68,7 +68,7 @@ body,
   background-color: #13ce66; 
   border: 1px solid #13ce66; 
   border-radius: 6px;
-  padding: 8px 12px;
+  padding: 10px 16px;
   color: #ffffff; 
   transition: background-color 0.3s, color 0.3s;
 }

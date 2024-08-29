@@ -30,7 +30,6 @@ const UpdateRecette = async ({ params }) => {
   const getTags = await prisma.tags.findMany()
 
 
-console.log(recette)
 
   return (
     <main className='ml-12 mt-8'>

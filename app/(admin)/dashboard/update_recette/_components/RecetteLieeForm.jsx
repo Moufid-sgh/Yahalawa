@@ -42,6 +42,9 @@ const RecetteLieeForm = ({ustensileList, lienRecetteList, setLienRecetteList}) =
         <section>
             <p className="font-semibold mb-3">Recette liées :</p>
             <div className="md:flex items-center justify-between flex-wrap">
+
+            <div>
+            <p className="text-sm mb-1 text-[#94a3b8]">Lien recette :</p>
                 <Select
                     options={ustensileList.map((el, i) => ({
                         value: el.title,
@@ -51,24 +54,27 @@ const RecetteLieeForm = ({ustensileList, lienRecetteList, setLienRecetteList}) =
                     onChange={handleLink}
                     value={lienRecette}
                     name="tags"
-                    placeholder={<div className="text-[#9CA3BC]">Lien recette</div>}
+                    placeholder=""
                     className="w-72 md:w-96"
                     classNamePrefix="my-react-select"
                     isClearable={true}
                     components={{ IndicatorSeparator: () => null }}
                 />
+                </div>
 
+                <div className='mt-6'>
+                <p className="text-sm mb-1 text-[#94a3b8]">Nom :</p>
                  <input
                         type="text"
-                        placeholder="Nom"
                         name="nom"
-                        className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 my-8 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
+                        className="w-72 md:w-96 rounded-md border border-gray py-2 px-4  outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
                         onChange={(e) => setName(e.target.value)}
                         ref={nameRef}
                    />
+                   </div>
             </div>
 
-            <button onClick={handleRecipeLink} className="blue-btn text-sm">
+            <button onClick={handleRecipeLink} className="blue-btn text-sm mt-4">
                 Créer lien
             </button>
 
