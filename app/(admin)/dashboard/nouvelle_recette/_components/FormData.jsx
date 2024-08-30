@@ -2,16 +2,18 @@
 
 import dynamic from 'next/dynamic'
 const Select = dynamic(() => import("react-select"), { ssr: false })
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useFormStatus } from "react-dom"
 import DatePicker from './DatePicker'
-import { difficulté, hour } from '../../_components/Data'
+import { difficulté } from '../../_components/Data'
 import UploadFile from '../../_components/UploadFile'
 import Ingredientform from './Ingredientform'
 import RecetteLieeForm from './RecetteLieeForm'
 import InstructionForm from './InstructionForm'
 import FaitNutri from './FaitNutri'
 import { addRecipe } from '@/app/actions/recipe-action'
+import { toast } from "sonner"
+
 
 
 const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList, ingredientsList }) => {
@@ -61,14 +63,11 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
     };
 
 
-
     //send data
-    const [error, setError] = useState('')
     const [ingredientList, setIngredient] = useState([])
     const [lienRecetteList, setLienRecetteList] = useState([])
     const [instructionList, setInstructionList] = useState([])
 
-    const formRef = useRef(null)
 
     const handleAction = async (formData) => {
 
@@ -78,33 +77,47 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
 
         const result = await addRecipe(formData);
 
-        if (formRef.current) {
-            formRef.current.reset();
-        }
-
         if (result?.error) {
-            setError(result.error)
-        }
+            toast.error(`${result?.error}`)    
+          }
+
     };
 
     //planning post
     const [date, setDate] = useState('')
-    const [heure, setHeure] = useState([])
-    const hours = hour()
 
-    const handleHour = (option) => {
-        setHeure(option);
-    };
 
 
     return (
 
-        <form action={handleAction} ref={formRef} className="flex flex-col w-full bg-white rounded-md p-8">
+        <form action={handleAction} className="flex flex-col w-full bg-white rounded-md p-8">
 
             <section className="flex items-start space-x-40">
+
                 <div className="flex flex-col space-y-6 w-72 md:w-96">
+
                     <div>
-                        <p className="text-sm mb-1 text-[#94a3b8]">IdI <span className='text-red text-lg'>*</span></p>
+                        <p className="text-sm mb-1 text-[#94a3b8]">Statut : <span className='text-red text-lg'>*</span></p>
+                        <Select
+                            options={[
+                                { value: 'publiée', label: 'publiée' },
+                                { value: 'non publiée', label: 'non publiée' },
+                                { value: 'brouillon', label: 'brouillon' },
+                                { value: 'programée', label: 'programée' },
+                            ]}
+                            onChange={handlestatus}
+                            value={status}
+                            name="status"
+                            placeholder=""
+                            className="w-72 md:w-96"
+                            classNamePrefix="my-react-select"
+                            isClearable={true}
+                            components={{ IndicatorSeparator: () => null }}
+                        />
+                    </div>
+
+                    <div>
+                        <p className="text-sm mb-1 text-[#94a3b8]">IdI : <span className='text-red text-lg'>*</span></p>
                         <input
                             type="text"
                             name="IdI"
@@ -113,7 +126,7 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
                     </div>
 
                     <div>
-                        <p className="text-sm mb-1 text-[#94a3b8]">Titre <span className='text-red text-lg'>*</span></p>
+                        <p className="text-sm mb-1 text-[#94a3b8]">Titre : <span className='text-red text-lg'>*</span></p>
                         <input
                             type="text"
                             name="title"
@@ -122,7 +135,7 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
                     </div>
 
                     <div>
-                        <p className="text-sm mb-1 text-[#94a3b8]">Description <span className='text-red text-lg'>*</span></p>
+                        <p className="text-sm mb-1 text-[#94a3b8]">Description : <span className='text-red text-lg'>*</span></p>
                         <textarea
                             rows="4"
                             className="p-2.5 w-72 md:w-96 resize-none rounded-md border border-gray outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
@@ -131,7 +144,7 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
                     </div>
 
                     <div>
-                        <p className="text-sm mb-1 text-[#94a3b8]">Type <span className='text-red text-lg'>*</span></p>
+                        <p className="text-sm mb-1 text-[#94a3b8]">Type : <span className='text-red text-lg'>*</span></p>
                         <Select
                             options={[{ value: 'Free', label: 'Free' },
                             { value: 'T-Telecom', label: 'T-Telecom' }
@@ -147,27 +160,9 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
                         />
                     </div>
 
-                    <div className='relative'>
-                        <p className="text-sm mb-1 text-[#94a3b8]">Statut <span className='text-red text-lg'>*</span></p>
-                        <Select
-                            options={[
-                                { value: 'publiée', label: 'publiée' },
-                                { value: 'non publiée', label: 'non publiée' },
-                                { value: 'brouillon', label: 'brouillon' }
-                            ]}
-                            onChange={handlestatus}
-                            value={status}
-                            name="status"
-                            placeholder=""
-                            className="w-72 md:w-96"
-                            classNamePrefix="my-react-select"
-                            isClearable={true}
-                            components={{ IndicatorSeparator: () => null }}
-                        />
-                    </div>
 
-                    <div className='relative'>
-                        <p className="text-sm mb-1 text-[#94a3b8]">Categorie <span className='text-red text-lg'>*</span></p>
+                    <div>
+                        <p className="text-sm mb-1 text-[#94a3b8]">Categorie : <span className='text-red text-lg'>*</span></p>
                         <Select
                             options={categoryList.map((el, i) => ({
                                 value: el.title,
@@ -185,9 +180,31 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
                             components={{ IndicatorSeparator: () => null }}
                         />
                     </div>
+                    
+
+                    <div>
+                        <p className="text-sm mb-1 text-[#94a3b8]">Tags : <span className='text-red text-lg'>*</span></p>
+                        <Select
+                            options={tagsList.map((el, i) => ({
+                                value: el.title,
+                                label: el.title,
+                                id: i
+                            }))}
+                            onChange={handleTags}
+                            value={tag}
+                            name="tags"
+                            placeholder=""
+                            className="w-72 md:w-96"
+                            classNamePrefix="my-react-select"
+                            isClearable={true}
+                            isMulti
+                            components={{ IndicatorSeparator: () => null }}
+                        />
+                    </div>
+
 
                     <div className='relative'>
-                        <p className="text-sm mb-1 text-[#94a3b8]">Difficulté <span className='text-red text-lg'>*</span></p>
+                        <p className="text-sm mb-1 text-[#94a3b8]">Difficulté : <span className='text-red text-lg'>*</span></p>
                         <Select
                             options={difficulté}
                             onChange={handleDifficulty}
@@ -201,9 +218,10 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
                         />
                     </div>
 
+
                     <div className='flex items-center justify-between'>
                         <div >
-                            <p className="text-sm mb-1 text-[#94a3b8]">Temps de cuisson <span className='text-red text-lg'>*</span></p>
+                            <p className="text-sm mb-1 text-[#94a3b8]">Temps de cuisson : <span className='text-red text-lg'>*</span></p>
                             <input
                                 type="number"
                                 name="cooking_time"
@@ -211,8 +229,9 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
                             />
                         </div>
 
+
                         <div>
-                            <p className="text-sm mb-1 text-[#94a3b8]">Portion <span className='text-red text-lg'>*</span></p>
+                            <p className="text-sm mb-1 text-[#94a3b8]">Portion : <span className='text-red text-lg'>*</span></p>
                             <input
                                 type="number"
                                 name="nbr_serves"
@@ -220,6 +239,7 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
                             />
                         </div>
                     </div>
+
 
                     <div className='flex items-center justify-between'>
                         <div>
@@ -231,8 +251,9 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
                             />
                         </div>
 
+
                         <div className='relative'>
-                            <p className="text-sm mb-1 text-[#94a3b8]">Temps de preparation:</p>
+                            <p className="text-sm mb-1 text-[#94a3b8]">Temps de preparation :</p>
                             <input
                                 type="number"
                                 name="preparation_time"
@@ -240,6 +261,7 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
                             />
                         </div>
                     </div>
+
 
                     <div>
                         <p className="text-sm mb-1 text-[#94a3b8]">Origine :</p>
@@ -261,25 +283,6 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
                         />
                     </div>
 
-                    <div>
-                        <p className="text-sm mb-1 text-[#94a3b8]">Tags :</p>
-                        <Select
-                            options={tagsList.map((el, i) => ({
-                                value: el.title,
-                                label: el.title,
-                                id: i
-                            }))}
-                            onChange={handleTags}
-                            value={tag}
-                            name="tags"
-                            placeholder=""
-                            className="w-72 md:w-96"
-                            classNamePrefix="my-react-select"
-                            isClearable={true}
-                            isMulti
-                            components={{ IndicatorSeparator: () => null }}
-                        />
-                    </div>
 
                     <div>
                         <p className="text-sm mb-1 text-[#94a3b8]">Ustensile :</p>
@@ -321,12 +324,13 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
 
                     <InstructionForm instructionList={instructionList} setInstructionList={setInstructionList} />
 
-                    <div className='fixed right-6 shadow-lg rounded-md p-2'>
-                        <p className="text-sm mb-1">Note :</p>
+                    <div className='fixed right-6 shadow-lg rounded-md p-2 border-2 border-dashed'>
+                        <p className="text-sm underline">Note :</p>
                         <textarea
                             rows="4"
-                            className="p-2.5 w-40 h-48 resize-none rounded-md border border-gray outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
-                            name='note'>
+                            className="p-2.5 w-48 h-48 resize-none rounded-md  outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
+                            name='note'
+                        >
                         </textarea>
                     </div>
 
@@ -354,7 +358,7 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
                         <p className="font-semibold mb-2 mt-6">Date de publication prévue:</p>
                         <DatePicker date={date} setDate={setDate} name="date" />
                     </div>
-                   
+
 
                     <FaitNutri />
 
@@ -394,8 +398,6 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
                         'Sauvgarder'
                     }
                 </button>
-
-                {error && <p className="text-sm text-red mt-2">{error}</p>}
             </div>
         </form>
     )

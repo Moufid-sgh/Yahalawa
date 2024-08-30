@@ -197,6 +197,40 @@ const EditRecipe = ({ recette, origineList, categoryList, ustensileList, unitLis
                         }))}
                     </div>
 
+
+                    <div>
+                        <p className="text-sm mb-1 text-[#94a3b8]">Tags : <span className='text-red text-lg'>*</span></p>
+                        <Select
+                            options={tagsList.map((el, i) => ({
+                                value: el.title,
+                                label: el.title,
+                                id: i
+                            }))}
+                            onChange={handleTags}
+                            value={tag}
+                            name="tags"
+                            placeholder=""
+                            className="w-72 md:w-96"
+                            classNamePrefix="my-react-select"
+                            isClearable={true}
+                            isMulti
+                            components={{ IndicatorSeparator: () => null }}
+                        />
+                    </div>
+
+                    {/* tags list************************/}
+                    {recette.tags.length > 0 && <div className="flex items-center flex-wrap">
+                        {recette.tags.map((el => {
+                            return (
+                                <div key={el.id} className="m-1.5 p-1 bg-gray flex items-center bg-gray rounded-md">
+                                    <p>{el.title}</p>
+                                    <p onClick={() => deleteOrigineSelected(el.id)} className='ml-2 cursor-pointer text-red hover:font-bold duration-300'>&#10005;</p>
+                                </div>
+                            )
+                        }))}
+                    </div>}
+
+
                     <div>
                         <p className="text-sm mb-1 text-[#94a3b8]">Difficulté : <span className='text-red text-lg'>*</span></p>
                         <Select
@@ -225,7 +259,7 @@ const EditRecipe = ({ recette, origineList, categoryList, ustensileList, unitLis
                         </div>
 
                         <div>
-                            <p className="text-sm mb-1 text-[#94a3b8]">Portion <span className='text-red text-lg'>*</span></p>
+                            <p className="text-sm mb-1 text-[#94a3b8]">Portion : <span className='text-red text-lg'>*</span></p>
                             <input
                                 type="number"
                                 name="nbr_serves"
@@ -289,37 +323,7 @@ const EditRecipe = ({ recette, origineList, categoryList, ustensileList, unitLis
                         }))}
                     </div>}
 
-                    <div>
-                        <p className="text-sm mb-1 text-[#94a3b8]">Tags :</p>
-                        <Select
-                            options={tagsList.map((el, i) => ({
-                                value: el.title,
-                                label: el.title,
-                                id: i
-                            }))}
-                            onChange={handleTags}
-                            value={tag}
-                            name="tags"
-                            placeholder=""
-                            className="w-72 md:w-96"
-                            classNamePrefix="my-react-select"
-                            isClearable={true}
-                            isMulti
-                            components={{ IndicatorSeparator: () => null }}
-                        />
-                    </div>
-
-                    {/* tags list************************/}
-                    {recette.tags.length > 0 && <div className="flex items-center flex-wrap">
-                        {recette.tags.map((el => {
-                            return (
-                                <div key={el.id} className="m-1.5 p-1 bg-gray flex items-center bg-gray rounded-md">
-                                    <p>{el.title}</p>
-                                    <p onClick={() => deleteOrigineSelected(el.id)} className='ml-2 cursor-pointer text-red hover:font-bold duration-300'>&#10005;</p>
-                                </div>
-                            )
-                        }))}
-                    </div>}
+                
 
                     <div>
                         <p className="text-sm mb-1 text-[#94a3b8]">Ustensile :</p>
@@ -373,14 +377,12 @@ const EditRecipe = ({ recette, origineList, categoryList, ustensileList, unitLis
 
                     <InstructionForm instructionList={recette.steps} setInstructionList={setInstructionList} />
 
-                    <div className='fixed right-6 shadow-lg rounded-md p-2'>
+                    <div className='fixed right-6 shadow-lg rounded-md p-2 border-2 border-dashed'>
+                        <p className="text-sm underline">Note :</p>
                         <textarea
                             rows="4"
-                            className="p-2.5 w-40 h-48 resize-none rounded-md border border-gray outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
-                            placeholder="Note"
-                            name='note'
-                            defaultValue={recette.note}
-                        >
+                            className="p-2.5 w-48 h-48 resize-none rounded-md  outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
+                            name='note'>
                         </textarea>
                     </div>
 

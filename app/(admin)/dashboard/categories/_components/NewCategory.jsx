@@ -15,7 +15,7 @@ const Select = dynamic(() => import("react-select"), { ssr: false })
 import { useState } from "react"
 import { useFormStatus } from "react-dom"
 import { addCategory } from "@/app/actions/category-action"
-
+import { toast } from "sonner"
 
 
 
@@ -31,13 +31,12 @@ const NewCategory = () => {
 
 
     const [open, setOpen] = useState(false)
-    const [error, setError] = useState('')
 
     const handleAction = async (formData) => {
         const result = await addCategory(formData)
 
         if (result?.error) {
-            setError(result.error)
+            toast.error(`${result?.error}`)
         }
         else {
             setOpen(false)
@@ -53,59 +52,65 @@ const NewCategory = () => {
             <DialogContent className="flex flex-col items-center">
 
                 <DialogHeader>
-                    <DialogTitle className="text-xl">Nouvelle catégorie</DialogTitle>
+                    <DialogTitle className="text-2xl">Nouvelle catégorie</DialogTitle>
                     <DialogDescription>
                     </DialogDescription>
                 </DialogHeader>
 
-                <form action={handleAction} className="flex flex-col space-y-3 w-fit">
+                <form action={handleAction} className="grid gap-4 p-4 overflow-y-auto h-[80vh]">
+                    <div>
+                        <p className="text-sm text-[#94a3b8]">Titre : <span className='text-red text-lg'>*</span></p>
+                        <input
+                            name="title"
+                            className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
+                        />
+                    </div>
 
-                    <input
-                        placeholder="Titre"
-                        name="title"
-                        className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
-                    />
+                    <div className="my-3">
+                        <p className="text-sm mb-1 text-[#94a3b8]">Description :</p>
+                        <textarea
+                            rows="4"
+                            className="p-2.5 w-72 md:w-96 resize-none rounded-md border border-gray outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
+                            name='description'>
+                        </textarea>
+                    </div>
 
-                    <textarea
-                        rows="4"
-                        className="p-2.5 my-3 w-72 md:w-96 resize-none rounded-md border border-gray outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
-                        placeholder="Description"
-                        name='description'>
-                    </textarea>
-
-
-                    <Select
-                        options={[{ value: 'Active', label: 'Active' },
-                        { value: 'Inactive', label: 'Inactive' }
-                        ]}
-                        onChange={handleChange}
-                        value={selectedOption}
-                        name="status"
-                        placeholder={<div className="text-[#9CA3BC]">Statut</div>}
-                        className="w-72 md:w-96 my-3"
-                        classNamePrefix="my-react-select"
-                        isClearable={true}
-                        components={{
-                            IndicatorSeparator: () => null
-                        }}
-                    />
+                    <div className="mb-3">
+                        <p className="text-sm mb-1 text-[#94a3b8]">Statut : <span className='text-red text-lg'>*</span></p>
+                        <Select
+                            options={[{ value: 'Active', label: 'Active' },
+                            { value: 'Inactive', label: 'Inactive' }
+                            ]}
+                            onChange={handleChange}
+                            value={selectedOption}
+                            name="status"
+                            placeholder=""
+                            className="w-72 md:w-96"
+                            classNamePrefix="my-react-select"
+                            isClearable={true}
+                            components={{ IndicatorSeparator: () => null }}
+                        />
+                    </div>
 
                     {/*Référencement Google----------------------------------------------------------- */}
 
-                    <p className="font-semibold mb-3">Référencement Google :</p>
+                    <p className="font-semibold">Référencement Google :</p>
+                    <div>
+                        <p className="text-sm mb-1 text-[#94a3b8]">Titre :</p>
+                        <input
+                            name="seoTitle"
+                            className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
+                        />
+                    </div>
 
-                    <input
-                        placeholder="Titre"
-                        name="seoTitle"
-                        className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 my-3 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
-                    />
-
-                    <textarea
-                        rows="4"
-                        className="p-2.5 my-3 w-72 md:w-96 resize-none rounded-md border border-gray outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
-                        placeholder="Description"
-                        name='seoDescription'>
-                    </textarea>
+                    <div className="my-3">
+                        <p className="text-sm mb-1 text-[#94a3b8]">Description : </p>
+                        <textarea
+                            rows="4"
+                            className="p-2.5 w-72 md:w-96 resize-none rounded-md border border-gray outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
+                            name='seoDescription'>
+                        </textarea>
+                    </div>
 
 
                     <div className="flex flex-col items-center justify-center">
@@ -122,8 +127,6 @@ const NewCategory = () => {
                                 }
                             </button>
                         </DialogFooter>
-
-                        {error && <p className="text-sm text-red mt-2">{error}</p>}
                     </div>
                 </form>
 

@@ -6,7 +6,7 @@ import EditCatgeory from "./EditCatgeory";
 
 export const GetCategory = async ({ query, page }) => {
 
-  const pageSize = 20 
+  const pageSize = 100
 
   const whereCategory = query
   ? {

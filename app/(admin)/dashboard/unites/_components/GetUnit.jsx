@@ -5,7 +5,7 @@ import PaginationControls from "../../_components/PaginationControls"
 
 export const GetUnit = async ({ query, page }) => {
 
-  const pageSize = 20 
+  const pageSize = 100
 
   const whereUnit = query
     ? {

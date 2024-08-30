@@ -5,6 +5,9 @@ const getEditableMenu = async () => {
   return await prisma.editableMenu.findMany({
     include: {
       subtitle: true
+    },
+    orderBy: {
+      id: 'desc', 
     }
   })
 };

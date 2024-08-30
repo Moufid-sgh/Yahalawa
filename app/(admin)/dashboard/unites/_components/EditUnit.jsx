@@ -13,20 +13,20 @@ import {
 import { useFormStatus } from "react-dom"
 import { editUnit } from "@/app/actions/unit-action"
 import { useState } from "react"
-
+import { toast } from "sonner"
+import { Pencil } from "lucide-react"
 
 const EditUnit = ({ el }) => {
 
     const { pending } = useFormStatus()
 
     const [open, setOpen] = useState(false)
-    const [error, setError] = useState('')
 
     const handleAction = async (formData) => {
         const result = await editUnit(formData)
 
-        if(result?.error){
-            setError(result.error)
+        if (result?.error) {
+            toast.error(`${result?.error}`)
         }
         else {
             setOpen(false);
@@ -38,27 +38,31 @@ const EditUnit = ({ el }) => {
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <button className='border-2 rounded-md p-1.5 hover:border-blue duration-300'>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24"><path fill="black" d="m14.06 9l.94.94L5.92 19H5v-.92zm3.6-6c-.25 0-.51.1-.7.29l-1.83 1.83l3.75 3.75l1.83-1.83c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29m-3.6 3.19L3 17.25V21h3.75L17.81 9.94z" /></svg>
+                    <Pencil className="size-5" />
                 </button>
             </DialogTrigger>
 
             <DialogContent className="flex flex-col items-center">
                 <DialogHeader>
-                    <DialogTitle className="text-xl">Editer unité</DialogTitle>
+                    <DialogTitle className="text-2xl">Editer unité</DialogTitle>
                     <DialogDescription></DialogDescription>
                 </DialogHeader>
 
                 <form action={handleAction} className="grid gap-4 py-4">
-                    <input
-                        type="text"
-                        defaultValue={el.title}
-                        placeholder="Nom de l'unité"
-                        name="title"
-                        className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 my-3 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
-                    />
+                    <div>
+                        <p className="text-sm text-[#94a3b8]">Titre : <span className='text-red text-lg'>*</span></p>
+                        <input
+                            type="text"
+                            defaultValue={el.title}
+                            name="title"
+                            className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
+                        />
+                    </div>
+
+
                     <input type="hidden" name="id" value={el.id} />
 
-                    <div className="flex flex-col items-center justify-center">
+                    <div className="flex flex-col items-center justify-center mt-6">
                         <DialogFooter>
                             <button className="green-btn text-sm" type="submit" disabled={pending} >
                                 {pending
@@ -72,7 +76,6 @@ const EditUnit = ({ el }) => {
                                 }
                             </button>
                         </DialogFooter>
-                        {error && <p className="text-sm text-red mt-2">{error}</p>}
                     </div>
                 </form>
             </DialogContent>

@@ -5,7 +5,7 @@ import DeleteOrigine from "./DeleteOrigine";
 
 export const GetOrigine = async ({ query, page }) => {
 
-  const pageSize = 20 
+  const pageSize = 100 
 
   const whereOrigine = query
   ? {
@@ -28,7 +28,7 @@ export const GetOrigine = async ({ query, page }) => {
     skip: (page - 1) * pageSize,
     take: pageSize,
   });
-console.log(origines)
+
 
 
   return (
@@ -53,7 +53,7 @@ console.log(origines)
                                     <td className="px-4 py-2">
                                       <Image src={`/flag/${el.img}`} alt='flag' width='80' height="15" />
                                     </td>
-                                    <td className="px-4 py-2 w-40 flex items-center space-x-3">
+                                    <td className="px-4 py-2 w-40 space-x-3">
                                         <DeleteOrigine el={el} />
                                     </td>
                                 </tr>

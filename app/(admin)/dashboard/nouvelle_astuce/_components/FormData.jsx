@@ -2,12 +2,15 @@
 
 import dynamic from 'next/dynamic'
 const Select = dynamic(() => import("react-select"), { ssr: false })
-import { useRef, useState } from "react"
+import { useState } from "react"
 import { useFormStatus } from "react-dom"
 import { addTips } from "@/app/actions/tips-action"
 import { hour } from '../../_components/Data'
 import UploadFile from '../../_components/UploadFile'
 import DatePicker from './DatePicker'
+import { toast } from "sonner"
+
+
 
 const FormData = ({categoryList}) => {
 
@@ -33,22 +36,13 @@ const FormData = ({categoryList}) => {
     
 
     //send data
-    const [error, setError] = useState('')
-
-    const formRef = useRef(null)
-
     const handleAction = async (formData) => {
         const result = await addTips(formData)
 
-        if (formRef.current) {
-            formRef.current.reset();
-          }
-
         if (result?.error) {
-            setError(result.error)
-        }
-
-    }
+            toast.error(`${result?.error}`)    
+          }
+    };
 
     //planning post
     const [date, setDate] = useState('')
@@ -62,40 +56,37 @@ const FormData = ({categoryList}) => {
 
     return (
 
-            <form action={handleAction} ref={formRef} className="flex flex-col w-full bg-white rounded-md p-8">
+            <form action={handleAction} className="flex flex-col w-full bg-white rounded-md p-8">
 
                 <section className="flex items-start space-x-24">
                     <div className="flex flex-col space-y-6">
-                        <div className='relative'>
-                            <p className='text-red absolute bottom-9 left-1'>*</p>
+                        <div>
+                        <p className="text-sm text-[#94a3b8]">IDI : <span className='text-red text-lg'>*</span></p>
                             <input
-                                placeholder="IdI"
                                 name="IdI"
                                 className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
                             />
                         </div>
 
-                        <div className='relative'>
-                            <p className='text-red absolute bottom-9 left-1'>*</p>
+                        <div>
+                        <p className="text-sm text-[#94a3b8]">Titre : <span className='text-red text-lg'>*</span></p>
                             <input
-                                placeholder="Titre"
                                 name="title"
                                 className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
                             />
                         </div>
 
-                        <div className='relative'>
-                            <p className='text-red absolute bottom-[117px] left-1'>*</p>
+                        <div>
+                        <p className="text-sm text-[#94a3b8]">Description : <span className='text-red text-lg'>*</span></p>
                             <textarea
                                 rows="4"
                                 className="p-2.5 w-72 md:w-96 resize-none rounded-md border border-gray outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
-                                placeholder="Description"
                                 name='description'>
                             </textarea>
                         </div>
 
-                        <div className='relative'>
-                            <p className='text-red absolute bottom-8 left-1'>*</p>
+                        <div>
+                        <p className="text-sm text-[#94a3b8]">Type : <span className='text-red text-lg'>*</span></p>
                             <Select
                                 options={[{ value: 'Free', label: 'Free' },
                                 { value: 'T-Telecom', label: 'T-Telecom' }
@@ -103,18 +94,16 @@ const FormData = ({categoryList}) => {
                                 onChange={handleType}
                                 value={type}
                                 name="type"
-                                placeholder={<div className="text-[#9CA3BC]">Type</div>}
+                                placeholder=""
                                 className="w-72 md:w-96"
                                 classNamePrefix="my-react-select"
                                 isClearable={true}
-                                components={{
-                                    IndicatorSeparator: () => null
-                                }}
+                                components={{ IndicatorSeparator: () => null }}
                             />
                         </div>
 
-                        <div className='relative'>
-                            <p className='text-red absolute bottom-8 left-1'>*</p>
+                        <div>
+                        <p className="text-sm text-[#94a3b8]">Statut : <span className='text-red text-lg'>*</span></p>
                             <Select
                                 options={[
                                 { value: 'publiée', label: 'publiée' },
@@ -125,7 +114,7 @@ const FormData = ({categoryList}) => {
                                 onChange={handlestatus}
                                 value={status}
                                 name="status"
-                                placeholder={<div className="text-[#9CA3BC]">Statut</div>}
+                                placeholder=""
                                 className="w-72 md:w-96"
                                 classNamePrefix="my-react-select"
                                 isClearable={true}
@@ -135,8 +124,8 @@ const FormData = ({categoryList}) => {
                             />
                         </div>
 
-                        <div className='relative'>
-                            <p className='text-red absolute bottom-8 left-1'>*</p>
+                        <div>
+                        <p className="text-sm text-[#94a3b8]">Categories : <span className='text-red text-lg'>*</span></p>
                             <Select
                                 options={categoryList.map((el,i) => ({
                                     value: el.title,
@@ -146,7 +135,7 @@ const FormData = ({categoryList}) => {
                                 onChange={handleCategorie}
                                 value={categorie}
                                 name="category"
-                                placeholder={<div className="text-[#9CA3BC]">Categorie</div>}
+                                placeholder=""
                                 className="w-72 md:w-96"
                                 classNamePrefix="my-react-select"
                                 isClearable={true}
@@ -157,19 +146,24 @@ const FormData = ({categoryList}) => {
                             />
                         </div>
 
+                        <div className='fixed right-6 shadow-lg rounded-md p-2 border-2 border-dashed'>
+                        <p className="text-sm underline">Note :</p>
                         <textarea
                             rows="4"
-                            className="p-2.5 w-72 md:w-96 resize-none rounded-md border border-gray outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
-                            placeholder="Note"
-                            name='note'>
+                            className="p-2.5 w-48 h-48 resize-none rounded-md  outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
+                            name='note'
+                        >
                         </textarea>
+                    </div>
 
+                        <div>
+                        <p className="text-sm text-[#94a3b8]">Likes :</p>
                         <input
                             type="number"
-                            placeholder="Likes"
                             name="likes"
                             className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
                         />
+                        </div>
                     </div>
 
 
@@ -181,7 +175,7 @@ const FormData = ({categoryList}) => {
                         </div>
 
                         {/* handle Date------------------------------------------------------------- */}
-                        <p className="font-semibold mb-2">Date de publication prévue:</p>
+                        <p className="font-semibold mb-2 mt-6">Date de publication prévue:</p>
                         <DatePicker date={date} setDate={setDate} name="date" />
 
                         <Select
@@ -200,7 +194,7 @@ const FormData = ({categoryList}) => {
                         />
 
                         {/*Référencement Google----------------------------------------------------------- */}
-                        <p className="font-semibold mb-2">Référencement Google :</p>
+                        <p className="font-semibold mb-2 mt-6">Référencement Google :</p>
 
                         <input
                             placeholder="Titre"
@@ -229,8 +223,6 @@ const FormData = ({categoryList}) => {
                             'Sauvgarder'
                         }
                     </button>
-
-                    {error && <p className="text-sm text-red mt-2">{error}</p>}
                 </div>
             </form>
     )

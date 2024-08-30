@@ -1,5 +1,6 @@
 'use client'
 
+import { deleteItems } from "@/app/actions/menuItems-action"
 import {
     Dialog,
     DialogContent,
@@ -10,34 +11,30 @@ import {
 } from "@/components/ui/dialog"
 
 import { useFormStatus } from "react-dom"
-import { deleteUstensile } from "@/app/actions/ustensile-action"
-import { Trash2 } from "lucide-react"
 
-const DeleteUstensile = ({ el }) => {
+
+
+const DeleteItem = ({ id, title }) => {
 
     const { pending } = useFormStatus()
 
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <button className='border-2 rounded-md p-1.5 hover:border-red duration-300'>
-                    <Trash2 className="size-5" />
-                </button>
+                <button className='cursor-pointer text-red hover:font-bold duration-300'>&#10005;</button>
             </DialogTrigger>
 
             <DialogContent className="flex flex-col items-center">
                 <DialogHeader>
-                    <DialogTitle className="text-2xl text-center">Supprimer ustensile</DialogTitle>
-
+                    <DialogTitle className="text-2xl text-lg text-center">Supprimer item</DialogTitle>
                     <DialogDescription className="text-base text-center">
                         <p className="mt-4">Cette action entraînera la suppression de</p>
-                        <p className="font-bold">"{el.title}".</p>
+                        <p className="font-bold">"{title}".</p>
                     </DialogDescription>
                 </DialogHeader>
 
-
                 <DialogTrigger asChild>
-                    <form action={deleteUstensile.bind(null, el.id)}>
+                    <form action={deleteItems.bind(null, id)}>
                         <button className="red-btn text-sm" type="submit" disabled={pending} >
                             {pending
                                 ?
@@ -58,7 +55,7 @@ const DeleteUstensile = ({ el }) => {
     )
 }
 
-export default DeleteUstensile
+export default DeleteItem
 
 
 

@@ -1,4 +1,6 @@
 import Sidebar from "./dashboard/_components/Sidebar"
+import { Toaster } from "@/components/ui/sonner"
+
 
 export const metadata = {
   title: "Dashboard",
@@ -14,6 +16,7 @@ export default function DashboardLayout({ children }) {
     <section className="min-h-screen w-full bg-lightgray p-4">
       <Sidebar />
       {children}
+       <Toaster />
     </section>
   );
 }

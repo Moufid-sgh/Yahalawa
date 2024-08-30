@@ -27,7 +27,6 @@ export async function addRecipe(formData) {
     const video_link = formData.get('video_link');
     const seoTitle = formData.get('seoTitle');
     const seoDescription = formData.get('seoDescription');
-    const hour = formData.get('hour');
     const date = formData.get('date');
     const img = formData.get('img');
     const video = formData.get('video');
@@ -39,13 +38,20 @@ export async function addRecipe(formData) {
     const ustensileList = formData.getAll('ustensiles');
     console.log(note)
 
-    if (
-        !IdI || !title || !description || !type || !status ||
-        !difficulty || !nbr_serves || !preparation_time ||
-        !cooking_time || !cooking_temperature || category.length === 0
-    ) {
-        return { error: "Veuillez remplir tous les champs requis." };
+    if(status === 'brouillon') {
+        if (!IdI) {
+            return { error: "Veuillez remplir IDI." };
+        }
     }
+    else {
+        if (
+            !IdI || !title || !description || !type || !status || tagsList.length === 0 ||
+            !difficulty || !nbr_serves || !cooking_time || category.length === 0
+        ) {
+            return { error: "Veuillez remplir tous les champs requis." };
+        }
+    }
+
 
     //handle image
     const bytes = await img.arrayBuffer()

@@ -15,7 +15,7 @@ const Select = dynamic(() => import("react-select"), { ssr: false })
 import { useState } from "react"
 import { addTag } from "@/app/actions/tag-action"
 import { useFormStatus } from "react-dom"
-
+import { toast } from "sonner"
 
 
 
@@ -31,13 +31,12 @@ const NouveauTag = () => {
 
 
     const [open, setOpen] = useState(false)
-    const [error, setError] = useState('')
 
     const handleAction = async (formData) => {
         const result = await addTag(formData)
 
-        if(result?.error){
-            setError(result.error)
+        if (result?.error) {
+            toast.error(`${result?.error}`)
         }
         else {
             setOpen(false)
@@ -53,38 +52,41 @@ const NouveauTag = () => {
             <DialogContent className="flex flex-col items-center">
 
                 <DialogHeader>
-                    <DialogTitle className="text-xl">Nouveau tag</DialogTitle>
+                    <DialogTitle className="text-2xl">Nouveau tag</DialogTitle>
                     <DialogDescription>
                     </DialogDescription>
                 </DialogHeader>
 
-                <form action={handleAction} className="flex flex-col space-y-3 w-fit">
+                <form action={handleAction} className="flex flex-col w-fit">
+                    <div>
+                        <p className="text-sm text-[#94a3b8]">Titre : <span className='text-red text-lg'>*</span></p>
+                        <input
+                            name="title"
+                            className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 mb-3 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
+                        />
+                    </div>
 
-                    <input
-                        placeholder="Nom du tag"
-                        name="title"
-                        className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 my-3 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
-                    />
+                    <div>
+                        <p className="text-sm text-[#94a3b8]">Statut : <span className='text-red text-lg'>*</span></p>
+                        <Select
+                            options={[{ value: 'Active', label: 'Active' },
+                            { value: 'Inactive', label: 'Inactive' }
+                            ]}
+                            onChange={handleChange}
+                            value={selectedOption}
+                            name="status"
+                            placeholder=""
+                            className="w-72 md:w-96"
+                            classNamePrefix="my-react-select"
+                            isClearable={true}
+                            components={{
+                                IndicatorSeparator: () => null
+                            }}
+                        />
+                    </div>
 
 
-                    <Select
-                        options={[{ value: 'Active', label: 'Active' },
-                        { value: 'Inactive', label: 'Inactive' }
-                        ]}
-                        onChange={handleChange}
-                        value={selectedOption}
-                        name="status"
-                        placeholder={<div className="text-[#9CA3BC]">Statut</div>}
-                        className="w-72 md:w-96 my-3"
-                        classNamePrefix="my-react-select"
-                        isClearable={true}
-                        components={{
-                            IndicatorSeparator: () => null
-                        }}
-                    />
-
-
-                    <div className="flex flex-col items-center justify-center">
+                    <div className="flex flex-col items-center justify-center mt-8">
                         <DialogFooter>
                             <button className="green-btn text-sm" type="submit" disabled={pending} >
                                 {pending
@@ -98,8 +100,6 @@ const NouveauTag = () => {
                                 }
                             </button>
                         </DialogFooter>
-
-                        {error && <p className="text-sm text-red mt-2">{error}</p>}
                     </div>
                 </form>
 

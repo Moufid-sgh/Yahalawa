@@ -40,6 +40,7 @@ export async function editCategory(formData) {
     const seoTitle = formData.get('seoTitle')
     const seoDescription = formData.get('seoDescription')
     const id = Number(formData.get('id'))
+    console.log(status)
 
     if(title === "" || status === "") {
         return { error: "Veuillez remplir tous les champs requis." }

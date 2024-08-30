@@ -13,23 +13,23 @@ import {
 import { useFormStatus } from "react-dom"
 import { useState } from "react"
 import { addItem } from "@/app/actions/menuItems-action"
+import { toast } from "sonner"
 
 
 
 const NewItem = ({ menuId }) => {
 
-    
+
     const { pending } = useFormStatus()
 
     const [open, setOpen] = useState(false)
-    const [error, setError] = useState('')
 
 
     const handleAction = async (formData) => {
         const result = await addItem(formData)
 
-        if(result?.error){
-            setError(result.error)
+        if (result?.error) {
+            toast.error(`${result?.error}`)
         }
         else {
             setOpen(false);
@@ -44,23 +44,24 @@ const NewItem = ({ menuId }) => {
             <DialogContent className="flex flex-col items-center">
 
                 <DialogHeader>
-                    <DialogTitle className="text-xl">Nouveau item</DialogTitle>
+                    <DialogTitle className="text-2xl">Nouveau item</DialogTitle>
                     <DialogDescription>
                     </DialogDescription>
                 </DialogHeader>
 
                 <form action={handleAction} className="grid gap-4 py-4">
 
-
-                    <input
-                        placeholder="Nom de l'item"
-                        name="item"
-                        className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 my-3 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
-                    />
+                    <div>
+                        <p className="text-sm text-[#94a3b8]">Titre : <span className='text-red text-lg'>*</span></p>
+                        <input
+                            name="item"
+                            className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
+                        />
+                    </div>
 
                     <input type="hidden" name="id" value={menuId} />
 
-                    <div className="flex flex-col items-center justify-center">
+                    <div className="flex flex-col items-center justify-center  mt-3">
                         <DialogFooter>
                             <button className="green-btn text-sm" type="submit" disabled={pending} >
                                 {pending
@@ -75,7 +76,6 @@ const NewItem = ({ menuId }) => {
                             </button>
                         </DialogFooter>
 
-                        {error && <p className="text-sm text-red mt-2">{error}</p>}
                     </div>
                 </form>
 

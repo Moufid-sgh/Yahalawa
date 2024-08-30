@@ -13,6 +13,8 @@ import {
 import { useFormStatus } from "react-dom"
 import { addUstensile } from "@/app/actions/ustensile-action"
 import { useState } from "react"
+import { toast } from "sonner"
+
 
 
 const NewUstensile = () => {
@@ -20,14 +22,13 @@ const NewUstensile = () => {
     const { pending } = useFormStatus()
 
     const [open, setOpen] = useState(false)
-    const [error, setError] = useState('')
 
     const handleAction = async (formData) => {
         const result = await addUstensile(formData)
 
-        if(result?.error){
-            setError(result.error)
-        }
+        if (result?.error) {
+            toast.error(`${result?.error}`)    
+          }
         else {
             setOpen(false)
         }
@@ -41,18 +42,21 @@ const NewUstensile = () => {
             <DialogContent className="flex flex-col items-center">
 
                 <DialogHeader>
-                    <DialogTitle className="text-xl">Nouvelle ustensile</DialogTitle>
+                    <DialogTitle className="text-2xl">Nouvelle ustensile</DialogTitle>
                     <DialogDescription>
                     </DialogDescription>
                 </DialogHeader>
 
                 <form action={handleAction} className="grid gap-4 py-4">
-                    <input
-                        placeholder="Nom de l'unité"
-                        name="title"
-                        className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 my-3 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
-                    />
-                    <div className="flex flex-col items-center justify-center">
+                    <div>
+                        <p className="text-sm text-[#94a3b8]">Titre : <span className='text-red text-lg'>*</span></p>
+                        <input
+                            name="title"
+                            className="w-72 md:w-96 rounded-md border border-gray py-2 px-4  outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
+                        />
+                    </div>
+
+                    <div className="flex flex-col items-center justify-center mt-4">
                         <DialogFooter>
                             <button className="green-btn text-sm" type="submit" disabled={pending} >
                                 {pending
@@ -66,8 +70,6 @@ const NewUstensile = () => {
                                 }
                             </button>
                         </DialogFooter>
-
-                        {error && <p className="text-sm text-red mt-2">{error}</p>}
                     </div>
                 </form>
 

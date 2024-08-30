@@ -2,11 +2,13 @@ import prisma from "@/lib/db"
 import PaginationControls from "../../_components/PaginationControls"
 import Image from "next/image"
 import DeleteTips from "./DeleteTips"
-import EditTips from "./EditTips"
+import Link from "next/link"
+import { Pencil } from "lucide-react"
+
 
 export const GetTips = async ({ query, page }) => {
 
-  const pageSize = 20
+  const pageSize = 100
 
 
   const whereTips = query
@@ -59,14 +61,6 @@ export const GetTips = async ({ query, page }) => {
       category: true,
     },
   });
-
-
-  //get category for update
-  const getCategory = async () => {
-    return await prisma.categoryTips.findMany()
-  }
-
-  const categoryList = await getCategory()
 
 
 
@@ -136,8 +130,10 @@ export const GetTips = async ({ query, page }) => {
                     {el.is_paying === 'Free' && <span className='green-badge'>{el.is_paying}</span>}
                     {el.is_paying === 'T-Telecom' && <span className='bleu-badge text-white'>{el.is_paying}</span>}
                   </td>
-                  <td className="px-4 py-2 w-32 text-left space-x-3">
-                    <EditTips el={el} categoryList={categoryList} />
+                  <td className="px-4 py-2 w-32 text-left flex items-center space-x-3">
+                    <Link href={`/dashboard/update_astuce/${el.id}`} className='block w-[36px] border-2 rounded-md p-1.5 hover:border-blue duration-300'>
+                      <Pencil className="size-5" />
+                    </Link>
                     <DeleteTips el={el} />
                   </td>
                 </tr>

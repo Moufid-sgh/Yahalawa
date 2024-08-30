@@ -17,7 +17,11 @@ const Column = ({ menuList }) => {
     const [list, setList] = useState(subtitle)
 
     const sensors = useSensors(
-        useSensor(PointerSensor),
+        useSensor(PointerSensor, {
+            activationConstraint: {
+              distance: 10,
+            },
+          }),
         useSensor(KeyboardSensor, {
             coordinateGetter: sortableKeyboardCoordinates,
         })

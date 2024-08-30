@@ -15,6 +15,7 @@ const Select = dynamic(() => import("react-select"), { ssr: false })
 import { useState } from "react"
 import { useFormStatus } from "react-dom"
 import { addCategoryTips } from "@/app/actions/categoryTips-action"
+import { toast } from "sonner"
 
 
 
@@ -29,14 +30,13 @@ const NewCategory = () => {
     };
 
     const [open, setOpen] = useState(false)
-    const [error, setError] = useState('')
 
     const handleAction = async (formData) => {
         const result = await addCategoryTips(formData)
 
         if (result?.error) {
-            setError(result.error)
-        }
+            toast.error(`${result?.error}`)    
+          }
         else {
             setOpen(false)
         }
@@ -51,18 +51,22 @@ const NewCategory = () => {
             <DialogContent className="flex flex-col items-center">
 
                 <DialogHeader>
-                    <DialogTitle className="text-xl">Nouveau ingredient</DialogTitle>
+                    <DialogTitle className="text-2xl">Nouvelle catégorie</DialogTitle>
                     <DialogDescription>
                     </DialogDescription>
                 </DialogHeader>
 
                 <form action={handleAction} className="flex flex-col space-y-3 w-fit">
+                <div>
+                <p className="text-sm text-[#94a3b8]">Titre : <span className='text-red text-lg'>*</span></p>
                     <input
-                        placeholder="Nom"
                         name="title"
-                        className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 my-3 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
+                        className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 mb-3 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
                     />
+                    </div>
 
+                    <div className="mb-3">
+                    <p className="text-sm mb-1 text-[#94a3b8]">Statut : <span className='text-red text-lg'>*</span></p>
                     <Select
                        options={[{ value: 'Active', label: 'Active' },
                         { value: 'Inactive', label: 'Inactive' }
@@ -71,13 +75,14 @@ const NewCategory = () => {
                         value={selectedOption}
                         name="status"
                         placeholder={<div className="text-[#9CA3BC]">Status</div>}
-                        className="w-72 md:w-96 my-3"
+                        className="w-72 md:w-96"
                         classNamePrefix="my-react-select"
                         isClearable={true}
                         components={{
                             IndicatorSeparator: () => null
                         }}
                     />
+                    </div>
 
                     <div className="flex flex-col items-center justify-center">
                         <DialogFooter>
@@ -93,8 +98,6 @@ const NewCategory = () => {
                                 }
                             </button>
                         </DialogFooter>
-
-                        {error && <p className="text-sm text-red mt-2">{error}</p>}
                     </div>
                 </form>
 

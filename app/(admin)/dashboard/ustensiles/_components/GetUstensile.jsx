@@ -5,7 +5,7 @@ import DeleteUstensile from "./DeleteUstensile";
 
 export const GetUstensile = async ({ query, page }) => {
 
-  const pageSize = 20 
+  const pageSize = 100
 
   const whereUstensile = query
     ? {

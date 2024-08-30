@@ -5,7 +5,7 @@ import DeleteIngredient from "./DeleteIngredient"
 
 export const GetIngredient = async ({ query, page }) => {
 
-  const pageSize = 20 
+  const pageSize = 100
 
   const whereIngredient = query
   ? {
@@ -30,6 +30,7 @@ export const GetIngredient = async ({ query, page }) => {
   const totalItems = await prisma.ingredients.count({
     where: whereIngredient,
   });
+
 
   const totalPages = Math.ceil(totalItems / pageSize);
 

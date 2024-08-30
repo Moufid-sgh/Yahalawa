@@ -104,9 +104,9 @@ export async function editTips(formData) {
     const likes = formData.get('likes')
     const id = Number(formData.get('id'))
 
-    // if (title === "" || status === "") {
-    //     return { error: "Veuillez remplir tous les champs requis." }
-    // }
+    if(!IdI || !title || !description || !type || !status || category.length === 0) {
+        return { error: "Veuillez remplir tous les champs requis." }
+    }
 
     try {
         await prisma.tips.update({

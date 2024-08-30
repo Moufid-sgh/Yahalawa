@@ -15,6 +15,7 @@ import UploadFile from "../../_components/UploadFile"
 import { useState } from "react"
 import { useFormStatus } from "react-dom"
 import { addOrigine } from "@/app/actions/origine-action"
+import { toast } from "sonner"
 
 
 
@@ -24,13 +25,12 @@ const NewOrigine = () => {
 
 
     const [open, setOpen] = useState(false)
-    const [error, setError] = useState('')
 
     const handleAction = async (formData) => {
         const result = await addOrigine(formData)
 
-        if(result?.error){
-            setError(result.error)
+        if (result?.error) {
+            toast.error(`${result?.error}`)
         }
         else {
             setOpen(false)
@@ -46,21 +46,22 @@ const NewOrigine = () => {
             <DialogContent className="flex flex-col items-center">
 
                 <DialogHeader>
-                    <DialogTitle className="text-xl">Nouvelle origine</DialogTitle>
+                    <DialogTitle className="text-2xl">Nouvelle origine</DialogTitle>
                     <DialogDescription>
                     </DialogDescription>
                 </DialogHeader>
 
                 <form action={handleAction} className="flex flex-col items-center w-fit">
 
-                    <input
-                        placeholder="Nom"
-                        name="title"
-                        className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 my-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
-                    />
+                    <div>
+                        <p className="text-sm text-[#94a3b8]">Titre : <span className='text-red text-lg'>*</span></p>
+                        <input
+                            name="title"
+                            className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 mb-6 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
+                        />
+                    </div>
 
                     <UploadFile type="image" name="media" accept="image/jpeg, image/png, image/webp" />
-
 
                     <div className="flex flex-col items-center justify-center mt-8">
                         <DialogFooter>
@@ -76,8 +77,6 @@ const NewOrigine = () => {
                                 }
                             </button>
                         </DialogFooter>
-
-                        {error && <p className="text-sm text-red mt-2">{error}</p>}
                     </div>
                 </form>
 

@@ -15,6 +15,7 @@ const Select = dynamic(() => import("react-select"), { ssr: false })
 import { useState } from "react"
 import { addIngredient } from "@/app/actions/ingredient-action"
 import { useFormStatus } from "react-dom"
+import { toast } from "sonner"
 
 
 
@@ -35,7 +36,7 @@ const NewIngredient = () => {
         const result = await addIngredient(formData)
 
         if (result?.error) {
-            setError(result.error)
+            toast.error(`${result?.error}`)
         }
         else {
             setOpen(false)
@@ -51,35 +52,40 @@ const NewIngredient = () => {
             <DialogContent className="flex flex-col items-center">
 
                 <DialogHeader>
-                    <DialogTitle className="text-xl">Nouveau ingredient</DialogTitle>
+                    <DialogTitle className="text-2xl">Nouveau ingredient</DialogTitle>
                     <DialogDescription>
                     </DialogDescription>
                 </DialogHeader>
 
-                <form action={handleAction} className="flex flex-col space-y-3 w-fit">
-                    <input
-                        placeholder="Nom du tag"
-                        name="title"
-                        className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 my-3 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
-                    />
+                <form action={handleAction} className="flex flex-col w-fit">
+                    <div>
+                        <p className="text-sm text-[#94a3b8]">Titre : <span className='text-red text-lg'>*</span></p>
+                        <input
+                            name="title"
+                            className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
+                        />
+                    </div>
 
-                    <Select
-                        options={[{ value: 'Unité', label: 'Unité' },
-                        { value: 'Pièce', label: 'Pièce' }
-                        ]}
-                        onChange={handleChange}
-                        value={selectedOption}
-                        name="type"
-                        placeholder={<div className="text-[#9CA3BC]">Type</div>}
-                        className="w-72 md:w-96 my-3"
-                        classNamePrefix="my-react-select"
-                        isClearable={true}
-                        components={{
-                            IndicatorSeparator: () => null
-                        }}
-                    />
+                    <div>
+                        <p className="text-sm text-[#94a3b8]">Type : <span className='text-red text-lg'>*</span></p>
+                        <Select
+                            options={[{ value: 'Unité', label: 'Unité' },
+                            { value: 'Pièce', label: 'Pièce' }
+                            ]}
+                            onChange={handleChange}
+                            value={selectedOption}
+                            name="type"
+                            placeholder=""
+                            className="w-72 md:w-96"
+                            classNamePrefix="my-react-select"
+                            isClearable={true}
+                            components={{
+                                IndicatorSeparator: () => null
+                            }}
+                        />
+                    </div>
 
-                    <div className="flex flex-col items-center justify-center">
+                    <div className="flex flex-col items-center justify-center mt-8">
                         <DialogFooter>
                             <button className="green-btn text-sm" type="submit" disabled={pending} >
                                 {pending
@@ -93,8 +99,6 @@ const NewIngredient = () => {
                                 }
                             </button>
                         </DialogFooter>
-
-                        {error && <p className="text-sm text-red mt-2">{error}</p>}
                     </div>
                 </form>
 

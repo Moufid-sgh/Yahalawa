@@ -5,7 +5,7 @@ import EditTag from "./EditTag";
 
 export const GetTags = async ({ query, page }) => {
 
-  const pageSize = 20 
+  const pageSize = 100 
 
   const whereTags = query
   ? {
