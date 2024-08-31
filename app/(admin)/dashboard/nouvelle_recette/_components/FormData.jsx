@@ -80,6 +80,9 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
         if (result?.error) {
             toast.error(`${result?.error}`)    
           }
+          else {
+            toast.success('Recette créée avec succès.')
+          }
 
     };
 
@@ -328,7 +331,7 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
                         <p className="text-sm underline">Note :</p>
                         <textarea
                             rows="4"
-                            className="p-2.5 w-48 h-48 resize-none rounded-md  outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
+                            className="p-2.5 w-48 h-48 resize-none rounded-md outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
                             name='note'
                         >
                         </textarea>

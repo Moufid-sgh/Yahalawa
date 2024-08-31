@@ -107,7 +107,7 @@ export const GetRecipes = async ({ query, page }) => {
                 {
                     Array.isArray(recipes) && recipes.map((el) => {
                         return (
-                            <tbody key={el.id} className="bg-white text-sm divide-y divide-gray text-darkgray">
+                            <tbody key={el.id} className="bg-white text-base divide-y divide-gray text-darkgray">
                                 <tr>
                                     <td className="px-4 py-2 text-left">{el.id}</td>
                                     <td className="px-3 py-2 text-left">
@@ -118,26 +118,33 @@ export const GetRecipes = async ({ query, page }) => {
                                             <span>&#128683;</span>
                                         }
                                     </td>
-                                    <td className="px-4 py-2 text-left font-semibold">{el.title}</td>
+                                    <td className="px-4 py-2 text-left">{el.title}</td>
                                     <td className="px-4 py-2 text-left">
                                         {el.category && el.category.map((el) => { return <p key={el.id}>{el.title}</p> })}
                                     </td>
-                                    <td className="px-4 py-2 text-left font-semibold">{el.difficulty}</td>
+                                    <td className="px-4 py-2 text-left">{el.difficulty}</td>
                                     <td className="px-4 py-2 text-left">Auteur</td>
                                     <td className="px-4 py-2 text-left">{formatDate(el.createdAt)}</td>
                                     <td className="px-4 py-2 text-left">{el.updatedAt && formatDate(el.updatedAt)}</td>
-                                    <td className="px-4 py-2 text-left font-semibold">{el.note && el.note}</td>
+                                    <td className="px-4 py-2 text-left">{el.note && el.note}</td>
                                     <td className="px-4 py-2 text-left">{el.id_intern}</td>
                                     <td className="px-2 py-2 text-left whitespace-nowrap">
                                         {el.is_paying === 'Free' && <span className='green-badge'>{el.is_paying}</span>}
                                         {el.is_paying === 'T-Telecom' && <span className='bleu-badge text-white'>{el.is_paying}</span>}
                                     </td>
-                                    <td className="px-4 py-2 text-left">{el.status}</td>
-                                    <td className="px-4 py-2 w-32 text-left space-x-3 flex">
-                                        <Link href={`/dashboard/update_recette/${el.id}`} className='block w-[36px] border-2 rounded-md p-1.5 hover:border-blue duration-300'>
-                                            <Pencil className="size-5" />
-                                        </Link>
-                                        <DeleteRecipes el={el} />
+                                    <td className="px-4 py-2 text-left whitespace-nowrap">
+                                        {el.status === 'publiée' && <span className='border-2 border-green p-1 rounded-md'>{el.status}</span>}
+                                        {el.status === 'non publiée' && <span className='border-2 border-red p-1 rounded-md'>{el.status}</span>}
+                                        {el.status === 'brouillon' && <span className='border-2 border-gray p-1 rounded-md'>{el.status}</span>}
+                                        {el.status === 'programmée' && <span className='border-2 border-blue p-1 rounded-md'>{el.status}</span>}
+                                    </td>
+                                    <td className="px-4 py-2 w-32 text-left">
+                                        <div className="flex space-x-3">
+                                            <Link href={`/dashboard/update_recette/${el.id}`} className='block w-[36px] border-2 rounded-md p-1.5 hover:border-blue duration-300'>
+                                                <Pencil className="size-5" />
+                                            </Link>
+                                            <DeleteRecipes el={el} />
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>

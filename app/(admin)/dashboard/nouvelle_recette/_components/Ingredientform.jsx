@@ -1,16 +1,15 @@
 'use client'
 
-import { useRef, useState } from "react"
+import { useRef, useState, useId } from "react"
 import dynamic from 'next/dynamic'
 const Select = dynamic(() => import("react-select"), { ssr: false })
 const IngredientList = dynamic(() => import("./IngredientList"), { ssr: false })
+import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
+import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, } from '@dnd-kit/sortable'
 
 
 const Ingredientform = ({ unitList, ingredientsList, ingredientList, setIngredient }) => {
 
-
-    const [ingredientTitle, setIngredientTitle] = useState()
-    const ingredientTitleRef = useRef()
 
     const [ingredientName, setIngredientName] = useState()
     const handleIngredientName = (option) => {
@@ -27,33 +26,77 @@ const Ingredientform = ({ unitList, ingredientsList, ingredientList, setIngredie
 
 
     //create ingredient--------------------------------------//
-    // const [ingredientList, setIngredient] = useState([])
+    const [editingIndex, setEditingIndex] = useState(null)
 
     const handleIngredient = (e) => {
         e.preventDefault();
 
         const newIngredient = {
             id: Date.now(),
-            titre: ingredientTitle,
             quantite: qte,
             unite: unite.value,
             name: ingredientName.value
         };
 
-        setIngredient([...ingredientList, newIngredient])
-        setIngredientTitle('')
-        ingredientTitleRef.current.value = ''
-        setIngredientName('')
-        setQte('')
-        qteRef.current.value = ''
-        setUnite('')
+        if (editingIndex !== null) {
+            const updatedList = [...ingredientList];
+            updatedList[editingIndex] = newIngredient;
+            setIngredient(updatedList)
+            setEditingIndex(null)
+        } else {
+            setIngredient([...ingredientList, newIngredient]);
+        }
+        setIngredientName('');
+        setQte('');
+        qteRef.current.value = '';
+        setUnite(null);
+    };
+
+    //Edit ingredient-----------------------------------------//
+    const handleEdit = (index) => {
+        const ingredient = ingredientList[index];
+        setQte(ingredient.quantite);
+        setUnite({ value: ingredient.unite, label: ingredient.unite });
+        setIngredientName({ value: ingredient.name, label: ingredient.name });
+        setEditingIndex(index);
     };
 
     //delete ingredient--------------------------------------//
     const deleteIngredient = (id) => {
         const newList = ingredientList.filter(el => el.id !== id)
         setIngredient(newList)
-    }
+    };
+
+
+    //handle drag and drop---------------------------------------//
+    const ids = useId()
+
+    const sensors = useSensors(
+        useSensor(PointerSensor, {
+            activationConstraint: {
+                distance: 10,
+            },
+        }),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        }),
+    );
+
+
+    const handleDragEnd = (event) => {
+        const { active, over } = event;
+
+        if (active.id !== over.id) {
+            setIngredient((items) => {
+                const oldIndex = items.findIndex((item) => item.id === active.id);
+                const newIndex = items.findIndex((item) => item.id === over.id);
+
+                const newOrder = arrayMove(items, oldIndex, newIndex);
+
+                return newOrder;
+            });
+        }
+    };
 
 
     return (
@@ -64,8 +107,7 @@ const Ingredientform = ({ unitList, ingredientsList, ingredientList, setIngredie
             <input
                 type="text"
                 className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
-                onChange={(e) => setIngredientTitle(e.target.value)}
-                ref={ingredientTitleRef}
+                name="ingredientTitle"
             />
 
             <div className="md:flex items-center justify-between flex-wrap">
@@ -74,7 +116,7 @@ const Ingredientform = ({ unitList, ingredientsList, ingredientList, setIngredie
                     <p className="text-sm mb-1 text-[#94a3b8]">Quantité :</p>
                     <input
                         type="number"
-                        placeholder=""
+                        value={qte}
                         className="w-[180px] rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
                         onChange={(e) => setQte(e.target.value)}
                         ref={qteRef}
@@ -123,7 +165,30 @@ const Ingredientform = ({ unitList, ingredientsList, ingredientList, setIngredie
                 Créer ingrédient
             </button>
 
-            {ingredientList.length > 0 && <IngredientList ingredient={ingredientList} deleteIngredient={deleteIngredient} />}
+            <DndContext
+                id={ids}
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragEnd={handleDragEnd}
+            >
+                <SortableContext
+                    items={ingredientList.map((el) => el.id)}
+                    strategy={verticalListSortingStrategy}
+                >
+
+                    {ingredientList.length > 0 &&
+                        ingredientList.map((el, index) => (
+                            <IngredientList
+                                key={el.id}
+                                el={el}
+                                handleEdit={() => handleEdit(index)}
+                                deleteIngredient={deleteIngredient}
+                                ingredientList={ingredientList}
+                            />
+                        ))}
+
+                </SortableContext>
+            </DndContext>
         </section>
     )
 }

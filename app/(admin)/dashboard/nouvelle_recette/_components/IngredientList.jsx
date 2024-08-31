@@ -1,23 +1,33 @@
+import { Pencil } from "lucide-react"
+import DeleteItem from "./DeleteItem"
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 
+const IngredientList = ({ el, handleEdit, deleteIngredient }) => {
 
-const IngredientList = ({ ingredient, deleteIngredient }) => {
+  const { id, quantite, unite, name } = el
 
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
 
   return (
-    <>
-      {ingredient.map((el) => {
 
-        const {titre, quantite, unite, name} = el
+    <div ref={setNodeRef} style={style} {...attributes} {...listeners}
+         key={id} className="flex items-center space-x-3 mb-3 mt-6 bg-gray rounded-md py-1 px-2 w-fit"
+    >
 
-        return (
-          <div key={el.id} className="flex items-center space-x-4 my-3 bg-gray rounded-md py-1 px-2 w-fit">
-            <p dir="rtl" className="">{quantite} {unite} {name}</p>
-            {titre && <p dir="rtl" className="font-semibold">{titre} : </p>}
-            <button onClick={()=>deleteIngredient(el.id)} className='bg-gray rounded-md py-1 px-2 text-red hover:font-bold duration-300'>&#10005;</button>
-          </div>
-        )
-      })}
-    </>
+      <p dir="rtl" className="border-r border-black pr-2">{quantite} {unite} {name}</p>
+
+      <div className="flex items-center space-x-3">
+        <Pencil className="size-5 hover:text-blue duration-300 cursor-pointer" onClick={handleEdit} />
+        <DeleteItem deleteItem={() => deleteIngredient(id)} />
+      </div>
+
+    </div>
   )
 }
 

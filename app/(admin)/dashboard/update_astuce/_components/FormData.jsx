@@ -57,7 +57,7 @@ const FormData = ({ el, categoryList }) => {
                             name="IdI"
                             className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
                             defaultValue={el.id_intern}
-                       />
+                        />
                     </div>
 
                     <div>
@@ -142,8 +142,8 @@ const FormData = ({ el, categoryList }) => {
                         />
                     </div>
 
-                     {/* categpry list************************/}
-                     <div className="flex items-center flex-wrap">
+                    {/* categpry list************************/}
+                    <div className="flex items-center flex-wrap">
                         {el.category.map((cat => {
                             return (
                                 <div key={cat.id} className="m-1.5 p-1 bg-gray flex items-center bg-gray rounded-md">
@@ -188,20 +188,25 @@ const FormData = ({ el, categoryList }) => {
                     {/*Référencement Google----------------------------------------------------------- */}
                     <p className="font-semibold mb-2 mt-6">Référencement Google :</p>
 
-                    <input
-                        placeholder="Titre"
-                        name="seoTitle"
-                        className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 mb-6 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
-                        defaultValue={el.seoTitle}
-                    />
+                    <div>
+                        <p className="text-sm text-[#94a3b8]">Titre :</p>
+                        <input
+                            name="seoTitle"
+                            className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 mb-6 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
+                            defaultValue={el.seoTitle}
+                        />
+                    </div>
 
-                    <textarea
-                        rows="4"
-                        className="p-2.5 w-72 md:w-96 resize-none rounded-md border border-gray outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
-                        placeholder="Description"
-                        name='seoDescription'
-                        defaultValue={el.seoDescription}>
-                    </textarea>
+                    <div>
+                        <p className="text-sm text-[#94a3b8]">Description :</p>
+                        <textarea
+                            rows="4"
+                            className="p-2.5 w-72 md:w-96 resize-none rounded-md border border-gray outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
+                            placeholder="Description"
+                            name='seoDescription'
+                            defaultValue={el.seoDescription}>
+                        </textarea>
+                    </div>
                 </div>
             </section>
 

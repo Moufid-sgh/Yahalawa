@@ -100,7 +100,7 @@ export const GetTips = async ({ query, page }) => {
         {
           Array.isArray(tips) && tips.map((el) => {
             return (
-              <tbody key={el.id} className="bg-white text-sm divide-y divide-gray text-darkgray">
+              <tbody key={el.id} className="bg-white text-base divide-y divide-gray text-darkgray">
                 <tr>
                   <td className="px-4 py-2 text-left">{el.id}</td>
                   <td className="px-3 py-2 text-left">
@@ -111,7 +111,7 @@ export const GetTips = async ({ query, page }) => {
                       <span>&#128683;</span>
                     }
                   </td>
-                  <td className="px-4 py-2 text-left font-semibold">{el.title}</td>
+                  <td className="px-4 py-2 text-left">{el.title}</td>
                   <td className="px-4 py-2 text-left">
                     {el.category.map((el) => { return <p key={el.id}>{el.title}</p> })}
                   </td>
@@ -130,11 +130,13 @@ export const GetTips = async ({ query, page }) => {
                     {el.is_paying === 'Free' && <span className='green-badge'>{el.is_paying}</span>}
                     {el.is_paying === 'T-Telecom' && <span className='bleu-badge text-white'>{el.is_paying}</span>}
                   </td>
-                  <td className="px-4 py-2 w-32 text-left flex items-center space-x-3">
+                  <td className="px-4 py-2 w-32 text-left">
+                    <div className="flex space-x-3">
                     <Link href={`/dashboard/update_astuce/${el.id}`} className='block w-[36px] border-2 rounded-md p-1.5 hover:border-blue duration-300'>
                       <Pencil className="size-5" />
                     </Link>
                     <DeleteTips el={el} />
+                    </div>
                   </td>
                 </tr>
               </tbody>

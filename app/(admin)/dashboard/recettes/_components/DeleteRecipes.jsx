@@ -28,7 +28,7 @@ const DeleteRecipes = ({ el }) => {
 
             <DialogContent className="flex flex-col items-center">
                 <DialogHeader>
-                    <DialogTitle className="text-xl text-center">Supprimer une recette</DialogTitle>
+                    <DialogTitle className="text-2xl text-center">Supprimer une recette</DialogTitle>
                     <DialogDescription className="text-base text-center">
                         <p className="mt-4">Cette action entraînera la suppression de</p>
                         <p className="font-bold">"{el.title}".</p>

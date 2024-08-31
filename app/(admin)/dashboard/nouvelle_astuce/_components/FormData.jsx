@@ -46,12 +46,7 @@ const FormData = ({categoryList}) => {
 
     //planning post
     const [date, setDate] = useState('')
-    const [heure, setHeure] = useState([])
-    const hours = hour()
 
-    const handleHour = (option) => {
-        setHeure(option);
-    };
 
 
     return (
@@ -178,20 +173,6 @@ const FormData = ({categoryList}) => {
                         <p className="font-semibold mb-2 mt-6">Date de publication prévue:</p>
                         <DatePicker date={date} setDate={setDate} name="date" />
 
-                        <Select
-                            options={hours}
-                            onChange={handleHour}
-                            value={heure}
-                            name="hour"
-                            placeholder={<div className="text-[#9CA3BC]">Heure</div>}
-                            className="w-72 md:w-96 my-6"
-                            classNamePrefix="my-react-select"
-                            isClearable={true}
-                            isDisabled={date ? false : true}
-                            components={{
-                                IndicatorSeparator: () => null
-                            }}
-                        />
 
                         {/*Référencement Google----------------------------------------------------------- */}
                         <p className="font-semibold mb-2 mt-6">Référencement Google :</p>

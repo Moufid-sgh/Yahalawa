@@ -36,7 +36,8 @@ export async function addRecipe(formData) {
     const origineList = formData.getAll('origine');
     const tagsList = formData.getAll('tags');
     const ustensileList = formData.getAll('ustensiles');
-    console.log(note)
+    const ingredientTitle = formData.get('ingredientTitle')
+    console.log(formData)
 
     if(status === 'brouillon') {
         if (!IdI) {
@@ -142,7 +143,7 @@ export async function addRecipe(formData) {
                         link: el.link,
                     })),
                 },
-                imgPath: `/${path}`?.replace(/\\/g, '/'),
+                // imgPath: `/${path}`?.replace(/\\/g, '/'),
                 // videoPath: video ? `/${videoPath}`.replace(/\\/g, '/') : null,
             },
             include: {
