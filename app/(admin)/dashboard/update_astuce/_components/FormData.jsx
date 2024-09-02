@@ -15,34 +15,45 @@ const FormData = ({ el, categoryList }) => {
     const { pending } = useFormStatus()
 
     //handle status
-    const [status, setstatus] = useState(null)
+    const [status, setstatus] = useState(el.status ? { value: el.status, label: el.status } : null)
     const handlestatus = (option) => {
         setstatus(option);
     };
 
     //handle type
-    const [type, setType] = useState(null)
+    const [type, setType] = useState(el.is_paying ? { value: el.is_paying, label: el.is_paying } : null)
     const handleType = (option) => {
         setType(option);
     };
 
     //handle categorie    
-    const [categorie, setCategorie] = useState([])
-    const handleCategorie = (option) => {
+    const [categorie, setCategorie] = useState(el.category ? el.category.map(cat => ({ value: cat.title, label: cat.title })) : []);
+    
+    const handleCategorie = async (option) => {
+
+        const deletedCategory = el.category.find(cat => !option.includes(cat));
+
+        if(deletedCategory) {
+            deleteCategorySelected(deletedCategory.id)
+        }
+
         setCategorie(option);
     };
 
-    const [open, setOpen] = useState(false)
 
     const handleAction = async (formData) => {
+
+        formData.append('category', JSON.stringify(categorie));
+
         const result = await editTips(formData)
 
         if (result?.error) {
             toast.error(`${result?.error}`)
         }
         else {
-            setOpen(false);
+            toast.success('Le tips a été mis a jour.');
         }
+
     };
 
 
@@ -87,7 +98,6 @@ const FormData = ({ el, categoryList }) => {
                             ]}
                             onChange={handleType}
                             value={type}
-                            defaultInputValue={el.status}
                             name="type"
                             placeholder=""
                             className="w-72 md:w-96"
@@ -108,7 +118,6 @@ const FormData = ({ el, categoryList }) => {
                             ]}
                             onChange={handlestatus}
                             value={status}
-                            defaultInputValue={el.is_paying}
                             name="status"
                             placeholder=""
                             className="w-72 md:w-96"
@@ -130,28 +139,16 @@ const FormData = ({ el, categoryList }) => {
                             }))}
                             onChange={handleCategorie}
                             value={categorie}
-                            name="category"
                             placeholder=""
+                            // name='category'
                             className="w-72 md:w-96"
                             classNamePrefix="my-react-select"
                             isClearable={true}
-                            isMulti
+                            isMulti={true}
                             components={{
                                 IndicatorSeparator: () => null
                             }}
                         />
-                    </div>
-
-                    {/* categpry list************************/}
-                    <div className="flex items-center flex-wrap">
-                        {el.category.map((cat => {
-                            return (
-                                <div key={cat.id} className="m-1.5 p-1 bg-gray flex items-center bg-gray rounded-md">
-                                    <p>{cat.title}</p>
-                                    <p onClick={() => deleteCategorySelected(cat.id)} className='ml-2 cursor-pointer text-red hover:font-bold duration-300'>&#10005;</p>
-                                </div>
-                            )
-                        }))}
                     </div>
 
 
@@ -164,6 +161,8 @@ const FormData = ({ el, categoryList }) => {
                             defaultValue={el.note}>
                         </textarea>
                     </div>
+
+                    <input type="hidden" name="id" value={el.id} />
 
                     <div>
                         <p className="text-sm text-[#94a3b8]">Likes :</p>

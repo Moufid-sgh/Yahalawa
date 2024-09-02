@@ -20,9 +20,10 @@ import { Pencil } from "lucide-react"
 
 const EditCatgeory = ({ el }) => {
 
+
     const { pending } = useFormStatus()
 
-    const [selectedOption, setSelectedOption] = useState(null);
+    const [selectedOption, setSelectedOption] = useState(el.status ? { value: el.status, label: el.status } : null);
 
     const handleChange = (option) => {
         setSelectedOption(option);
@@ -88,7 +89,6 @@ const EditCatgeory = ({ el }) => {
                             ]}
                             onChange={handleChange}
                             value={selectedOption}
-                            defaultInputValue={el.status}
                             name="status"
                             placeholder={<div className="text-[#9CA3BC]">Statut</div>}
                             className="w-72 md:w-96"

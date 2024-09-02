@@ -3,14 +3,11 @@ import prisma from "@/lib/db"
 
 
 
-const getCategory = async () => {
-    return await prisma.categoryTips.findMany()
-}
 
 
 const NewTips = async () => {
 
-    const categoryList = await getCategory()
+    const categoryList = await prisma.categoryTips.findMany()
 
     return (
         <main className='ml-12 mt-8'>

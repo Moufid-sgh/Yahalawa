@@ -1,5 +1,6 @@
 import prisma from "@/lib/db"
-import EditRecipe from "../_components/EditRecipe";
+import FormData from "../_components/FormData";
+import { ustensiles } from "@/app/tables/ustensiles";
 
 
 const UpdateRecette = async ({ params }) => {
@@ -13,6 +14,7 @@ const UpdateRecette = async ({ params }) => {
       steps: true,
       origine: true,
       tags: true,
+      ustensiles: true
     }
   });
 
@@ -36,7 +38,7 @@ const UpdateRecette = async ({ params }) => {
 
       <h1 className="text-2xl font-semibold tracking-wide mb-4">Update recette</h1>
 
-      <EditRecipe
+      <FormData
         recette={recette}
         origineList={getOrigine}
         categoryList={getCategory}

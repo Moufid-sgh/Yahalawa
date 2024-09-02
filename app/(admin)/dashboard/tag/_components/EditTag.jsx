@@ -23,7 +23,7 @@ const EditTag = ({ el }) => {
 
     const { pending } = useFormStatus()
 
-    const [selectedOption, setSelectedOption] = useState(null);
+    const [selectedOption, setSelectedOption] = useState(el.status ? { value: el.status, label: el.status } : null);
 
     const handleChange = (option) => {
         setSelectedOption(option);
@@ -77,8 +77,6 @@ const EditTag = ({ el }) => {
                             ]}
                             onChange={handleChange}
                             value={selectedOption}
-                            defaultInputValue={el.status}
-
                             name="status"
                             placeholder=""
                             className="w-72 md:w-96"

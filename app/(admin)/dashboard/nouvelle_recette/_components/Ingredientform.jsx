@@ -6,6 +6,7 @@ const Select = dynamic(() => import("react-select"), { ssr: false })
 const IngredientList = dynamic(() => import("./IngredientList"), { ssr: false })
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, } from '@dnd-kit/sortable'
+import { toast } from "sonner"
 
 
 const Ingredientform = ({ unitList, ingredientsList, ingredientList, setIngredient }) => {
@@ -30,6 +31,11 @@ const Ingredientform = ({ unitList, ingredientsList, ingredientList, setIngredie
 
     const handleIngredient = (e) => {
         e.preventDefault();
+
+        if(!qte || !unite?.value ||  !ingredientName?.value){
+            toast.error('Element manquant !!')
+            return;
+        }
 
         const newIngredient = {
             id: Date.now(),
@@ -107,7 +113,7 @@ const Ingredientform = ({ unitList, ingredientsList, ingredientList, setIngredie
             <input
                 type="text"
                 className="w-72 md:w-96 rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
-                name="ingredientTitle"
+                name="ingredient_title"
             />
 
             <div className="md:flex items-center justify-between flex-wrap">

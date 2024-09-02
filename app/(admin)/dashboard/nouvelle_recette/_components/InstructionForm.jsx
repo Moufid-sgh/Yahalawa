@@ -5,6 +5,7 @@ import dynamic from "next/dynamic"
 const InstructionList = dynamic(() => import("./InstructionList"), { ssr: false })
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, } from '@dnd-kit/sortable'
+import { toast } from "sonner"
 
 const InstructionForm = ({ instructionList, setInstructionList }) => {
 
@@ -19,6 +20,11 @@ const InstructionForm = ({ instructionList, setInstructionList }) => {
 
     const handleInstructions = (e) => {
         e.preventDefault();
+
+        if(!titre || !instruction){
+            toast.error('Element manquant !!')
+            return;
+        }
 
         const newList = {
             id: Date.now(),

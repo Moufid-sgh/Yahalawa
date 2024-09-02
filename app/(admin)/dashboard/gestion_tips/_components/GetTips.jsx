@@ -4,6 +4,8 @@ import Image from "next/image"
 import DeleteTips from "./DeleteTips"
 import Link from "next/link"
 import { Pencil } from "lucide-react"
+import { Skeleton } from "@/components/ui/skeleton"
+import { Suspense } from "react"
 
 
 export const GetTips = async ({ query, page }) => {
@@ -85,7 +87,7 @@ export const GetTips = async ({ query, page }) => {
             <th className="px-4 py-2 text-left">Id</th>
             <th className="px-3 py-2 text-left">Image</th>
             <th className="px-4 py-2 text-left">Titre</th>
-            <th className="px-4 py-2 text-left">Catégorie</th>
+            <th className="px-2 w-32 py-2 text-left">Catégorie</th>
             <th className="px-4 py-2 text-left">Auteur</th>
             <th className="px-4 py-2 text-left">Statut</th>
             <th className="px-4 py-2 text-left">Ajoutée le</th>
@@ -106,13 +108,15 @@ export const GetTips = async ({ query, page }) => {
                   <td className="px-3 py-2 text-left">
                     {el.img
                       ?
-                      <Image src={`${el.img}`} alt="img" width='100' height='100' />
+                      <Suspense fallback={<Skeleton className="w-12 h-8" />}>
+                        <Image src={`${el.img}`} alt="img" width='70' height='70' />
+                      </Suspense>
                       :
                       <span>&#128683;</span>
                     }
                   </td>
                   <td className="px-4 py-2 text-left">{el.title}</td>
-                  <td className="px-4 py-2 text-left">
+                  <td className="px-2 w-32 py-2 text-left">
                     {el.category.map((el) => { return <p key={el.id}>{el.title}</p> })}
                   </td>
                   <td className="px-4 py-2 text-left">{el.author}</td>
@@ -124,7 +128,7 @@ export const GetTips = async ({ query, page }) => {
                   </td>
                   <td className="px-4 py-2 text-left">{formatDate(el.createdAt)}</td>
                   <td className="px-4 py-2 text-left">{el.updatedAt && formatDate(el.updatedAt)}</td>
-                  <td className="px-4 py-2 text-left font-semibold">{el.note && el.note}</td>
+                  <td className="px-4 py-2 text-left">{el.note && el.note}</td>
                   <td className="px-4 py-2 text-left">{el.id_intern}</td>
                   <td className="px-2 py-2 text-left whitespace-nowrap">
                     {el.is_paying === 'Free' && <span className='green-badge'>{el.is_paying}</span>}
@@ -132,10 +136,10 @@ export const GetTips = async ({ query, page }) => {
                   </td>
                   <td className="px-4 py-2 w-32 text-left">
                     <div className="flex space-x-3">
-                    <Link href={`/dashboard/update_astuce/${el.id}`} className='block w-[36px] border-2 rounded-md p-1.5 hover:border-blue duration-300'>
-                      <Pencil className="size-5" />
-                    </Link>
-                    <DeleteTips el={el} />
+                      <Link href={`/dashboard/update_astuce/${el.id}`} className='block w-[36px] border-2 rounded-md p-1.5 hover:border-blue duration-300'>
+                        <Pencil className="size-5" />
+                      </Link>
+                      <DeleteTips el={el} />
                     </div>
                   </td>
                 </tr>

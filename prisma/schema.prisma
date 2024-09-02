@@ -26,6 +26,7 @@ model Recipes {
   id_intern           String? @db.Text
   author              String?
   note                String?
+  ingredient_title    String?
   is_paying           String
   videoPath           String?
   imgPath             String?
@@ -66,7 +67,6 @@ model RecipeSteps {
 
 model IngredientsRecipe {
   id         Int      @id @default(autoincrement())
-  title      String?
   ingredient String?
   unite      String?
   qte_cup    Int?

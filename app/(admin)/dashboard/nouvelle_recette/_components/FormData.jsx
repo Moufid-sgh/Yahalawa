@@ -80,9 +80,6 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
         if (result?.error) {
             toast.error(`${result?.error}`)    
           }
-          else {
-            toast.success('Recette créée avec succès.')
-          }
 
     };
 

@@ -4,6 +4,8 @@ import PaginationControls from "../../_components/PaginationControls"
 import Image from "next/image"
 import DeleteRecipes from "./DeleteRecipes"
 import { Pencil } from "lucide-react"
+import { Suspense } from "react"
+import { Skeleton } from "@/components/ui/skeleton"
 
 export const GetRecipes = async ({ query, page }) => {
 
@@ -94,8 +96,8 @@ export const GetRecipes = async ({ query, page }) => {
                         <th className="px-4 py-2 text-left">Catégorie</th>
                         <th className="px-4 py-2 text-left">Difficulté</th>
                         <th className="px-4 py-2 text-left">Auteur</th>
-                        <th className="px-4 py-2 text-left">Ajoutée le</th>
-                        <th className="px-4 py-2 text-left">MAJ</th>
+                        <th className="p-2 text-left">Ajoutée le</th>
+                        <th className="p-2 text-left">MAJ</th>
                         <th className="px-4 py-2 text-left">Note</th>
                         <th className="px-4 py-2 text-left">IDI</th>
                         <th className="px-4 py-2 text-left">Type</th>
@@ -113,7 +115,9 @@ export const GetRecipes = async ({ query, page }) => {
                                     <td className="px-3 py-2 text-left">
                                         {el.imgPath
                                             ?
-                                            <Image src={`${el.imgPath}`} alt="img" width='70' height='70' />
+                                            <Suspense fallback={<Skeleton className="w-12 h-8" />}>
+                                                <Image src={`${el.imgPath}`} alt="img" width='70' height='70' />
+                                            </Suspense>
                                             :
                                             <span>&#128683;</span>
                                         }
@@ -124,8 +128,8 @@ export const GetRecipes = async ({ query, page }) => {
                                     </td>
                                     <td className="px-4 py-2 text-left">{el.difficulty}</td>
                                     <td className="px-4 py-2 text-left">Auteur</td>
-                                    <td className="px-4 py-2 text-left">{formatDate(el.createdAt)}</td>
-                                    <td className="px-4 py-2 text-left">{el.updatedAt && formatDate(el.updatedAt)}</td>
+                                    <td className="p-2 text-sm text-left">{formatDate(el.createdAt)}</td>
+                                    <td className="p-2 text-sm text-left">{el.updatedAt && formatDate(el.updatedAt)}</td>
                                     <td className="px-4 py-2 text-left">{el.note && el.note}</td>
                                     <td className="px-4 py-2 text-left">{el.id_intern}</td>
                                     <td className="px-2 py-2 text-left whitespace-nowrap">

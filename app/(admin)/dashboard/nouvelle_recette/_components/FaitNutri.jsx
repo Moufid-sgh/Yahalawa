@@ -52,7 +52,7 @@ const FaitNutri = () => {
                         <p className="text-sm mb-1 text-[#94a3b8]">Kcal :</p>
                         <input
                             type="number"
-                            name="Kcal"
+                            name="kcal"
                             className="w-[180px] rounded-md border border-gray py-2 px-4 outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
                             disabled={!nutriOn}
                         />

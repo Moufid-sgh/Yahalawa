@@ -23,7 +23,7 @@ const EditCategory = ({ el }) => {
 
     const { pending } = useFormStatus()
 
-    const [selectedOption, setSelectedOption] = useState(null);
+    const [selectedOption, setSelectedOption] = useState(el.status ? { value: el.status, label: el.status } : null);
 
     const handleChange = (option) => {
         setSelectedOption(option);
@@ -78,7 +78,6 @@ const EditCategory = ({ el }) => {
                             ]}
                             onChange={handleChange}
                             value={selectedOption}
-                            defaultInputValue={el.status}
                             name="status"
                             placeholder={<div className="text-[#9CA3BC]">Status</div>}
                             className="w-72 md:w-96"

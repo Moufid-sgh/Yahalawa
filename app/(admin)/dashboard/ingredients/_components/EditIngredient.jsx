@@ -23,7 +23,7 @@ const EditIngredient = ({ el }) => {
 
     const { pending } = useFormStatus()
 
-    const [selectedOption, setSelectedOption] = useState(null);
+    const [selectedOption, setSelectedOption] = useState(el.type ? { value: el.type, label: el.type } : null);
 
     const handleChange = (option) => {
         setSelectedOption(option);
@@ -78,7 +78,6 @@ const EditIngredient = ({ el }) => {
                             ]}
                             onChange={handleChange}
                             value={selectedOption}
-                            defaultInputValue={el.type}
                             name="type"
                             placeholder=""
                             className="w-72 md:w-96 my-3"

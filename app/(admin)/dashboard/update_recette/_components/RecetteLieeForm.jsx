@@ -53,7 +53,6 @@ const RecetteLieeForm = ({ustensileList, lienRecetteList, setLienRecetteList}) =
                     }))}
                     onChange={handleLink}
                     value={lienRecette}
-                    name="tags"
                     placeholder=""
                     className="w-72 md:w-96"
                     classNamePrefix="my-react-select"
@@ -66,7 +65,6 @@ const RecetteLieeForm = ({ustensileList, lienRecetteList, setLienRecetteList}) =
                 <p className="text-sm mb-1 text-[#94a3b8]">Nom :</p>
                  <input
                         type="text"
-                        name="nom"
                         className="w-72 md:w-96 rounded-md border border-gray py-2 px-4  outline-none focus:ring-[1.5px] focus:ring-ringblue focus:border-gray"
                         onChange={(e) => setName(e.target.value)}
                         ref={nameRef}
