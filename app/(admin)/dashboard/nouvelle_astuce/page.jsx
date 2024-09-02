@@ -7,7 +7,7 @@ import prisma from "@/lib/db"
 
 const NewTips = async () => {
 
-    const categoryList = await prisma.categoryTips.findMany()
+    const categoryList = await prisma.categoryTips.findMany({ where: { status: 'Active'}})
 
     return (
         <main className='ml-12 mt-8'>

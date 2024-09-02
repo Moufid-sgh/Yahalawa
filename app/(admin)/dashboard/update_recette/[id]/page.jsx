@@ -20,16 +20,11 @@ const UpdateRecette = async ({ params }) => {
 
 
   const getOrigine = await prisma.origine.findMany()
-
-  const getCategory = await prisma.category.findMany()
-
+  const getCategory = await prisma.category.findMany({ where: { status: 'Active'}})
   const getUstensile = await prisma.ustensiles.findMany()
-
   const getUnit = await prisma.unit.findMany()
-
   const getIngredients = await prisma.ingredients.findMany()
-
-  const getTags = await prisma.tags.findMany()
+  const getTags = await prisma.tags.findMany({ where: { status: 'Active'}})
 
 
 

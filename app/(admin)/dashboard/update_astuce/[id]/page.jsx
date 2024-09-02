@@ -9,7 +9,7 @@ const Updatetips = async ({params}) => {
     include: {category: true}
   });
 
-  const categoryList = await prisma.categoryTips.findMany();
+  const categoryList = await prisma.categoryTips.findMany({ where: { status: 'Active'}});
 
 
   return (

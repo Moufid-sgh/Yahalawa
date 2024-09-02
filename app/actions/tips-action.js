@@ -185,7 +185,6 @@ export async function deleteTips(id) {
         const tips = await prisma.tips.findUnique({where: { id }})
         let imgPath = tips.img
         let videoPath = tips.video_link
-        console.log(tips)
 
         if(imgPath)
             {fs.unlink(`public/${imgPath}`, (err) => {
