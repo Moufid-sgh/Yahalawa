@@ -42,6 +42,9 @@ const FormData = ({categoryList}) => {
         if (result?.error) {
             toast.error(`${result?.error}`)    
           }
+          else {
+            toast.success('L\'astuce a été créée avec succées.')
+          }
     };
 
     //planning post

@@ -26,7 +26,6 @@ export const SortableItem = ({ id, title }) => {
     >
       <p>{title}</p>
       <DeleteItem id={id} title={title} />
-
     </li>
   );
 };

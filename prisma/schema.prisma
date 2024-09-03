@@ -7,6 +7,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  FREE
+  PREMIUM
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  role      Role     @default(FREE)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Recipes {
   id                  Int     @id @default(autoincrement())
   title               String
@@ -44,9 +60,9 @@ model Recipes {
   tags          TagsRecipe[]
   ustensiles    UstensilesRecipe[]
 
-  scheduled_publish_date DateTime?
-  createdAt              DateTime  @default(now())
-  updatedAt              DateTime? @updatedAt
+  scheduledAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
 }
 
 model CategoryRecipesSelected {
@@ -143,27 +159,27 @@ model Origine {
 }
 
 model Tips {
-  id                     Int                    @id @default(autoincrement())
-  title                  String
-  seoTitle               String?
-  description            String?
-  seoDescription         String?
-  category               CategoryTipsSelected[]
-  slug                   String?
-  author                 String?
-  img                    String?
-  featured               Boolean?
-  status                 String
-  createdAt              DateTime               @default(now())
-  updatedAt              DateTime?              @updatedAt
-  is_paying              String
-  likes                  Int?
-  note                   String?
-  scheduled_publish_date DateTime?
-  id_intern              String
-  video_link             String?
-  thumbnailName          String?
-  video_nature           Int?
+  id             Int                    @id @default(autoincrement())
+  title          String
+  seoTitle       String?
+  description    String?
+  seoDescription String?
+  category       CategoryTipsSelected[]
+  slug           String?
+  author         String?
+  img            String?
+  featured       Boolean?
+  status         String
+  createdAt      DateTime               @default(now())
+  updatedAt      DateTime?              @updatedAt
+  is_paying      String
+  likes          Int?
+  note           String?
+  scheduledAt    DateTime?
+  id_intern      String
+  video_link     String?
+  thumbnailName  String?
+  video_nature   Int?
 }
 
 model CategoryTipsSelected {

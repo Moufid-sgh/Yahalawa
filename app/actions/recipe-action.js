@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache"
 import { writeFile } from 'fs/promises'
 import { join } from "path"
 import fs from "fs"
-
+import cron from "node-cron"
 
 
 //add recipe------------------------------------------------------------//
@@ -42,19 +42,22 @@ export async function addRecipe(formData) {
     const ustensileList = formData.getAll('ustensiles');
 
 
-    if (status === 'brouillon') {
-        if (!IdI) {
-            return { error: "Veuillez remplir IDI." };
-        }
-    }
-    else {
-        if (
-            !IdI || !title || !description || !type || !status || tagsList.length === 0 ||
-            !difficulty || !nbr_serves || !cooking_time || category.length === 0
-        ) {
-            return { error: "Veuillez remplir tous les champs requis." };
-        }
-    }
+    let sheduleDate = date ? new Date(new Date(date).setUTCHours(18, 0, 0, 0)) : null;
+
+
+    // if (status === 'brouillon') {
+    //     if (!IdI) {
+    //         return { error: "Veuillez remplir IDI." };
+    //     }
+    // }
+    // else {
+    //     if (
+    //         !IdI || !title || !description || !type || !status || tagsList.length === 0 ||
+    //         !difficulty || !nbr_serves || !cooking_time || category.length === 0
+    //     ) {
+    //         return { error: "Veuillez remplir tous les champs requis." };
+    //     }
+    // }
 
 
     //handle image
@@ -79,11 +82,11 @@ export async function addRecipe(formData) {
 
         if (img.size !== 0) {
             await writeFile(fullPath, buffer)
-            image = `/${path}`?.replace(/\\/g, '/') 
+            image = `/${path}`?.replace(/\\/g, '/')
         }
         if (video.size !== 0) {
             await writeFile(videoFullPath, VideoBuffer)
-            vid =`/${videopath}`?.replace(/\\/g, '/')
+            vid = `/${videopath}`?.replace(/\\/g, '/')
         }
 
         await prisma.recipes.create({
@@ -112,7 +115,7 @@ export async function addRecipe(formData) {
                 author: "admin",
                 video_link,
                 rank: 2,
-                scheduled_publish_date: "2022-02-02T13:51:00.000Z",
+                scheduledAt: sheduleDate,
                 category: {
                     create: category.map((el) => ({
                         title: el,
@@ -211,7 +214,7 @@ export async function editRecipe(formData) {
     const tags = JSON.parse(formData.get('tag'));
     const ustensile = JSON.parse(formData.get('ustensile'));
     const id = Number(formData.get('id'))
-    console.log(instructionList)
+
 
     if (status === 'brouillon') {
         if (!IdI) {
@@ -227,32 +230,32 @@ export async function editRecipe(formData) {
         }
     }
 
-        //handle image
-        let image = null;
-        const bytes = await img.arrayBuffer()
-        const buffer = Buffer.from(bytes)
-        const name = `${Date.now()}-${img.name}`
-        const path = join('recipe_img', name)
-        const fullPath = join('./public', path)
-        await writeFile(fullPath, buffer)
-    
-        //handle video
-        let vid = null;
-        const videobBytes = await video.arrayBuffer()
-        const VideoBuffer = Buffer.from(videobBytes)
-        const videoname = `${Date.now()}-${video.name}`;
-        const videopath = join('recipe_video', videoname);
-        const videoFullPath = join('./public', videopath);
+    //handle image
+    let image = null;
+    const bytes = await img.arrayBuffer()
+    const buffer = Buffer.from(bytes)
+    const name = `${Date.now()}-${img.name}`
+    const path = join('recipe_img', name)
+    const fullPath = join('./public', path)
+    await writeFile(fullPath, buffer)
+
+    //handle video
+    let vid = null;
+    const videobBytes = await video.arrayBuffer()
+    const VideoBuffer = Buffer.from(videobBytes)
+    const videoname = `${Date.now()}-${video.name}`;
+    const videopath = join('recipe_video', videoname);
+    const videoFullPath = join('./public', videopath);
 
     try {
 
         if (img.size !== 0) {
             await writeFile(fullPath, buffer)
-            image = `/${path}`?.replace(/\\/g, '/') 
+            image = `/${path}`?.replace(/\\/g, '/')
         }
         if (video.size !== 0) {
             await writeFile(videoFullPath, VideoBuffer)
-            vid =`/${videopath}`?.replace(/\\/g, '/')
+            vid = `/${videopath}`?.replace(/\\/g, '/')
         }
 
         await prisma.recipes.update({
@@ -282,14 +285,14 @@ export async function editRecipe(formData) {
                 author: "admin",
                 video_link,
                 rank: 2,
-                scheduled_publish_date: "2022-02-02T13:51:00.000Z",
+                // scheduledAt: "2022-02-02T13:51:00.000Z",
                 category: {
                     deleteMany: {},
                     create: category.map((el) => ({
                         title: el.label
-                      }))
-              
-                  },  
+                    }))
+
+                },
                 origine: {
                     deleteMany: {},
                     create: origine.map((el) => ({
@@ -354,30 +357,33 @@ export async function deleteRecipe(id) {
 
     try {
         // delete img
-        const recipe = await prisma.recipes.findUnique({where: { id }})
+        const recipe = await prisma.recipes.findUnique({ where: { id } })
         let imgPath = recipe.imgPath
         let videoPath = recipe.videoPath
 
-        if(imgPath)
-            {fs.unlink(`public/${imgPath}`, (err) => {
-            if (err) {
-              console.error(`Error removing img: ${err}`);
-              return;
-            }
-          
-            console.log(`File ${imgPath} has been successfully removed.`);
-          })};
-
-          if(videoPath) {
-            {fs.unlink(`public/${videoPath}`, (err) => {
+        if (imgPath) {
+            fs.unlink(`public/${imgPath}`, (err) => {
                 if (err) {
-                  console.error(`Error removing img: ${err}`);
-                  return;
+                    console.error(`Error removing img: ${err}`);
+                    return;
                 }
-              
-                console.log(`File ${videoPath} has been successfully removed.`);
-              })};
-          }
+
+                console.log(`File ${imgPath} has been successfully removed.`);
+            })
+        };
+
+        if (videoPath) {
+            {
+                fs.unlink(`public/${videoPath}`, (err) => {
+                    if (err) {
+                        console.error(`Error removing img: ${err}`);
+                        return;
+                    }
+
+                    console.log(`File ${videoPath} has been successfully removed.`);
+                })
+            };
+        }
 
         //delete recipe
         await prisma.recipes.delete({ where: { id } })
@@ -456,8 +462,36 @@ export async function deleteStep(id) {
 }
 
 
+//schedule post -----------------------------------------------------//
+cron.schedule('0 18 * * *', async () => {
 
+    try {
+        const currentDateTime = await prisma.recipes.findFirst({
+            where: {
+                status: 'programmée',
+            },
+            orderBy: {
+                scheduledAt: 'desc',
+            }
+        });
 
+        if (currentDateTime) {
+           const item = await prisma.recipes.updateMany({
+                where: {
+                    scheduledAt: { lte: currentDateTime.scheduledAt },
+                    status: 'programmée',
+                },
+                data: {
+                    status: 'publiée',
+                },
+            })
+            console.log(item)
+        }
+
+    } catch (error) {
+        console.log('Failed to post schedule date', error)
+    }
+});
 
 
 

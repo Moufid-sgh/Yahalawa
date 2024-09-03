@@ -19,7 +19,7 @@ export async function addTips(formData) {
     const likes = formData.get('likes')
     const seoTitle = formData.get('seoTitle')
     const seoDescription = formData.get('seoDescription')
-    const date = formData.get('date')
+    const scheduledAt = formData.get('date')
     const img = formData.get('img')
     const video = formData.get('video')
 

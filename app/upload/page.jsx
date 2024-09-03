@@ -30,8 +30,7 @@ export default function Home() {
     // const result = await prisma.tips.deleteMany({})
 
 
-
-    console.log(`Inserted ${result.count} tips`);
+    // console.log(`Inserted ${result.count} tips`);
   } catch (error) {
     console.log(error)
   }

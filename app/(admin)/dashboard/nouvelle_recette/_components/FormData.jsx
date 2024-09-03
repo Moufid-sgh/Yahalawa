@@ -80,6 +80,9 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
         if (result?.error) {
             toast.error(`${result?.error}`)    
           }
+          else {
+            toast.success('La recette a été créée avec succées')
+          }
 
     };
 
@@ -103,7 +106,7 @@ const FormData = ({ categoryList, origineList, tagsList, ustensileList, unitList
                                 { value: 'publiée', label: 'publiée' },
                                 { value: 'non publiée', label: 'non publiée' },
                                 { value: 'brouillon', label: 'brouillon' },
-                                { value: 'programée', label: 'programée' },
+                                { value: 'programmée', label: 'programmée' },
                             ]}
                             onChange={handlestatus}
                             value={status}
